@@ -1,0 +1,1014 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DIWAN SIVITAS - 3D Voxel Multi-Agent Campus Hub</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Plus+Jakarta+Sans:wght@400;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Plus Jakarta Sans', sans-serif; margin: 0; overflow: hidden; background: #0b101b; user-select: none; }
+    .pixel-font { font-family: 'Press Start 2P', monospace; }
+    .code-font { font-family: 'JetBrains Mono', monospace; }
+    .glass-hud { 
+      background: rgba(15, 23, 42, 0.82); 
+      backdrop-filter: blur(16px); 
+      -webkit-backdrop-filter: blur(16px);
+      border: 2px solid rgba(56, 189, 248, 0.3); 
+      box-shadow: 0 12px 36px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.1); 
+    }
+    .mc-slot {
+      background: rgba(30, 41, 59, 0.85);
+      border: 2px solid #475569;
+      box-shadow: inset 2px 2px 0px rgba(255,255,255,0.15), inset -2px -2px 0px rgba(0,0,0,0.5);
+      transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .mc-slot:hover {
+      border-color: #38bdf8;
+      background: rgba(14, 116, 144, 0.6);
+      transform: translateY(-3px) scale(1.05);
+    }
+    .mc-btn {
+      background: linear-gradient(180deg, #38bdf8 0%, #0284c7 100%);
+      border: 2px solid #7dd3fc;
+      border-bottom: 4px solid #0369a1;
+      box-shadow: 0 4px 12px rgba(2, 132, 199, 0.4);
+      transition: all 0.1s ease;
+    }
+    .mc-btn:active {
+      transform: translateY(2px);
+      border-bottom: 2px solid #0369a1;
+    }
+    /* Scrollbar */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: rgba(15, 23, 42, 0.6); }
+    ::-webkit-scrollbar-thumb { background: #38bdf8; border-radius: 4px; }
+  </style>
+</head>
+<body class="w-screen h-screen relative overflow-hidden bg-slate-950">
+
+  <!-- 3D WebGL Canvas Container -->
+  <div id="canvas-container" class="w-full h-full absolute inset-0 cursor-grab active:cursor-grabbing"></div>
+
+  <!-- TOP HUD: MINECRAFT EXP & VITALS -->
+  <header class="absolute top-4 left-4 right-4 flex flex-col md:flex-row items-center justify-between gap-3 pointer-events-none z-20">
+    <!-- Brand / Campus Identity -->
+    <div class="glass-hud rounded-2xl px-4 py-2.5 flex items-center gap-3 pointer-events-auto">
+      <div class="w-11 h-11 rounded-xl bg-gradient-to-br from-sky-400 to-blue-600 border-2 border-sky-200 flex items-center justify-center font-bold text-white pixel-font text-xs shadow-lg shadow-sky-500/30">
+        UIN
+      </div>
+      <div>
+        <div class="flex items-center gap-2">
+          <span class="text-white font-extrabold text-sm tracking-wide">DIWAN SIVITAS 3D</span>
+          <span class="text-[9px] bg-sky-950/90 text-sky-300 border border-sky-500/40 px-2 py-0.5 rounded-full font-mono font-bold">KIMPSI VII</span>
+        </div>
+        <p class="text-xs text-slate-300 flex items-center gap-2">
+          <span class="inline-block w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping"></span>
+          Almamater: <span class="text-sky-300 font-bold">Biru Langit UIN RF</span>
+        </p>
+      </div>
+    </div>
+
+    <!-- Vitals: Nafs Hearts & Adab XP -->
+    <div class="glass-hud rounded-2xl px-6 py-2.5 flex items-center gap-6 pointer-events-auto">
+      <!-- Nafs Hearts -->
+      <div class="flex flex-col items-center">
+        <div class="flex items-center justify-between w-full mb-1">
+          <span class="text-[10px] uppercase font-extrabold text-rose-300 tracking-wider">Energi Nafs</span>
+          <span id="nafs-value" class="text-xs text-white font-mono font-bold">100%</span>
+        </div>
+        <div id="hearts-container" class="flex gap-1.5">
+          <!-- 10 Hearts rendered dynamically -->
+        </div>
+      </div>
+
+      <div class="w-px h-9 bg-slate-700/80"></div>
+
+      <!-- Adab & Tabayyun XP Bar -->
+      <div class="flex flex-col items-center">
+        <div class="flex items-center justify-between w-full mb-1">
+          <span class="text-[10px] uppercase font-extrabold text-emerald-300 tracking-wider">Adab & Tabayyun</span>
+          <span id="xp-value" class="text-xs text-emerald-200 font-mono font-bold">Lv. 3 [85 XP]</span>
+        </div>
+        <div class="w-36 h-3 bg-slate-900 rounded-full overflow-hidden border border-emerald-400/40 p-0.5 shadow-inner">
+          <div id="xp-bar" class="h-full bg-gradient-to-r from-emerald-500 via-teal-400 to-sky-400 rounded-full w-[85%] transition-all duration-300 shadow"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mode: Jam Kerja vs Istirahat Asrama -->
+    <div class="glass-hud rounded-2xl p-1.5 flex items-center gap-2 pointer-events-auto">
+      <button id="btn-mode-work" onclick="setCampusMode('work')" class="px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 bg-gradient-to-r from-sky-500 to-blue-600 text-white shadow-lg shadow-sky-500/40 border border-sky-300">
+        <span>⚡ Jam Kerja Kampus</span>
+      </button>
+      <button id="btn-mode-rest" onclick="setCampusMode('rest')" class="px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 text-slate-300 hover:bg-slate-800 border border-transparent">
+        <span>🌙 Pulang ke Asrama</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- FLOATING CAMERA TOOLS (LEFT) -->
+  <aside class="absolute left-4 top-24 flex flex-col gap-2.5 z-20 pointer-events-auto">
+    <div class="glass-hud p-2.5 rounded-2xl flex flex-col gap-1.5 w-40">
+      <span class="text-[9px] uppercase tracking-wider text-sky-300 font-extrabold px-1">Sudut Kamera</span>
+      <button onclick="setCameraAngle('iso')" class="px-3 py-1.5 text-xs font-bold rounded-xl bg-slate-800/90 hover:bg-sky-950 text-slate-100 text-left border border-slate-700/60 transition flex items-center gap-2">
+        <span>📐</span> Isometrik RPG
+      </button>
+      <button onclick="setCameraAngle('top')" class="px-3 py-1.5 text-xs font-bold rounded-xl bg-slate-800/90 hover:bg-sky-950 text-slate-100 text-left border border-slate-700/60 transition flex items-center gap-2">
+        <span>🛰️</span> Drone Kampus
+      </button>
+      <button onclick="setCameraAngle('third')" class="px-3 py-1.5 text-xs font-bold rounded-xl bg-slate-800/90 hover:bg-sky-950 text-slate-100 text-left border border-slate-700/60 transition flex items-center gap-2">
+        <span>🚶</span> Third-Person
+      </button>
+    </div>
+
+    <div class="glass-hud p-3 rounded-2xl w-44">
+      <span class="text-[9px] uppercase tracking-wider text-amber-300 font-extrabold block mb-1.5">Kontrol Avatar</span>
+      <p class="text-[11px] text-slate-300 leading-relaxed">
+        • <b class="text-sky-300">W, A, S, D</b> / Panah: Jalan<br>
+        • <b class="text-sky-300">Drag Kiri</b>: Putar & Sudut<br>
+        • <b class="text-sky-300">Scroll</b>: Zoom In/Out<br>
+        • <b class="text-sky-300">Klik Meja</b>: Tugas AI
+      </p>
+    </div>
+  </aside>
+
+  <!-- RIGHT PANEL: INTERACTIVE AI WORKSTATION INSPECTOR -->
+  <aside id="agent-panel" class="absolute right-4 top-24 bottom-24 w-84 md:w-96 glass-hud rounded-3xl p-5 z-20 flex flex-col justify-between transition-all duration-300 transform translate-x-[115%] opacity-0 pointer-events-auto">
+    <div>
+      <!-- Header -->
+      <div class="flex items-start justify-between border-b border-slate-700/80 pb-3 mb-3">
+        <div class="flex items-center gap-3">
+          <div id="panel-avatar" class="w-12 h-12 rounded-2xl bg-gradient-to-br from-sky-600 to-indigo-800 border-2 border-sky-300 flex items-center justify-center text-2xl font-bold text-white shadow-lg">
+            🤖
+          </div>
+          <div>
+            <h3 id="panel-name" class="font-extrabold text-white text-base leading-tight">Nama Agen</h3>
+            <p id="panel-role" class="text-xs text-sky-400 font-semibold">Direktorat Fungsional</p>
+          </div>
+        </div>
+        <button onclick="closePanel()" class="text-slate-400 hover:text-white p-1.5 rounded-xl hover:bg-slate-800 text-sm font-bold">✕</button>
+      </div>
+
+      <!-- Live Workstation Stats -->
+      <div class="bg-slate-900/90 rounded-2xl p-3.5 border border-slate-800 shadow-inner mb-3.5">
+        <div class="flex justify-between items-center text-xs mb-1.5">
+          <span class="text-slate-400 font-semibold">Status Meja AI:</span>
+          <span id="panel-status" class="px-2.5 py-0.5 rounded-full font-extrabold text-[10px] bg-emerald-500/20 text-emerald-300 border border-emerald-500/50">MENGETIK TUGAS</span>
+        </div>
+        <div class="flex justify-between items-center text-xs mb-1.5">
+          <span class="text-slate-400 font-semibold">Beban Progres:</span>
+          <span id="panel-progress-text" class="text-white font-mono font-bold">100% Selesai</span>
+        </div>
+        <div class="w-full bg-slate-800 h-2.5 rounded-full overflow-hidden p-0.5 border border-slate-700">
+          <div id="panel-progress-bar" class="bg-gradient-to-r from-sky-400 to-emerald-400 h-full w-full rounded-full transition-all duration-500"></div>
+        </div>
+      </div>
+
+      <!-- Dynamic Agent Dialog & Real AI Capability -->
+      <div id="panel-body" class="text-xs text-slate-300 space-y-3 max-h-56 overflow-y-auto pr-1 code-font">
+        <!-- Injected dynamically -->
+      </div>
+    </div>
+
+    <!-- Actions -->
+    <div class="pt-3 border-t border-slate-700/80 space-y-2">
+      <button id="btn-execute-task" onclick="executeCurrentAgentTask()" class="w-full py-3 rounded-2xl mc-btn text-white font-extrabold text-xs flex items-center justify-center gap-2 tracking-wide">
+        <span>⚡ Eksekusi Tugas Nyata</span>
+      </button>
+      <div class="flex gap-2">
+        <button onclick="toggleAgentRest()" id="btn-individual-rest" class="flex-1 py-2 rounded-xl bg-slate-800/90 hover:bg-slate-700 text-slate-200 text-[11px] font-bold border border-slate-700 transition">
+          🌙 Suruh Istirahat
+        </button>
+        <button onclick="openStaffModal()" class="px-3.5 py-2 rounded-xl bg-slate-800/90 hover:bg-slate-700 text-sky-400 text-[11px] font-bold border border-sky-500/30 transition">
+          👥 30 Agen
+        </button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- BOTTOM MINECRAFT HOTBAR (1-5 + 30 AGENTS) -->
+  <footer class="absolute bottom-5 left-0 right-0 flex justify-center pointer-events-none z-20">
+    <div class="glass-hud rounded-2xl p-2 flex items-center gap-2 pointer-events-auto border-2 border-slate-600/60 shadow-2xl">
+      <button onclick="teleportTo(0)" class="w-13 h-13 p-2 rounded-xl mc-slot flex flex-col items-center justify-center group relative" title="Kang Nalar (D3)">
+        <span class="text-lg">🧩</span>
+        <span class="text-[9px] font-extrabold text-sky-300 pixel-font mt-0.5">1</span>
+        <span class="absolute -top-8 hidden group-hover:block bg-slate-900 border border-sky-400/40 text-white text-[10px] px-2.5 py-1 rounded-lg shadow-xl whitespace-nowrap">Kang Nalar (D3)</span>
+      </button>
+      <button onclick="teleportTo(1)" class="w-13 h-13 p-2 rounded-xl mc-slot flex flex-col items-center justify-center group relative" title="Mang Nafsi (D4)">
+        <span class="text-lg">🌿</span>
+        <span class="text-[9px] font-extrabold text-emerald-300 pixel-font mt-0.5">2</span>
+        <span class="absolute -top-8 hidden group-hover:block bg-slate-900 border border-emerald-400/40 text-white text-[10px] px-2.5 py-1 rounded-lg shadow-xl whitespace-nowrap">Mang Nafsi (D4)</span>
+      </button>
+      <button onclick="teleportTo(2)" class="w-13 h-13 p-2 rounded-xl mc-slot flex flex-col items-center justify-center group relative" title="Pak Silabus (D1)">
+        <span class="text-lg">📋</span>
+        <span class="text-[9px] font-extrabold text-indigo-300 pixel-font mt-0.5">3</span>
+        <span class="absolute -top-8 hidden group-hover:block bg-slate-900 border border-indigo-400/40 text-white text-[10px] px-2.5 py-1 rounded-lg shadow-xl whitespace-nowrap">Pak Silabus (D1)</span>
+      </button>
+      <button onclick="teleportTo(3)" class="w-13 h-13 p-2 rounded-xl mc-slot flex flex-col items-center justify-center group relative" title="Kang Warta (D2)">
+        <span class="text-lg">🌐</span>
+        <span class="text-[9px] font-extrabold text-amber-300 pixel-font mt-0.5">4</span>
+        <span class="absolute -top-8 hidden group-hover:block bg-slate-900 border border-amber-400/40 text-white text-[10px] px-2.5 py-1 rounded-lg shadow-xl whitespace-nowrap">Kang Warta (D2)</span>
+      </button>
+      <button onclick="teleportTo(4)" class="w-13 h-13 p-2 rounded-xl mc-slot flex flex-col items-center justify-center group relative" title="Ustadz Wasith (D5)">
+        <span class="text-lg">🤝</span>
+        <span class="text-[9px] font-extrabold text-purple-300 pixel-font mt-0.5">5</span>
+        <span class="absolute -top-8 hidden group-hover:block bg-slate-900 border border-purple-400/40 text-white text-[10px] px-2.5 py-1 rounded-lg shadow-xl whitespace-nowrap">Ustadz Wasith (D5)</span>
+      </button>
+      <div class="w-px h-10 bg-slate-700/80 mx-1"></div>
+      <button onclick="openStaffModal()" class="px-4 h-12 rounded-xl bg-slate-800/90 hover:bg-slate-700 border-2 border-slate-600 flex items-center gap-2 text-xs font-extrabold text-slate-100 transition shadow">
+        <span>👥 Direktori 30 Agen AI</span>
+      </button>
+    </div>
+  </footer>
+
+  <!-- MODAL: 30 AGENTS LIST -->
+  <div id="staff-modal" class="fixed inset-0 bg-black/80 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
+    <div class="glass-hud w-full max-w-4xl rounded-3xl p-6 text-white border-2 border-sky-400/40 max-h-[85vh] flex flex-col shadow-2xl">
+      <div class="flex justify-between items-center mb-4 border-b border-slate-700 pb-3">
+        <div>
+          <h3 class="font-extrabold text-xl text-white flex items-center gap-2.5">
+            <span>🏛️</span> Direktori 30 Karyawan AI DIWAN SIVITAS
+          </h3>
+          <p class="text-xs text-sky-300 font-semibold">Tergabung dalam 5 Direktorat Akademik & Karakter UIN Raden Fatah</p>
+        </div>
+        <button onclick="closeStaffModal()" class="text-slate-400 hover:text-white font-extrabold text-xl p-1">✕</button>
+      </div>
+      <div id="staff-grid" class="overflow-y-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 pr-2">
+        <!-- Injected via JS -->
+      </div>
+    </div>
+  </div>
+
+  <script>
+    /* ==========================================================================
+       1. DATA DEFINITION: 30 AGENTS & 5 DIRECTORATES
+       ========================================================================== */
+    const AGENTS = [
+      // D1: Kurikulum & Dosen (0 - 5)
+      { id: 1, name: "Pak Silabus", dir: "D1: Kurikulum & Dosen", role: "Perancang RPS OBE 14 Pertemuan", icon: "📋", x: -35, z: -35, bedX: -55, bedZ: 55, desk: "Menyusun peta CPL, Sub-CPMK, dan matriks mingguan RPS OBE dosen." },
+      { id: 2, name: "Bu Rubrik", dir: "D1: Kurikulum & Dosen", role: "Penyusun Rubrik Asesmen", icon: "📐", x: -28, z: -35, bedX: -48, bedZ: 55, desk: "Membuat instrumen penilaian autentik, holistik, dan analitik." },
+      { id: 3, name: "Kang Soal", dir: "D1: Kurikulum & Dosen", role: "Generator Studi Kasus HOTS", icon: "💡", x: -21, z: -35, bedX: -41, bedZ: 55, desk: "Menghasilkan bank soal taksonomi Bloom tingkat tinggi (C4-C6)." },
+      { id: 4, name: "Mbak Modul", dir: "D1: Kurikulum & Dosen", role: "Pensintesis Bahan Ajar", icon: "📖", x: -35, z: -25, bedX: -55, bedZ: 47, desk: "Mengubah diktat teori ke lembar kerja mahasiswa interaktif." },
+      { id: 5, name: "Pak Asisten", dir: "D1: Kurikulum & Dosen", role: "Umpan Balik Formatif", icon: "✍️", x: -28, z: -25, bedX: -48, bedZ: 47, desk: "Pemeriksa draf kuis otomatis dengan catatan pedagogis hangat." },
+      { id: 6, name: "Bu Reviu", dir: "D1: Kurikulum & Dosen", role: "Kurator Jurnal Primer", icon: "🔍", x: -21, z: -25, bedX: -41, bedZ: 47, desk: "Audit referensi jurnal bereputasi tinggi 5 tahun terakhir." },
+
+      // D2: Media & Otomasi (6 - 11)
+      { id: 7, name: "Kang Warta", dir: "D2: Media & Otomasi", role: "Cetak Web Kampus Instan", icon: "🌐", x: 35, z: -35, bedX: -20, bedZ: 55, desk: "Membangun landing page seminar & formulir registrasi kampus instan." },
+      { id: 8, name: "Mbak Sinema", dir: "D2: Media & Otomasi", role: "Storyboard Video Ajar", icon: "🎬", x: 28, z: -35, bedX: -13, bedZ: 55, desk: "Naskah video pembelajaran 3 menit dengan visualisasi menarik." },
+      { id: 9, name: "Mas Desain", dir: "D2: Media & Otomasi", role: "Poster Riset & Infografik", icon: "🎨", x: 21, z: -35, bedX: -6, bedZ: 55, desk: "Tata letak poster ilmiah dan bagan alur psikologis terstandar." },
+      { id: 10, name: "Teh Siar", dir: "D2: Media & Otomasi", role: "Audio Podcaster Edukasi", icon: "🎙️", x: 35, z: -25, bedX: -20, bedZ: 47, desk: "Sintesis materi kuliah ke format siniar suara inklusif." },
+      { id: 11, name: "Bang Sosmed", dir: "D2: Media & Otomasi", role: "Komunikasi Publik Anti-Hoaks", icon: "📢", x: 28, z: -25, bedX: -13, bedZ: 47, desk: "Penerjemah jurnal riset menjadi konten edukasi publik ramah awam." },
+      { id: 12, name: "Umi Arsip", dir: "D2: Media & Otomasi", role: "Pustakawan Metadata", icon: "🗄️", x: 21, z: -25, bedX: -6, bedZ: 47, desk: "Pengarsipan otomatis berkas akreditasi dan SK akademik terenkripsi." },
+
+      // D3: Scaffolding Mahasiswa (12 - 17)
+      { id: 13, name: "Kang Nalar", dir: "D3: Scaffolding Kognitif", role: "Penyusun 4 Quest Skripsi", icon: "🧩", x: -6, z: -6, bedX: 10, bedZ: 55, desk: "Memecah kebuntuan Bab 1 menjadi 4 kartu misi berpikir tanpa joki!" },
+      { id: 14, name: "Teh Bayyin", dir: "D3: Scaffolding Kognitif", role: "Audit Sitasi Tabayyun", icon: "⚖️", x: 6, z: -6, bedX: 17, bedZ: 55, desk: "Verifikasi DOI jurnal asli dan pencegah fabrikasi sitasi palsu AI." },
+      { id: 15, name: "Mas Logika", dir: "D3: Scaffolding Kognitif", role: "Cermin Uji Argumen", icon: "♟️", x: -6, z: 6, bedX: 24, bedZ: 55, desk: "Mendeteksi sesat pikir (fallacy) pada latar belakang masalah." },
+      { id: 16, name: "Mbak Terminologi", dir: "D3: Scaffolding Kognitif", role: "Glosarium Definisi", icon: "📚", x: 6, z: 6, bedX: 10, bedZ: 47, desk: "Penyelaras variabel psikologi dengan panduan baku APA 7th." },
+      { id: 17, name: "Cak Sanggah", dir: "D3: Scaffolding Kognitif", role: "Simulasi Ujian Sidang", icon: "🤺", x: 0, z: -14, bedX: 17, bedZ: 47, desk: "Mengajukan pertanyaan kritis dosen penguji untuk melatih mental mahasiswa." },
+      { id: 18, name: "Bang Portofolio", dir: "D3: Scaffolding Kognitif", role: "Penyusun Rekam Jejak", icon: "📂", x: 0, z: 14, bedX: 24, bedZ: 47, desk: "Merangkum kompetensi tugas menjadi lembar portofolio kerja digital." },
+
+      // D4: Psikologi & Nafs (18 - 23)
+      { id: 19, name: "Mang Nafsi", dir: "D4: Psikologi & Nafs", role: "Monitor Beban Kognitif", icon: "🌿", x: -35, z: 35, bedX: 40, bedZ: 55, desk: "Mendeteksi pola ketikan lelah & memulihkan Energi Nafs mahasiswa." },
+      { id: 20, name: "Teh Sejahtera", dir: "D4: Psikologi & Nafs", role: "Skrining Afektif Harian", icon: "🍵", x: -28, z: 35, bedX: 47, bedZ: 55, desk: "Pencatat suasana hati (mood tracker) sebelum dan sesudah belajar." },
+      { id: 21, name: "Pak Taut", dir: "D4: Psikologi & Nafs", role: "Jembatan Konseling", icon: "🚪", x: -21, z: 35, bedX: 54, bedZ: 55, desk: "Rujukan privat aman ke Unit Layanan Psikologi UIN Raden Fatah." },
+      { id: 22, name: "Ibu Asuh", dir: "D4: Psikologi & Nafs", role: "Fasilitator Peer-Support", icon: "🤝", x: -35, z: 25, bedX: 40, bedZ: 47, desk: "Membentuk kelompok belajar suportif tanpa intimidasi akademik." },
+      { id: 23, name: "Mas Muhasabah", dir: "D4: Psikologi & Nafs", role: "Penambat Niat Lillahi Ta'ala", icon: "🕯️", x: -28, z: 25, bedX: 47, bedZ: 47, desk: "Renungan spiritual tentang adab menuntut ilmu dan berkah belajar." },
+      { id: 24, name: "Cak Jeda", dir: "D4: Psikologi & Nafs", role: "Pemandu Napas Somatis 4-7-8", icon: "🌊", x: -21, z: 25, bedX: 54, bedZ: 47, desk: "Sesi relaksasi pernapasan somatis di tepi Kolam Taman Sakinah." },
+
+      // D5: Adab & Maslahat (24 - 29)
+      { id: 25, name: "Ustadz Wasith", dir: "D5: Adab & Komunikasi", role: "Kurator Pesan Dosen", icon: "✉️", x: 35, z: 35, bedX: 68, bedZ: 55, desk: "Mengubah draf pesan canggung menjadi pesan bimbingan santun." },
+      { id: 26, name: "Mas Maslahah", dir: "D5: Adab & Komunikasi", role: "Penyelaras Riset Komunitas", icon: "🌱", x: 28, z: 35, bedX: 75, bedZ: 55, desk: "Menghubungkan tema skripsi dengan problem riil warga Palembang/Sumsel." },
+      { id: 27, name: "Bu Mitra", dir: "D5: Adab & Komunikasi", role: "Jembatan Dunia Kerja", icon: "🏢", x: 21, z: 35, bedX: 82, bedZ: 55, desk: "Penyalur hasil riset mahasiswa ke mitra magang dan industri." },
+      { id: 28, name: "Pak Amanah", dir: "D5: Adab & Komunikasi", role: "Auditor Privasi UU PDP", icon: "🛡️", x: 35, z: 25, bedX: 68, bedZ: 47, desk: "Memastikan data responden riset terenkripsi dan anonim." },
+      { id: 29, name: "Teh Inklusi", dir: "D5: Adab & Komunikasi", role: "Aksesibilitas Universal", icon: "♿", x: 28, z: 25, bedX: 75, bedZ: 47, desk: "Menyediakan pembaca teks ramah tuna netra dan kontras visual tinggi." },
+      { id: 30, name: "Kyai Pandu", dir: "D5: Adab & Komunikasi", role: "Kepatuhan Maqashid", icon: "📜", x: 21, z: 25, bedX: 82, bedZ: 47, desk: "Mengawal seluruh inovasi agar menjaga akal, jiwa, dan kehormatan." }
+    ];
+
+    let currentMode = "work"; // "work" or "rest"
+    let currentAgent = null;
+    let nafsScore = 100;
+    let adabXp = 85;
+
+    function renderHearts() {
+      const container = document.getElementById("hearts-container");
+      container.innerHTML = "";
+      const activeHearts = Math.ceil(nafsScore / 10);
+      for (let i = 0; i < 10; i++) {
+        const heart = document.createElement("span");
+        heart.className = "text-base transition-transform hover:scale-125 cursor-default drop-shadow";
+        heart.textContent = i < activeHearts ? "❤️" : "🖤";
+        container.appendChild(heart);
+      }
+      document.getElementById("nafs-value").textContent = `${nafsScore}%`;
+    }
+    renderHearts();
+
+    /* ==========================================================================
+       2. PROCEDURAL MINECRAFT TEXTURE GENERATOR (CANVAS)
+       ========================================================================== */
+    function createPixelTexture(type) {
+      const cvs = document.createElement("canvas");
+      cvs.width = 64; cvs.height = 64;
+      const ctx = cvs.getContext("2d");
+
+      if (type === "grass") {
+        ctx.fillStyle = "#4ade80"; ctx.fillRect(0, 0, 64, 64);
+        // Grid pattern
+        ctx.fillStyle = "#22c55e";
+        for (let x = 0; x < 64; x += 8) {
+          for (let y = 0; y < 64; y += 8) {
+            if ((x + y) % 16 === 0) ctx.fillRect(x, y, 8, 8);
+          }
+        }
+        ctx.fillStyle = "#15803d";
+        ctx.strokeRect(0, 0, 64, 64);
+      } else if (type === "stone") {
+        ctx.fillStyle = "#94a3b8"; ctx.fillRect(0, 0, 64, 64);
+        ctx.fillStyle = "#64748b";
+        // Cobblestone bricks
+        ctx.fillRect(0, 0, 32, 16); ctx.fillRect(32, 16, 32, 16);
+        ctx.fillRect(0, 32, 32, 16); ctx.fillRect(32, 48, 32, 16);
+        ctx.fillStyle = "#475569";
+        ctx.strokeRect(0, 0, 64, 64);
+      } else if (type === "wood") {
+        ctx.fillStyle = "#b45309"; ctx.fillRect(0, 0, 64, 64);
+        ctx.fillStyle = "#92400e";
+        for (let y = 0; y < 64; y += 16) {
+          ctx.fillRect(0, y, 64, 2);
+        }
+      } else if (type === "leaves") {
+        ctx.fillStyle = "#15803d"; ctx.fillRect(0, 0, 64, 64);
+        ctx.fillStyle = "#166534";
+        for (let i = 0; i < 30; i++) {
+          ctx.fillRect((i * 13) % 56, (i * 23) % 56, 8, 8);
+        }
+      } else if (type === "face") {
+        // Pixel art face with peci / hijab
+        ctx.fillStyle = "#fcd34d"; ctx.fillRect(0, 0, 64, 64); // Skin
+        ctx.fillStyle = "#1e293b"; // Eyes
+        ctx.fillRect(16, 24, 8, 12); ctx.fillRect(40, 24, 8, 12);
+        ctx.fillStyle = "#ffffff";
+        ctx.fillRect(16, 24, 4, 4); ctx.fillRect(40, 24, 4, 4);
+        ctx.fillStyle = "#b45309"; // Smile
+        ctx.fillRect(24, 46, 16, 4);
+      }
+
+      const tex = new THREE.CanvasTexture(cvs);
+      tex.magFilter = THREE.NearestFilter;
+      tex.minFilter = THREE.NearestFilter;
+      return tex;
+    }
+
+    const grassTex = createPixelTexture("grass");
+    grassTex.wrapS = THREE.RepeatWrapping; grassTex.wrapT = THREE.RepeatWrapping;
+    grassTex.repeat.set(40, 40);
+
+    const stoneTex = createPixelTexture("stone");
+    stoneTex.wrapS = THREE.RepeatWrapping; stoneTex.wrapT = THREE.RepeatWrapping;
+    stoneTex.repeat.set(8, 60);
+
+    const woodTex = createPixelTexture("wood");
+    const leavesTex = createPixelTexture("leaves");
+    const faceTex = createPixelTexture("face");
+
+    /* ==========================================================================
+       3. THREE.JS SCENE SETUP WITH WARM LIGHTING & SHADOWS
+       ========================================================================== */
+    const container = document.getElementById("canvas-container");
+    const scene = new THREE.Scene();
+    
+    // Rich gradient sky & horizon
+    scene.background = new THREE.Color(0x0a1526);
+    scene.fog = new THREE.FogExp2(0x0a1526, 0.0055);
+
+    const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 1000);
+    camera.position.set(45, 45, 60);
+
+    const renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: "high-performance" });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    renderer.toneMappingExposure = 1.15;
+    container.appendChild(renderer.domElement);
+
+    // Warm Golden Sun + Ambient Sky Light
+    const ambientLight = new THREE.AmbientLight(0xdbeafe, 0.75);
+    scene.add(ambientLight);
+
+    const sun = new THREE.DirectionalLight(0xfff7ed, 1.3);
+    sun.position.set(60, 100, 50);
+    sun.castShadow = true;
+    sun.shadow.mapSize.width = 2048;
+    sun.shadow.mapSize.height = 2048;
+    sun.shadow.camera.near = 10;
+    sun.shadow.camera.far = 250;
+    sun.shadow.camera.left = -90;
+    sun.shadow.camera.right = 90;
+    sun.shadow.camera.top = 90;
+    sun.shadow.camera.bottom = -90;
+    scene.add(sun);
+
+    // Warm Pointlight in the center plaza
+    const plazaLamp = new THREE.PointLight(0x38bdf8, 2, 45);
+    plazaLamp.position.set(0, 8, 0);
+    scene.add(plazaLamp);
+
+    // Ground: Minecraft Voxel Grass Terrain
+    const groundGeo = new THREE.PlaneGeometry(240, 240);
+    const groundMat = new THREE.MeshStandardMaterial({ map: grassTex, roughness: 0.9, metalness: 0.05 });
+    const ground = new THREE.Mesh(groundGeo, groundMat);
+    ground.rotation.x = -Math.PI / 2;
+    ground.receiveShadow = true;
+    scene.add(ground);
+
+    // Stone Walkways with Raised Kerbs
+    const pathMat = new THREE.MeshStandardMaterial({ map: stoneTex, roughness: 0.7 });
+    const createWalkway = (w, h, x, z) => {
+      const p = new THREE.Mesh(new THREE.BoxGeometry(w, 0.4, h), pathMat);
+      p.position.set(x, 0.2, z);
+      p.receiveShadow = true;
+      p.castShadow = true;
+      scene.add(p);
+    };
+    createWalkway(14, 180, 0, 0); // North-South Main Ave
+    createWalkway(180, 14, 0, 0); // East-West Main Ave
+
+    // Center Plaza Monument: Voxel Fountain of Knowledge (Maqashid Emblem)
+    const plazaBase = new THREE.Mesh(new THREE.CylinderGeometry(10, 11, 1.2, 8), pathMat);
+    plazaBase.position.set(0, 0.6, 0);
+    plazaBase.receiveShadow = true;
+    scene.add(plazaBase);
+
+    const monPillar = new THREE.Mesh(new THREE.BoxGeometry(3, 8, 3), new THREE.MeshStandardMaterial({ color: 0x0284c7, metalness: 0.5, roughness: 0.2 }));
+    monPillar.position.set(0, 4.5, 0);
+    monPillar.castShadow = true;
+    scene.add(monPillar);
+
+    const monOrb = new THREE.Mesh(new THREE.BoxGeometry(3.5, 3.5, 3.5), new THREE.MeshStandardMaterial({ color: 0x38bdf8, emissive: 0x0284c7, emissiveIntensity: 0.6 }));
+    monOrb.position.set(0, 9.5, 0);
+    monOrb.castShadow = true;
+    scene.add(monOrb);
+
+    // Taman Sakinah Pond in Directorate 4 (Bottom-Left)
+    const pondGeo = new THREE.BoxGeometry(30, 0.6, 30);
+    const pondMat = new THREE.MeshStandardMaterial({ color: 0x0284c7, roughness: 0.05, metalness: 0.85, transparent: true, opacity: 0.85 });
+    const pond = new THREE.Mesh(pondGeo, pondMat);
+    pond.position.set(-30, 0.3, 30);
+    pond.receiveShadow = true;
+    scene.add(pond);
+
+    // Voxel Trees (Minecraft Style)
+    function createVoxelTree(tx, tz) {
+      const tree = new THREE.Group();
+      tree.position.set(tx, 0, tz);
+
+      // Trunk
+      const trunk = new THREE.Mesh(new THREE.BoxGeometry(1.6, 6, 1.6), new THREE.MeshStandardMaterial({ map: woodTex, roughness: 0.9 }));
+      trunk.position.set(0, 3, 0);
+      trunk.castShadow = true;
+      trunk.receiveShadow = true;
+      tree.add(trunk);
+
+      // Leaves (layered boxes)
+      const leavesMat = new THREE.MeshStandardMaterial({ map: leavesTex, roughness: 0.8 });
+      const l1 = new THREE.Mesh(new THREE.BoxGeometry(6, 3, 6), leavesMat);
+      l1.position.set(0, 6.5, 0);
+      l1.castShadow = true;
+      tree.add(l1);
+
+      const l2 = new THREE.Mesh(new THREE.BoxGeometry(4, 2.5, 4), leavesMat);
+      l2.position.set(0, 8.5, 0);
+      l2.castShadow = true;
+      tree.add(l2);
+
+      scene.add(tree);
+    }
+
+    // Plant trees along pathways and campus gardens
+    [[-12, -12], [12, -12], [-12, 12], [12, 12], [-45, 0], [45, 0], [0, -45], [-50, -50], [50, -50], [-50, 20], [50, 50]].forEach(([x, z]) => {
+      createVoxelTree(x, z);
+    });
+
+    // 5 Architectural Directorate Pavilions (Canopies with Wooden Pillars & Glowing Lanterns)
+    function createPavilion(px, pz, colorHex, title) {
+      const pav = new THREE.Group();
+      pav.position.set(px, 0, pz);
+
+      // Floor Platform
+      const floor = new THREE.Mesh(new THREE.BoxGeometry(26, 0.6, 26), new THREE.MeshStandardMaterial({ color: 0x1e293b, roughness: 0.6 }));
+      floor.position.set(0, 0.3, 0);
+      floor.receiveShadow = true;
+      pav.add(floor);
+
+      // 4 Wooden Corner Pillars
+      const pillarMat = new THREE.MeshStandardMaterial({ map: woodTex });
+      const offsets = [[-11, -11], [11, -11], [-11, 11], [11, 11]];
+      offsets.forEach(([ox, oz]) => {
+        const pillar = new THREE.Mesh(new THREE.BoxGeometry(1.4, 8, 1.4), pillarMat);
+        pillar.position.set(ox, 4, oz);
+        pillar.castShadow = true;
+        pav.add(pillar);
+
+        // Sea Lantern on top of each pillar
+        const lantern = new THREE.Mesh(new THREE.BoxGeometry(1.6, 1.2, 1.6), new THREE.MeshStandardMaterial({ color: 0xe0f2fe, emissive: colorHex, emissiveIntensity: 0.5 }));
+        lantern.position.set(ox, 8.5, oz);
+        pav.add(lantern);
+      });
+
+      // Roof Canopy
+      const roof = new THREE.Mesh(new THREE.ConeGeometry(19, 5, 4), new THREE.MeshStandardMaterial({ color: colorHex, roughness: 0.4 }));
+      roof.position.set(0, 11, 0);
+      roof.rotation.y = Math.PI / 4;
+      roof.castShadow = true;
+      pav.add(roof);
+
+      scene.add(pav);
+    }
+
+    createPavilion(-28, -28, 0x3b82f6, "D1: Kurikulum & Dosen");
+    createPavilion(28, -28, 0xf59e0b, "D2: Media & Otomasi");
+    createPavilion(0, 0, 0x06b6d4, "D3: Scaffolding Kognitif");
+    createPavilion(-28, 28, 0x10b981, "D4: Psikologi & Sakinah");
+    createPavilion(28, 28, 0x8b5cf6, "D5: Adab & Komunikasi");
+
+    // Kompleks Perumahan / Asrama Staf AI (North Side, z = 45 to 65)
+    const dormMat = new THREE.MeshStandardMaterial({ color: 0x1e293b, roughness: 0.7 });
+    const dormRoof = new THREE.MeshStandardMaterial({ color: 0x0284c7, roughness: 0.4 });
+    [-55, -20, 15, 50, 75].forEach(bx => {
+      const dorm = new THREE.Mesh(new THREE.BoxGeometry(22, 11, 14), dormMat);
+      dorm.position.set(bx, 5.5, 56);
+      dorm.castShadow = true;
+      dorm.receiveShadow = true;
+      scene.add(dorm);
+
+      const dRoof = new THREE.Mesh(new THREE.ConeGeometry(17, 6, 4), dormRoof);
+      dRoof.position.set(bx, 13.5, 56);
+      dRoof.rotation.y = Math.PI / 4;
+      dRoof.castShadow = true;
+      scene.add(dRoof);
+    });
+
+    /* ==========================================================================
+       4. 30 HIGH-DETAIL MINECRAFT WORKSTATIONS & RIGGED AGENTS
+       ========================================================================== */
+    const deskMat = new THREE.MeshStandardMaterial({ map: woodTex, roughness: 0.8 });
+    const pcMat = new THREE.MeshStandardMaterial({ color: 0x090d16, roughness: 0.3 });
+    const screenWorkMat = new THREE.MeshStandardMaterial({ color: 0x38bdf8, emissive: 0x0284c7, emissiveIntensity: 0.8 });
+    const screenRestMat = new THREE.MeshStandardMaterial({ color: 0xa855f7, emissive: 0x7e22ce, emissiveIntensity: 0.5 });
+    
+    // Autentik Jas Almamater UIN Raden Fatah: Biru Langit (#9bc4e2) dengan Lis & Kancing Emas
+    const jasMat = new THREE.MeshStandardMaterial({ color: 0x9bc4e2, roughness: 0.6 });
+    const goldButtonMat = new THREE.MeshStandardMaterial({ color: 0xf59e0b, metalness: 0.8, roughness: 0.2 });
+    const celanaMat = new THREE.MeshStandardMaterial({ color: 0x1e293b, roughness: 0.8 });
+    const skinMat = new THREE.MeshStandardMaterial({ map: faceTex, roughness: 0.6 });
+
+    const agentMeshes = [];
+
+    AGENTS.forEach((agent, index) => {
+      const group = new THREE.Group();
+      group.position.set(agent.x, 0.4, agent.z);
+
+      // Modern Wooden Computer Desk
+      const desk = new THREE.Mesh(new THREE.BoxGeometry(3.6, 2, 2.2), deskMat);
+      desk.position.set(0, 1, 0);
+      desk.castShadow = true;
+      desk.receiveShadow = true;
+      group.add(desk);
+
+      // Office Ergonomic Chair
+      const chairSeat = new THREE.Mesh(new THREE.BoxGeometry(1.6, 0.3, 1.6), pcMat);
+      chairSeat.position.set(0, 0.8, 1.3);
+      group.add(chairSeat);
+      const chairBack = new THREE.Mesh(new THREE.BoxGeometry(1.6, 1.8, 0.3), pcMat);
+      chairBack.position.set(0, 1.7, 2.0);
+      group.add(chairBack);
+
+      // Ultrawide LED Monitor
+      const monStand = new THREE.Mesh(new THREE.BoxGeometry(0.4, 0.8, 0.4), pcMat);
+      monStand.position.set(0, 2.3, -0.4);
+      group.add(monStand);
+
+      const screen = new THREE.Mesh(new THREE.BoxGeometry(2.4, 1.4, 0.2), screenWorkMat);
+      screen.position.set(0, 2.9, -0.4);
+      screen.castShadow = true;
+      group.add(screen);
+
+      // Mechanical Keyboard & RGB Mouse
+      const kb = new THREE.Mesh(new THREE.BoxGeometry(1.4, 0.1, 0.6), pcMat);
+      kb.position.set(0, 2.05, 0.2);
+      group.add(kb);
+
+      // Character Rig (Blocky Minecraft Avatar)
+      const charGroup = new THREE.Group();
+      charGroup.position.set(0, 0, 1.2);
+
+      // Legs
+      const leftLeg = new THREE.Mesh(new THREE.BoxGeometry(0.5, 1.4, 0.5), celanaMat);
+      leftLeg.position.set(-0.35, 0.7, 0);
+      leftLeg.castShadow = true;
+      charGroup.add(leftLeg);
+
+      const rightLeg = new THREE.Mesh(new THREE.BoxGeometry(0.5, 1.4, 0.5), celanaMat);
+      rightLeg.position.set(0.35, 0.7, 0);
+      rightLeg.castShadow = true;
+      charGroup.add(rightLeg);
+
+      // Torso - Jas Almamater Biru Langit UIN Raden Fatah
+      const torso = new THREE.Mesh(new THREE.BoxGeometry(1.3, 1.6, 0.75), jasMat);
+      torso.position.set(0, 2.1, 0);
+      torso.castShadow = true;
+      charGroup.add(torso);
+
+      // Gold Buttons on Chest
+      const b1 = new THREE.Mesh(new THREE.BoxGeometry(0.12, 0.12, 0.05), goldButtonMat);
+      b1.position.set(0, 2.2, 0.4);
+      charGroup.add(b1);
+      const b2 = new THREE.Mesh(new THREE.BoxGeometry(0.12, 0.12, 0.05), goldButtonMat);
+      b2.position.set(0, 1.9, 0.4);
+      charGroup.add(b2);
+
+      // Arms (Swinging / Typing)
+      const leftArm = new THREE.Mesh(new THREE.BoxGeometry(0.45, 1.4, 0.45), jasMat);
+      leftArm.position.set(-0.85, 2.0, 0);
+      leftArm.castShadow = true;
+      charGroup.add(leftArm);
+
+      const rightArm = new THREE.Mesh(new THREE.BoxGeometry(0.45, 1.4, 0.45), jasMat);
+      rightArm.position.set(0.85, 2.0, 0);
+      rightArm.castShadow = true;
+      charGroup.add(rightArm);
+
+      // Head with Minecraft Texture
+      const head = new THREE.Mesh(new THREE.BoxGeometry(1, 1, 1), skinMat);
+      head.position.set(0, 3.3, 0);
+      head.castShadow = true;
+      charGroup.add(head);
+
+      // Headwear (Peci Hitam berlis emas vs Hijab Biru UIN RF)
+      if (index % 2 === 0) {
+        const peci = new THREE.Mesh(new THREE.BoxGeometry(1.05, 0.45, 1.05), new THREE.MeshStandardMaterial({ color: 0x09090b, roughness: 0.8 }));
+        peci.position.set(0, 3.85, 0);
+        charGroup.add(peci);
+      } else {
+        const hijab = new THREE.Mesh(new THREE.BoxGeometry(1.15, 1.25, 1.15), new THREE.MeshStandardMaterial({ color: 0x38bdf8, roughness: 0.6 }));
+        hijab.position.set(0, 3.3, 0);
+        charGroup.add(hijab);
+      }
+
+      group.add(charGroup);
+
+      // Click Collider
+      const hitBox = new THREE.Mesh(new THREE.BoxGeometry(4.5, 5, 4.5), new THREE.MeshBasicMaterial({ visible: false }));
+      hitBox.position.set(0, 2.5, 0);
+      hitBox.userData = { agentId: agent.id, groupRef: group, charRef: charGroup, screenRef: screen };
+      group.add(hitBox);
+
+      scene.add(group);
+      agentMeshes.push({ agent, group, charGroup, screen, leftLeg, rightLeg, leftArm, rightArm });
+    });
+
+    // User Avatar (Controllable Student in Authentic Almamater)
+    const userGroup = new THREE.Group();
+    userGroup.position.set(0, 0.4, 20);
+
+    const uLL = new THREE.Mesh(new THREE.BoxGeometry(0.55, 1.4, 0.55), celanaMat);
+    uLL.position.set(-0.35, 0.7, 0);
+    uLL.castShadow = true;
+    userGroup.add(uLL);
+
+    const uRL = new THREE.Mesh(new THREE.BoxGeometry(0.55, 1.4, 0.55), celanaMat);
+    uRL.position.set(0.35, 0.7, 0);
+    uRL.castShadow = true;
+    userGroup.add(uRL);
+
+    const uTorso = new THREE.Mesh(new THREE.BoxGeometry(1.35, 1.6, 0.8), jasMat);
+    uTorso.position.set(0, 2.1, 0);
+    uTorso.castShadow = true;
+    userGroup.add(uTorso);
+
+    const uLA = new THREE.Mesh(new THREE.BoxGeometry(0.48, 1.4, 0.48), jasMat);
+    uLA.position.set(-0.9, 2.0, 0);
+    uLA.castShadow = true;
+    userGroup.add(uLA);
+
+    const uRA = new THREE.Mesh(new THREE.BoxGeometry(0.48, 1.4, 0.48), jasMat);
+    uRA.position.set(0.9, 2.0, 0);
+    uRA.castShadow = true;
+    userGroup.add(uRA);
+
+    const uHead = new THREE.Mesh(new THREE.BoxGeometry(1.05, 1.05, 1.05), skinMat);
+    uHead.position.set(0, 3.35, 0);
+    uHead.castShadow = true;
+    userGroup.add(uHead);
+
+    const uPeci = new THREE.Mesh(new THREE.BoxGeometry(1.1, 0.45, 1.1), new THREE.MeshStandardMaterial({ color: 0x09090b }));
+    uPeci.position.set(0, 3.9, 0);
+    userGroup.add(uPeci);
+
+    scene.add(userGroup);
+
+    /* ==========================================================================
+       5. CONTROLS, SMOOTH CAMERA ORBIT & ANIMATION LOOP
+       ========================================================================== */
+    const keys = {};
+    window.addEventListener("keydown", (e) => {
+      keys[e.key.toLowerCase()] = true;
+      if (e.key >= "1" && e.key <= "5") {
+        teleportTo(parseInt(e.key) - 1);
+      }
+    });
+    window.addEventListener("keyup", (e) => { keys[e.key.toLowerCase()] = false; });
+
+    let isDragging = false;
+    let prevMouse = { x: 0, y: 0 };
+    let camSpherical = { radius: 55, theta: Math.PI / 4, phi: Math.PI / 3.4 };
+
+    container.addEventListener("mousedown", (e) => {
+      isDragging = true;
+      prevMouse = { x: e.clientX, y: e.clientY };
+    });
+    window.addEventListener("mouseup", () => { isDragging = false; });
+    window.addEventListener("mousemove", (e) => {
+      if (!isDragging) return;
+      const dx = e.clientX - prevMouse.x;
+      const dy = e.clientY - prevMouse.y;
+      camSpherical.theta -= dx * 0.007;
+      camSpherical.phi = Math.max(0.15, Math.min(Math.PI / 2 - 0.05, camSpherical.phi - dy * 0.007));
+      prevMouse = { x: e.clientX, y: e.clientY };
+    });
+
+    container.addEventListener("wheel", (e) => {
+      camSpherical.radius = Math.max(15, Math.min(120, camSpherical.radius + e.deltaY * 0.05));
+    });
+
+    // Raycast on click
+    const raycaster = new THREE.Raycaster();
+    const mouse = new THREE.Vector2();
+
+    container.addEventListener("click", (e) => {
+      mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
+      mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
+      raycaster.setFromCamera(mouse, camera);
+
+      const intersects = raycaster.intersectObjects(scene.children, true);
+      for (let hit of intersects) {
+        if (hit.object.userData && hit.object.userData.agentId) {
+          selectAgent(hit.object.userData.agentId);
+          break;
+        }
+      }
+    });
+
+    const clock = new THREE.Clock();
+
+    function animate() {
+      requestAnimationFrame(animate);
+      const delta = clock.getDelta();
+      const time = clock.getElapsedTime();
+
+      // Keyboard Controls
+      const speed = 18 * delta;
+      let moved = false;
+      if (keys["w"] || keys["arrowup"]) { userGroup.position.z -= speed; moved = true; userGroup.rotation.y = Math.PI; }
+      if (keys["s"] || keys["arrowdown"]) { userGroup.position.z += speed; moved = true; userGroup.rotation.y = 0; }
+      if (keys["a"] || keys["arrowleft"]) { userGroup.position.x -= speed; moved = true; userGroup.rotation.y = -Math.PI / 2; }
+      if (keys["d"] || keys["arrowright"]) { userGroup.position.x += speed; moved = true; userGroup.rotation.y = Math.PI / 2; }
+
+      // Avatar Leg & Arm Swing
+      if (moved) {
+        uLL.rotation.x = Math.sin(time * 12) * 0.6;
+        uRL.rotation.x = -Math.sin(time * 12) * 0.6;
+        uLA.rotation.x = -Math.sin(time * 12) * 0.5;
+        uRA.rotation.x = Math.sin(time * 12) * 0.5;
+      } else {
+        uLL.rotation.x = 0; uRL.rotation.x = 0;
+        uLA.rotation.x = 0; uRA.rotation.x = 0;
+      }
+
+      // 30 AI Agents state handling & walking to Dormitory
+      agentMeshes.forEach(({ agent, group, charGroup, screen, leftLeg, rightLeg, leftArm, rightArm }) => {
+        if (currentMode === "rest") {
+          // Walking to dormitory
+          const dx = agent.bedX - group.position.x;
+          const dz = agent.bedZ - group.position.z;
+          const dist = Math.sqrt(dx * dx + dz * dz);
+          if (dist > 0.6) {
+            group.position.x += (dx / dist) * delta * 9;
+            group.position.z += (dz / dist) * delta * 9;
+            leftLeg.rotation.x = Math.sin(time * 10) * 0.45;
+            rightLeg.rotation.x = -Math.sin(time * 10) * 0.45;
+            leftArm.rotation.x = -Math.sin(time * 10) * 0.35;
+            rightArm.rotation.x = Math.sin(time * 10) * 0.35;
+            group.rotation.y = Math.atan2(dx, dz);
+          } else {
+            leftLeg.rotation.x = 0; rightLeg.rotation.x = 0;
+            leftArm.rotation.x = 0; rightArm.rotation.x = 0;
+          }
+          screen.material = screenRestMat;
+        } else {
+          // Returning to office desk
+          const dx = agent.x - group.position.x;
+          const dz = agent.z - group.position.z;
+          const dist = Math.sqrt(dx * dx + dz * dz);
+          if (dist > 0.4) {
+            group.position.x += (dx / dist) * delta * 11;
+            group.position.z += (dz / dist) * delta * 11;
+            leftLeg.rotation.x = Math.sin(time * 10) * 0.45;
+            rightLeg.rotation.x = -Math.sin(time * 10) * 0.45;
+            group.rotation.y = Math.atan2(dx, dz);
+          } else {
+            group.position.set(agent.x, 0.4, agent.z);
+            group.rotation.y = 0;
+            // Typing motion at desk
+            leftArm.rotation.x = -0.4 + Math.sin(time * 8 + agent.id) * 0.15;
+            rightArm.rotation.x = -0.4 - Math.sin(time * 8 + agent.id) * 0.15;
+            charGroup.position.y = Math.sin(time * 4 + agent.id) * 0.04;
+          }
+          screen.material = screenWorkMat;
+        }
+      });
+
+      // Monument gentle rotation
+      monOrb.rotation.y += 0.01;
+      monOrb.position.y = 9.5 + Math.sin(time * 2) * 0.3;
+
+      // Smooth Camera Follow
+      const camX = userGroup.position.x + camSpherical.radius * Math.sin(camSpherical.phi) * Math.sin(camSpherical.theta);
+      const camY = userGroup.position.y + camSpherical.radius * Math.cos(camSpherical.phi);
+      const camZ = userGroup.position.z + camSpherical.radius * Math.sin(camSpherical.phi) * Math.cos(camSpherical.theta);
+      camera.position.lerp(new THREE.Vector3(camX, camY, camZ), 0.1);
+      camera.lookAt(userGroup.position.x, userGroup.position.y + 2.5, userGroup.position.z);
+
+      renderer.render(scene, camera);
+    }
+    animate();
+
+    window.addEventListener("resize", () => {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+
+    /* ==========================================================================
+       6. AGENT INTERACTION & WORKSPACE PANEL
+       ========================================================================== */
+    function selectAgent(id) {
+      currentAgent = AGENTS.find(a => a.id === id);
+      if (!currentAgent) return;
+
+      const panel = document.getElementById("agent-panel");
+      document.getElementById("panel-name").textContent = currentAgent.name;
+      document.getElementById("panel-role").textContent = currentAgent.dir;
+      document.getElementById("panel-avatar").textContent = currentAgent.icon;
+
+      const body = document.getElementById("panel-body");
+
+      if (currentAgent.name === "Kang Nalar") {
+        body.innerHTML = `
+          <div class="p-3 bg-sky-950/60 border border-sky-400/40 rounded-2xl space-y-2">
+            <p class="text-sky-300 font-bold text-xs">🎯 Dekomposisi Bab 1 Skripsi (Scaffolding):</p>
+            <div class="space-y-1.5 text-[11px]">
+              <div class="p-2 bg-slate-900 rounded-xl border border-slate-700/80">
+                <b class="text-amber-300">Quest 1:</b> Kunci gap fenomena mahasiswa UIN RF.
+              </div>
+              <div class="p-2 bg-slate-900 rounded-xl border border-slate-700/80">
+                <b class="text-amber-300">Quest 2:</b> Ambil data empiris beban kognitif & prokrastinasi.
+              </div>
+              <div class="p-2 bg-slate-900 rounded-xl border border-slate-700/80">
+                <b class="text-amber-300">Quest 3:</b> Integrasikan tinjauan Maqashid (Hifz al-'Aql).
+              </div>
+            </div>
+            <p class="text-[10px] text-emerald-300 italic pt-1">✓ Guardrail Aktif: Sistem menolak penulisan joki esai instan.</p>
+          </div>
+        `;
+      } else if (currentAgent.name === "Mang Nafsi" || currentAgent.name === "Cak Jeda") {
+        body.innerHTML = `
+          <div class="p-3.5 bg-emerald-950/60 border border-emerald-400/40 rounded-2xl text-center space-y-2">
+            <div class="text-3xl">🌊</div>
+            <p class="font-bold text-white text-xs">Relaksasi Somatis di Kolam Sakinah</p>
+            <p class="text-[11px] text-slate-300">Metode Napas 4-7-8 untuk meredakan ketegangan mental saat buntu menulis skripsi.</p>
+            <button onclick="restoreNafs()" class="mt-2 w-full py-2 bg-gradient-to-r from-emerald-600 to-teal-500 hover:brightness-110 text-white rounded-xl text-xs font-bold shadow-lg shadow-emerald-600/30">
+              Pulihkan Bar Nafs (+25%)
+            </button>
+          </div>
+        `;
+      } else if (currentAgent.name === "Teh Bayyin") {
+        body.innerHTML = `
+          <div class="p-3 bg-slate-900/90 border border-sky-400/40 rounded-2xl space-y-2">
+            <p class="text-sky-300 font-bold text-xs">🔍 Audit Siber-Forensik Tabayyun:</p>
+            <div class="space-y-1.5 text-[11px]">
+              <div class="flex justify-between items-center p-2 bg-slate-800 rounded-lg">
+                <span>Abbas et al. (2024):</span>
+                <span class="text-emerald-400 font-bold">TERVALIDASI (DOI)</span>
+              </div>
+              <div class="flex justify-between items-center p-2 bg-slate-800 rounded-lg">
+                <span>Risko & Gilbert (2016):</span>
+                <span class="text-emerald-400 font-bold">TERVALIDASI (Trends)</span>
+              </div>
+            </div>
+            <p class="text-[10px] text-slate-400">Prinsip Tabayyun sesuai QS. Al-Ahzab: 58 & UU ITE.</p>
+          </div>
+        `;
+      } else {
+        body.innerHTML = `
+          <div class="p-3 bg-slate-900/80 border border-slate-700 rounded-2xl">
+            <p class="text-slate-200 text-xs mb-2">${currentAgent.desk}</p>
+            <div class="p-2.5 bg-slate-800/80 rounded-xl border border-slate-700/60">
+              <span class="text-[10px] uppercase font-bold text-sky-300 block">Modul AI:</span>
+              <span class="text-white font-medium text-[11px]">Siap menjalankan automasi terpadu untuk sivitas akademika UIN Raden Fatah.</span>
+            </div>
+          </div>
+        `;
+      }
+
+      panel.classList.remove("translate-x-[115%]", "opacity-0");
+    }
+
+    function closePanel() {
+      document.getElementById("agent-panel").classList.add("translate-x-[115%]", "opacity-0");
+    }
+
+    function executeCurrentAgentTask() {
+      if (!currentAgent) return;
+      adabXp = Math.min(100, adabXp + 15);
+      document.getElementById("xp-bar").style.width = `${adabXp}%`;
+      document.getElementById("xp-value").textContent = `Lv. 3 [${adabXp} XP]`;
+
+      nafsScore = Math.max(10, nafsScore - 10);
+      renderHearts();
+
+      alert(`✅ Berhasil! ${currentAgent.name} telah mengeksekusi tugas. Skor Adab bertambah +15 XP!`);
+      closePanel();
+    }
+
+    function restoreNafs() {
+      nafsScore = Math.min(100, nafsScore + 25);
+      renderHearts();
+      alert("✨ Alhamdulillah! Jiwa terasa tenang (Tuma'ninah). Energi Nafs pulih kembali!");
+    }
+
+    function setCampusMode(mode) {
+      currentMode = mode;
+      const btnWork = document.getElementById("btn-mode-work");
+      const btnRest = document.getElementById("btn-mode-rest");
+      if (mode === "work") {
+        btnWork.className = "px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 bg-gradient-to-r from-sky-500 to-blue-600 text-white shadow-lg shadow-sky-500/40 border border-sky-300";
+        btnRest.className = "px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 text-slate-300 hover:bg-slate-800 border border-transparent";
+      } else {
+        btnRest.className = "px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 bg-gradient-to-r from-purple-600 to-indigo-600 text-white shadow-lg shadow-purple-600/40 border border-purple-300";
+        btnWork.className = "px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 text-slate-300 hover:bg-slate-800 border border-transparent";
+        alert("🌙 Mode Istirahat Aktif! Seluruh 30 Staf AI meninggalkan meja dan berjalan ke Asrama Perumahan.");
+      }
+    }
+
+    function teleportTo(slotIndex) {
+      const targets = [
+        { x: -6, z: 0 },   // Kang Nalar (D3)
+        { x: -28, z: 28 }, // Mang Nafsi (D4)
+        { x: -28, z: -28 },// Pak Silabus (D1)
+        { x: 28, z: -28 }, // Kang Warta (D2)
+        { x: 28, z: 28 }   // Ustadz Wasith (D5)
+      ];
+      if (targets[slotIndex]) {
+        userGroup.position.set(targets[slotIndex].x, 0.4, targets[slotIndex].z);
+      }
+    }
+
+    function setCameraAngle(type) {
+      if (type === "iso") { camSpherical = { radius: 55, theta: Math.PI / 4, phi: Math.PI / 3.4 }; }
+      else if (type === "top") { camSpherical = { radius: 85, theta: 0, phi: 0.15 }; }
+      else if (type === "third") { camSpherical = { radius: 20, theta: 0, phi: Math.PI / 3.2 }; }
+    }
+
+    function openStaffModal() {
+      const grid = document.getElementById("staff-grid");
+      grid.innerHTML = "";
+      AGENTS.forEach(a => {
+        const item = document.createElement("div");
+        item.className = "p-3 rounded-2xl bg-slate-800/90 border border-slate-700/80 flex items-start gap-3 hover:border-sky-400 hover:bg-slate-700/60 transition cursor-pointer shadow";
+        item.onclick = () => {
+          closeStaffModal();
+          userGroup.position.set(a.x, 0.4, a.z + 4);
+          selectAgent(a.id);
+        };
+        item.innerHTML = `
+          <div class="text-2xl">${a.icon}</div>
+          <div>
+            <h4 class="font-extrabold text-xs text-white">#${a.id} ${a.name}</h4>
+            <p class="text-[10px] text-sky-300 font-bold">${a.dir}</p>
+            <p class="text-[10px] text-slate-300 line-clamp-1">${a.role}</p>
+          </div>
+        `;
+        grid.appendChild(item);
+      });
+      document.getElementById("staff-modal").classList.remove("hidden");
+    }
+    function closeStaffModal() { document.getElementById("staff-modal").classList.add("hidden"); }
+  </script>
+</body>
+</html>
