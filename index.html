@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>DIWAN SIVITAS — Ekosistem Voxel 30 Staf AI UIN Raden Fatah Palembang (KIMPSI VII 2026)</title>
+  <title>DIWAN SIVITAS — Ekosistem Voxel 3 Pilar Fungsional (15 Agen Esensial) UIN Raden Fatah Palembang</title>
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- Three.js r128 -->
@@ -125,10 +125,10 @@
       <div>
         <div class="flex items-center gap-2">
           <h1 class="font-vt text-2xl tracking-wider text-[#9bc4e2] leading-none">DIWAN SIVITAS • UIN RADEN FATAH</h1>
-          <span class="text-[10px] font-bold px-1.5 py-0.5 bg-amber-500/20 border border-amber-400/50 text-amber-300 rounded">KIMPSI VII 2026</span>
+          <span class="text-[10px] font-bold px-1.5 py-0.5 bg-amber-500/20 border border-amber-400/50 text-amber-300 rounded">3 PILAR • 15 AGEN ESENSIAL</span>
         </div>
         <p class="text-[11px] text-slate-300">
-          30 Komputer Staf AI & Asrama • <span id="hudZoneLabel" class="text-emerald-400 font-semibold">Gerbang Utama UIN Raden Fatah</span>
+          Fokus Inti: <span id="hudZoneLabel" class="text-purple-300 font-semibold">Pilar 3 (TENGAH): Konektor Tabayyun, Relasi Dosen-Mahasiswa & Nafs</span>
         </p>
       </div>
     </div>
@@ -144,18 +144,26 @@
       <!-- Global Shift Toggle: KERJA DI KOMPUTER vs PULANG KE ASRAMA -->
       <div class="flex items-center gap-1 bg-slate-950 p-1 rounded border border-slate-700">
         <button id="btnShiftWork" onclick="setGlobalShift('work')" class="mc-btn px-2.5 py-1 rounded bg-emerald-700 hover:bg-emerald-600 text-[11px] font-bold text-white flex items-center gap-1">
-          <i class="ph-fill ph-desktop"></i> Jam Kerja (30 AI)
+          <i class="ph-fill ph-desktop"></i> Jam Kerja (15 AI)
         </button>
         <button id="btnShiftHome" onclick="setGlobalShift('rest')" class="mc-btn px-2.5 py-1 rounded bg-slate-800 hover:bg-purple-800 text-[11px] font-bold text-purple-200 flex items-center gap-1">
           <i class="ph-fill ph-house-line"></i> Stop / Pulang Istirahat
         </button>
       </div>
 
+      <!-- Work Timer & Wellbeing Reminder for Dosen & Mahasiswa (Saran Bu Nisa) -->
+      <div onclick="toggleFacultyTimerPrompt()" class="hidden md:flex items-center gap-1.5 bg-slate-950 px-2.5 py-1 rounded border border-purple-500/50 text-[11px] cursor-pointer hover:border-amber-400 transition" title="Klik untuk melihat pengingat hak istirahat sivitas">
+        <i class="ph-bold ph-alarm text-amber-300 animate-pulse"></i>
+        <span class="text-slate-300">Jam Kerja:</span>
+        <span id="facultyTimerText" class="font-mono font-bold text-amber-300">03:45:12</span>
+        <span class="text-[9px] px-1 bg-purple-900/80 text-purple-200 rounded">Hak Istirahat</span>
+      </div>
+
       <!-- Live Workforce Counter -->
       <div class="hidden xl:flex items-center gap-2 text-[11px] bg-slate-950/90 px-2.5 py-1 rounded border border-slate-800">
-        <span class="flex items-center gap-1 text-amber-300"><span class="w-2 h-2 rounded-full bg-amber-400 animate-ping"></span> Kerja: <b id="countWorking">24</b></span>
+        <span class="flex items-center gap-1 text-amber-300"><span class="w-2 h-2 rounded-full bg-amber-400 animate-ping"></span> Kerja: <b id="countWorking">12</b></span>
         <span class="text-slate-600">|</span>
-        <span class="flex items-center gap-1 text-emerald-400">Selesai: <b id="countDone">6</b></span>
+        <span class="flex items-center gap-1 text-emerald-400">Selesai: <b id="countDone">3</b></span>
         <span class="text-slate-600">|</span>
         <span class="flex items-center gap-1 text-purple-300">Istirahat: <b id="countResting">0</b></span>
       </div>
@@ -243,19 +251,17 @@
 
       <!-- Quick Campus Zone Teleport -->
       <div class="pt-1 border-t border-slate-700 space-y-1">
-        <div class="text-[10px] font-bold uppercase text-slate-400">Teleportasi Zona Kampus Luas:</div>
-        <div class="grid grid-cols-2 gap-1 text-[10px]">
-          <button onclick="warpToZone(0, 0, 'Balai Nalar & Skripsi')" class="mc-btn px-2 py-1 rounded bg-amber-900/70 hover:bg-amber-800 text-amber-200 text-left truncate">🏛️ Balai Nalar</button>
-          <button onclick="warpToZone(-44, -36, 'Aula Dosen & RPS')" class="mc-btn px-2 py-1 rounded bg-emerald-900/70 hover:bg-emerald-800 text-emerald-200 text-left truncate">💻 Aula Dosen</button>
-          <button onclick="warpToZone(44, -36, 'Studio Media & Web')" class="mc-btn px-2 py-1 rounded bg-cyan-900/70 hover:bg-cyan-800 text-cyan-200 text-left truncate">🎬 Studio Web</button>
-          <button onclick="warpToZone(-44, 36, 'Taman Sakinah & Jiwa')" class="mc-btn px-2 py-1 rounded bg-rose-900/70 hover:bg-rose-800 text-rose-200 text-left truncate">🌿 Taman Sakinah</button>
-          <button onclick="warpToZone(44, 36, 'Sekretariat Adab')" class="mc-btn px-2 py-1 rounded bg-purple-900/70 hover:bg-purple-800 text-purple-200 text-left truncate">⚖️ Sekr. Adab</button>
-          <button onclick="warpToZone(0, -64, 'Kompleks Perumahan & Asrama AI')" class="mc-btn px-2 py-1 rounded bg-sky-900/90 hover:bg-sky-700 text-sky-200 font-bold text-left truncate">🏡 Asrama AI</button>
+        <div class="text-[10px] font-bold uppercase text-amber-300">Teleportasi 3 Pilar Fungsional:</div>
+        <div class="grid grid-cols-1 gap-1 text-[10px]">
+          <button onclick="warpToZone(0, 0, 'Pilar 3 (TENGAH): Konektor Tabayyun, Mediasi & Nafs')" class="mc-btn px-2.5 py-1.5 rounded bg-purple-700 hover:bg-purple-600 text-white font-bold text-left truncate">⚖️ PILAR 3 (TENGAH): Konektor Tabayyun & Nafs</button>
+          <button onclick="warpToZone(-34, -6, 'Pilar 1 (Kiri): Reduksi Beban Dosen & Media')" class="mc-btn px-2.5 py-1 rounded bg-emerald-900/80 hover:bg-emerald-800 text-emerald-100 text-left truncate">📚 PILAR 1 (KIRI): Asistensi Dosen & Media</button>
+          <button onclick="warpToZone(34, -6, 'Pilar 2 (Kanan): Balai Nalar Socratic Mahasiswa')" class="mc-btn px-2.5 py-1 rounded bg-amber-700/90 hover:bg-amber-600 text-amber-100 font-semibold text-left truncate">🧩 PILAR 2 (KANAN): Socratic & Skripsi</button>
+          <button onclick="warpToZone(0, -48, 'Wisma Asrama AI (Mode Istirahat Dosen & Mahasiswa)')" class="mc-btn px-2.5 py-1 rounded bg-sky-900/90 hover:bg-sky-700 text-sky-200 font-semibold text-left truncate">🏡 Wisma Asrama (Rest Mode)</button>
         </div>
       </div>
 
       <div class="text-[10px] text-slate-400 leading-tight pt-1 border-t border-slate-800">
-        💡 <b>Tips:</b> Tahan klik kiri & geser ke <b>Atas/Bawah/Kiri/Kanan</b> untuk memutar kamera bebas. Klik karakter/komputer AI untuk cek progres tugas!
+        💡 <b>Arsitektur 3 Pilar:</b> <b>Pilar 3 berada tepat di Tengah Plaza</b> sebagai jembatan/konektor relasi Dosen (Sayap Kiri) & Mahasiswa (Sayap Kanan). Klik <b>Ustadz Wasith</b> atau <b>Mang Nafsi</b> di Tengah!
       </div>
     </div>
   </div>
@@ -329,7 +335,7 @@
     <!-- Bottom Guardrail Status -->
     <div class="px-4 py-2 bg-slate-950 border-t border-slate-800 flex items-center justify-between text-[11px] text-slate-400">
       <span class="flex items-center gap-1 text-[#9bc4e2] font-medium">
-        <i class="ph-fill ph-shield-check"></i> UIN Raden Fatah • Non-Socratic AI
+        <i class="ph-fill ph-shield-check"></i> UIN Raden Fatah • Socratic Guardrail AI
       </span>
       <span id="wbMaqashidTag" class="font-vt text-sm text-amber-300">Hifz al-'Aql</span>
     </div>
@@ -383,7 +389,7 @@
       <button onclick="triggerHotbar(7)" id="slot-7" class="mc-slot p-1.5 rounded flex flex-col items-center justify-center relative group bg-emerald-950/60">
         <span class="absolute top-0.5 left-1 text-[9px] font-mono text-emerald-300">7</span>
         <i class="ph-fill ph-users-four text-lg sm:text-xl text-emerald-300"></i>
-        <span class="text-[9px] sm:text-[10px] font-bold text-emerald-200 truncate w-full text-center mt-0.5">30 Staf AI</span>
+        <span class="text-[9px] sm:text-[10px] font-bold text-emerald-200 truncate w-full text-center mt-0.5">15 Agen AI</span>
       </button>
 
       <button onclick="triggerHotbar(8)" id="slot-8" class="mc-slot p-1.5 rounded flex flex-col items-center justify-center relative group bg-amber-950/60">
@@ -400,27 +406,25 @@
     </div>
   </footer>
 
-  <!-- MODAL 1: 30 VOXEL AI STAFF INVENTORY DIRECTORY -->
+  <!-- MODAL 1: 15 VOXEL AI STAFF INVENTORY DIRECTORY -->
   <div id="modalRoster" class="fixed inset-0 z-50 bg-black/75 backdrop-blur-sm hidden flex items-center justify-center p-3">
     <div class="mc-box w-full max-w-5xl max-h-[88vh] rounded-xl flex flex-col overflow-hidden">
       <div class="px-5 py-3.5 bg-slate-900 border-b-2 border-slate-700 flex items-center justify-between">
         <div>
           <h2 class="font-vt text-2xl text-emerald-300 flex items-center gap-2">
-            <i class="ph-fill ph-users-four text-amber-400"></i> DIREKTORI 30 KARYAWAN AI VOXEL KAMPUS
+            <i class="ph-fill ph-users-four text-amber-400"></i> DIREKTORI 15 AGEN ESENSIAL DALAM 3 PILAR FUNGSIONAL
           </h2>
-          <p class="text-xs text-slate-300">Klik karakter manapun untuk memindahkan avatarmu langsung ke meja kerjanya di dunia 3D.</p>
+          <p class="text-xs text-slate-300">Diselaraskan dengan naskah esai KIMPSI VII: Pilar 1 (Dosen), Pilar 2 (Inti Socratic Mahasiswa), dan Pilar 3 (Konektor Tabayyun & Nafs).</p>
         </div>
         <button onclick="closeModal('modalRoster')" class="mc-btn px-3 py-1 rounded bg-rose-800 text-xs font-bold">TUTUP [ESC]</button>
       </div>
 
-      <!-- Filter Directorates -->
+      <!-- Filter 3 Pillars -->
       <div class="px-5 py-2.5 bg-slate-950 flex flex-wrap gap-1.5 border-b border-slate-800 text-xs">
-        <button onclick="renderRosterGrid('all')" class="mc-btn px-3 py-1 rounded bg-emerald-700 text-white font-medium">Semua (30 Agen)</button>
-        <button onclick="renderRosterGrid(0)" class="mc-btn px-3 py-1 rounded bg-slate-800 hover:bg-slate-700 text-emerald-300">1. Dosen & RPS (6)</button>
-        <button onclick="renderRosterGrid(1)" class="mc-btn px-3 py-1 rounded bg-slate-800 hover:bg-slate-700 text-cyan-300">2. Media & Web (6)</button>
-        <button onclick="renderRosterGrid(2)" class="mc-btn px-3 py-1 rounded bg-slate-800 hover:bg-slate-700 text-amber-300">3. Scaffolding Mahasiswa (6)</button>
-        <button onclick="renderRosterGrid(3)" class="mc-btn px-3 py-1 rounded bg-slate-800 hover:bg-slate-700 text-rose-300">4. Nafs & Well-Being (6)</button>
-        <button onclick="renderRosterGrid(4)" class="mc-btn px-3 py-1 rounded bg-slate-800 hover:bg-slate-700 text-purple-300">5. Adab & Maslahat (6)</button>
+        <button onclick="renderRosterGrid('all')" class="mc-btn px-3 py-1 rounded bg-slate-700 text-white font-medium">Semua (15 Agen Esensial)</button>
+        <button onclick="renderRosterGrid('pilar2')" class="mc-btn px-3 py-1 rounded bg-amber-600 text-slate-950 font-bold">★ Pilar 2 (Inti): Socratic Mahasiswa (5)</button>
+        <button onclick="renderRosterGrid('pilar1')" class="mc-btn px-3 py-1 rounded bg-emerald-800 hover:bg-emerald-700 text-emerald-100 font-semibold">Pilar 1: Beban Dosen & Media (5)</button>
+        <button onclick="renderRosterGrid('pilar3')" class="mc-btn px-3 py-1 rounded bg-purple-800 hover:bg-purple-700 text-purple-100 font-semibold">Pilar 3: Konektor Tabayyun & Nafs (5)</button>
       </div>
 
       <div id="rosterGridContainer" class="p-5 overflow-y-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
@@ -553,94 +557,69 @@
   <!-- MAIN APPLICATION & THREE.JS VOXEL ENGINE -->
   <script>
     // =========================================================================
-    // 1. COMPLETE DATASET OF 30 VOXEL AI STAFF MEMBERS, WORKSTATIONS & HOUSES
+    // 1. SIMPLIFIED 3 PILLARS & 15 ESSENTIAL AGENTS (SESUAI REVISI NASKAH ESAI)
     // =========================================================================
     const DIRECTORATES = [
-      { id: 0, name: "Direktorat 1: Kurikulum & Asistensi Dosen", short: "Aula Dosen & RPS", x: -44, z: -34, color: 0x10b981, hex: "#10b981", roofColor: 0x047857 },
-      { id: 1, name: "Direktorat 2: Media Digital & Otomasi Web", short: "Studio Media & Web", x: 44, z: -34, color: 0x06b6d4, hex: "#06b6d4", roofColor: 0x0e7490 },
-      { id: 2, name: "Direktorat 3: Kognitif & Scaffolding Mahasiswa", short: "Balai Nalar & Skripsi", x: 0, z: 0, color: 0xf59e0b, hex: "#f59e0b", roofColor: 0xb45309 },
-      { id: 3, name: "Direktorat 4: Psikologi, Nafs & Well-Being", short: "Taman Sakinah & Jiwa", x: -44, z: 34, color: 0xf43f5e, hex: "#f43f5e", roofColor: 0xbe123c },
-      { id: 4, name: "Direktorat 5: Mediasi, Adab & Maslahat", short: "Sekretariat Adab", x: 44, z: 34, color: 0xa855f7, hex: "#a855f7", roofColor: 0x6b21a8 }
+      { id: 0, pillar: "Pilar 1 (Fokus Dosen)", name: "Pilar 1: Reduksi Beban Kognitif & Media Dosen", short: "Pilar 1: Aula Dosen & Media (Sayap Kiri)", x: -34, z: -6, color: 0x10b981, hex: "#10b981", roofColor: 0x047857 },
+      { id: 1, pillar: "Pilar 2 (Socratic Mahasiswa)", name: "Pilar 2: Penyangga Kognitif & Socratic Scaffolding", short: "Pilar 2: Balai Nalar Socratic (Sayap Kanan)", x: 34, z: -6, color: 0xf59e0b, hex: "#f59e0b", roofColor: 0xb45309 },
+      { id: 2, pillar: "Pilar 3 (Konektor Tengah)", name: "Pilar 3 (TENGAH): Direktorat Tabayyun, Relasi Dosen-Mahasiswa & Nafs", short: "Pilar 3 (Tengah): Balai Tabayyun & Nafs", x: 0, z: 0, color: 0xa855f7, hex: "#a855f7", roofColor: 0x6b21a8 }
     ];
 
-    // 6 Voxel Staff Housing Villas in the North District (Kompleks Asrama Staf AI)
+    // 3 Voxel Staff Housing Villas in the North District (Kompleks Asrama Staf AI)
     const STAFF_HOUSES = [
-      { id: 0, name: "Wisma Khidmah 1 (Staf Dosen)", x: -50, z: -68, roof: 0x059669 },
-      { id: 1, name: "Wisma Khidmah 2 (Staf Media)", x: -30, z: -68, roof: 0x0891b2 },
-      { id: 2, name: "Wisma Khidmah 3 (Staf Nalar)", x: -10, z: -68, roof: 0xd97706 },
-      { id: 3, name: "Wisma Khidmah 4 (Staf Sakinah)", x: 10, z: -68, roof: 0xe11d48 },
-      { id: 4, name: "Wisma Khidmah 5 (Staf Adab)", x: 30, z: -68, roof: 0x7c3aed },
-      { id: 5, name: "Masjid & Bale Istirahat Kampus", x: 50, z: -68, roof: 0x0284c7 }
+      { id: 0, name: "Wisma Khidmah Pilar 1 (Dosen)", x: -28, z: -48, roof: 0x059669 },
+      { id: 1, name: "Wisma Utama Pilar 2 (Socratic)", x: 28, z: -48, roof: 0xd97706 },
+      { id: 2, name: "Wisma Sakinah Pilar 3 (Tabayyun & Nafs)", x: 0, z: -48, roof: 0x7c3aed }
     ];
 
     const AGENTS = [
-      // Direktorat 1: Dosen & RPS (Zone 0: North-West Pavilion)
-      { id: 1, name: "Pak Silabus", dir: 0, role: "Arsitek RPS OBE & CPL", skin: "#e0ac69", headType: "peci", topColor: "#9bc4e2", almamater: true, headColor: "#111827", pants: "#1e293b", featured: true, desc: "Menyusun draf mingguan RPS berbasis Outcome-Based Education (OBE) secara otomatis.", defaultTask: "Menyusun Matriks RPS Psikologi Siber 16 Pekan", outputSample: "Dokumen Matriks RPS OBE (CPL-1 s.d. CPL-4 Terpetakan)" },
-      { id: 2, name: "Bu Rubrik", dir: 0, role: "Desainer Instrumen Rubrik", skin: "#f1c27d", headType: "hijab", topColor: "#9bc4e2", almamater: true, headColor: "#1e3a8a", pants: "#1e293b", featured: false, desc: "Merancang matriks penilaian objektif untuk esai, praktikum, dan ujian.", defaultTask: "Kalibrasi Rubrik Penilaian Esai Kritis", outputSample: "Tabel Rubrik Analitik 5 Indikator (Bobot 100%)" },
-      { id: 3, name: "Kang Soal", dir: 0, role: "Generator Bank Kasus C4-C6", skin: "#e0ac69", headType: "hair", topColor: "#10b981", headColor: "#27272a", pants: "#334155", featured: false, desc: "Membuat studi kasus ujian kontekstual yang menguji daya analisis kritis.", defaultTask: "Merancang 30 Soal Kasus Forensik Digital", outputSample: "Paket Soal Vignette Taksonomi Bloom C4–C6" },
-      { id: 4, name: "Mbak Modul", dir: 0, role: "Penyintesis Diktat Kuliah", skin: "#ffdbac", headType: "hijab", topColor: "#9bc4e2", almamater: true, headColor: "#0f172a", pants: "#1e293b", featured: false, desc: "Mengonversi jurnal riset terbaru dosen menjadi handout kuliah yang ramah baca.", defaultTask: "Sintesis Bab Diktat Psikologi Islam", outputSample: "Modul Ajar Ringkas 12 Halaman + Peta Konsep" },
-      { id: 5, name: "Pak Asisten", dir: 0, role: "Pemeriksa Formatif Awal", skin: "#c68642", headType: "peci", topColor: "#065f46", headColor: "#18181b", pants: "#0f172a", featured: false, desc: "Mengecek kelengkapan struktural tugas mahasiswa sebelum dinilai akhir oleh dosen.", defaultTask: "Audit Struktur 42 Draf Tugas Mahasiswa", outputSample: "Laporan Pra-Koreksi Formatif & Umpan Balik" },
-      { id: 6, name: "Bu Reviu", dir: 0, role: "Kurator Jurnal Primer Dosen", skin: "#f1c27d", headType: "hijab", topColor: "#34d399", headColor: "#064e3b", pants: "#1e293b", featured: false, desc: "Menjaring literatur primer Scopus dan Moraref 5 tahun terakhir untuk bahan ajar.", defaultTask: "Pemetaan 15 Jurnal Psikologi Islam 2022–2026", outputSample: "Matriks Literatur Primer Terindeks SINTA/Scopus" },
+      // PILAR 1: Reduksi Beban Kognitif & Otomasi Media Dosen (dir: 0, 5 Agen Esensial)
+      { id: 1, name: "Pak Silabus", dir: 0, role: "Arsitek RPS OBE 14 Pekan", skin: "#e0ac69", headType: "peci", topColor: "#9bc4e2", almamater: true, headColor: "#111827", pants: "#1e293b", featured: true, desc: "Menurunkan extrinsic cognitive load dosen dengan menyusun draf matriks RPS OBE otomatis (human-in-the-loop).", defaultTask: "Menyusun Matriks RPS Psikologi Siber 14 Pertemuan", outputSample: "Dokumen Matriks RPS OBE (CPL & Sub-CPMK Terpetakan)" },
+      { id: 2, name: "Bu Rubrik", dir: 0, role: "Desainer Instrumen Rubrik Analitik", skin: "#f1c27d", headType: "hijab", topColor: "#9bc4e2", almamater: true, headColor: "#1e3a8a", pants: "#1e293b", featured: false, desc: "Merancang rubrik penilaian objektif untuk esai dan tugas mahasiswa agar dosen tidak kelelahan mengoreksi.", defaultTask: "Kalibrasi Rubrik Analitik Esai Mahasiswa", outputSample: "Tabel Rubrik Analitik 5 Indikator Objektif" },
+      { id: 3, name: "Kang Soal", dir: 0, role: "Generator Studi Kasus HOTS (C4-C6)", skin: "#e0ac69", headType: "hair", topColor: "#10b981", headColor: "#27272a", pants: "#334155", featured: false, desc: "Membuat studi kasus ujian kontekstual yang menguji penalaran kritis tingkat tinggi.", defaultTask: "Merancang Vignette Kasus Etika AI & Forensik", outputSample: "Paket Studi Kasus Taksonomi Bloom C4–C6" },
+      { id: 4, name: "Mbak Modul", dir: 0, role: "Penyintesis Bahan Ajar Interaktif", skin: "#ffdbac", headType: "hijab", topColor: "#9bc4e2", almamater: true, headColor: "#0f172a", pants: "#1e293b", featured: false, desc: "Mengonversi jurnal riset dosen menjadi diktat kuliah yang terstruktur.", defaultTask: "Sintesis Modul Ajar Psikologi Islam", outputSample: "Diktat Kuliah Ringkas + Peta Konsep" },
+      { id: 7, name: "Kang Warta", dir: 0, role: "Otomasi Media Ajar, Storyboard & Web", skin: "#f1c27d", headType: "hair", topColor: "#06b6d4", almamater: false, headColor: "#1e293b", pants: "#0f172a", featured: true, desc: "Agen gabungan Desain & Media: mencetak storyboard video ajar 3 menit, web mikro seminar, dan infografik riset anti-hoaks.", defaultTask: "Generate Storyboard Video Ajar & Web Seminar", outputSample: "Landing Page Seminar + Storyboard Video 3 Menit" },
 
-      // Direktorat 2: Media & Web (Zone 1: North-East Pavilion)
-      { id: 7, name: "Kang Warta", dir: 1, role: "Generator Web & Landing Page", skin: "#f1c27d", headType: "hair", topColor: "#9bc4e2", almamater: true, headColor: "#1e293b", pants: "#0f172a", featured: true, desc: "Membangun halaman web kegiatan kampus & seminar nasional dalam hitungan detik.", defaultTask: "Deploy Web Simposium KIMPSI VII UIN RF", outputSample: "Landing Page HTML5 Responsif + Form Registrasi" },
-      { id: 8, name: "Mbak Sinema", dir: 1, role: "Sutradara Video Micro-Learning", skin: "#ffdbac", headType: "hijab", topColor: "#06b6d4", headColor: "#155e75", pants: "#1e293b", featured: false, desc: "Mengubah materi teks perkuliahan menjadi storyboard dan video edukasi singkat.", defaultTask: "Render Storyboard Video Etika Tabayyun", outputSample: "Naskah Scene & Animasi Micro-Learning 3 Menit" },
-      { id: 9, name: "Mas Desain", dir: 1, role: "Perancang Poster Ilmiah A3", skin: "#e0ac69", headType: "hair", topColor: "#9bc4e2", almamater: true, headColor: "#3f2e21", pants: "#1e293b", featured: false, desc: "Menata tata letak visual infografik dan poster ilmiah secara estetis.", defaultTask: "Layout Infografik Statistik Hoaks Visual", outputSample: "Poster Ilmiah A3 300 DPI Siap Cetak" },
-      { id: 10, name: "Teh Siar", dir: 1, role: "Produser Audio & Siniar Kampus", skin: "#f1c27d", headType: "hijab", topColor: "#22d3ee", headColor: "#164e63", pants: "#334155", featured: false, desc: "Merangkum jurnal panjang menjadi siniar audio bagi mahasiswa komuter.", defaultTask: "Mixing Audio Ringkasan Jurnal Mingguan", outputSample: "Episode Podcast Kampus 8 Menit" },
-      { id: 11, name: "Bang Sosmed", dir: 1, role: "Diseminator Sains Populer", skin: "#c68642", headType: "hair", topColor: "#38bdf8", headColor: "#09090b", pants: "#1e293b", featured: false, desc: "Menerjemahkan hasil skripsi menjadi konten edukasi publik yang santun.", defaultTask: "Konversi Riset Skripsi ke Utas Edukasi", outputSample: "Carousel 7 Slide Edukasi Anti-Deepfake" },
-      { id: 12, name: "Umi Arsip", dir: 1, role: "Pustakawan Repositori Digital", skin: "#e0ac69", headType: "hijab", topColor: "#0369a1", headColor: "#0c4a6e", pants: "#0f172a", featured: false, desc: "Merapikan indeks metadata dokumen akademik fakultas secara otomatis.", defaultTask: "Indeksasi Metadata Repositori Skripsi", outputSample: "Katalog JSON/XML Terindeks Otomatis" },
+      // PILAR 2 (INTI ESAI): Penyangga Kognitif & Penalaran Mandiri Mahasiswa / Socratic Scaffolding (dir: 1, 5 Agen Inti)
+      { id: 13, name: "Kang Nalar", dir: 1, role: "Inti Socratic Scaffolding (4 Quest Cards)", skin: "#f1c27d", headType: "peci", topColor: "#9bc4e2", almamater: true, headColor: "#18181b", pants: "#1e293b", featured: true, desc: "INTI SISTEM (Hifz al-'Aql): Menolak pembuatan teks/joki instan! Memandu mahasiswa lewat 4 Quest Cards & 6 Level Bantuan Socratic (Level 0–5).", defaultTask: "Dekomposisi 4 Quest Cards & Dialog Socratic Lv.0-5", outputSample: "4 Kartu Misi Kognitif + Uji Transfer Mandiri Tanpa AI" },
+      { id: 14, name: "Teh Bayyin", dir: 1, role: "Auditor Sitasi Tabayyun & RAG DOI", skin: "#ffdbac", headType: "hijab", topColor: "#9bc4e2", almamater: true, headColor: "#1e3a8a", pants: "#1e293b", featured: true, desc: "Memvalidasi keaslian DOI jurnal primer via RAG dan mencegah fabrikasi sitasi halusinasi AI (QS. Al-Hujurat: 6 & QS. Al-Ahzab: 58).", defaultTask: "Audit Siber-Forensik DOI Jurnal Primer APA 7th", outputSample: "Laporan Validasi DOI & Bebas Halusinasi Sitasi" },
+      { id: 15, name: "Mas Logika", dir: 1, role: "Penguji Koherensi & Anti-Fallacy", skin: "#e0ac69", headType: "hair", topColor: "#b45309", headColor: "#27272a", pants: "#334155", featured: true, desc: "Menguji silogisme premis mayor-minor pada draf mahasiswa agar bebas dari lompatan logika (logical fallacy).", defaultTask: "Pemindaian Koherensi Premis Argumen Skripsi", outputSample: "Peta Umpan Balik Koherensi Argumen Kritis" },
+      { id: 16, name: "Mbak Terminologi", dir: 1, role: "Penyelaras Definisi Operasional APA 7th", skin: "#f1c27d", headType: "hijab", topColor: "#9bc4e2", almamater: true, headColor: "#92400e", pants: "#1e293b", featured: false, desc: "Membimbing mahasiswa membedakan konstruk teori psikologi yang mirip tanpa menyuapi kalimat jadi.", defaultTask: "Kalibrasi Definisi Operasional Variabel Riset", outputSample: "Matriks Pembeda Konstruk Teori Psikologi" },
+      { id: 17, name: "Cak Sanggah", dir: 1, role: "Simulator Pertanyaan Kritis Sidang", skin: "#c68642", headType: "peci", topColor: "#92400e", headColor: "#111827", pants: "#0f172a", featured: false, desc: "Melatih ketahanan mental dan penguasaan konsep mahasiswa melalui simulasi tanya-jawab sidang komprehensif.", defaultTask: "Simulasi Uji Penguasaan Konsep Mandiri", outputSample: "5 Pertanyaan Penguji & Evaluasi Kemandirian Nalar" },
 
-      // Direktorat 3: Kognitif & Scaffolding Mahasiswa (Zone 2: Central Hub Plaza)
-      { id: 13, name: "Kang Nalar", dir: 2, role: "Arsitek Dekomposisi Tugas", skin: "#f1c27d", headType: "peci", topColor: "#9bc4e2", almamater: true, headColor: "#18181b", pants: "#1e293b", featured: true, desc: "Memecah tugas besar/skripsi menjadi misi kerja mikro tanpa menyuapi teks instan.", defaultTask: "Dekomposisi Struktur Esai & Skripsi Mahasiswa", outputSample: "4 Blok Misi Kognitif (Non-Socratic Scaffolding)" },
-      { id: 14, name: "Teh Bayyin", dir: 2, role: "Verifikator Tabayyun & Sitasi", skin: "#ffdbac", headType: "hijab", topColor: "#9bc4e2", almamater: true, headColor: "#1e3a8a", pants: "#1e293b", featured: true, desc: "Memvalidasi keaslian DOI jurnal dan mendeteksi halusinasi AI (QS. Al-Ahzab: 58).", defaultTask: "Verifikasi Silang 18 Sitasi Jurnal APA 7th", outputSample: "Sertifikat Lolos Audit Tabayyun & Keaslian DOI" },
-      { id: 15, name: "Mas Logika", dir: 2, role: "Auditor Koherensi Paragraf", skin: "#e0ac69", headType: "hair", topColor: "#b45309", headColor: "#27272a", pants: "#334155", featured: false, desc: "Mendeteksi lompatan logika dan argumen yang kontradiktif di draf mahasiswa.", defaultTask: "Pemindaian Alur Premis Mayor-Minor", outputSample: "Peta Koherensi Argumen Tanpa Fallacy" },
-      { id: 16, name: "Mbak Terminologi", dir: 2, role: "Pemandu Konsep Operasional", skin: "#f1c27d", headType: "hijab", topColor: "#9bc4e2", almamater: true, headColor: "#92400e", pants: "#1e293b", featured: false, desc: "Menjelaskan istilah psikologi rumit dengan ilustrasi konkret yang membumi.", defaultTask: "Penyusunan Glosarium Definisi Operasional", outputSample: "Kamus Variabel Psikologi Siber & Indikator" },
-      { id: 17, name: "Cak Sanggah", dir: 2, role: "Simulator Sidang Proposal", skin: "#c68642", headType: "peci", topColor: "#92400e", headColor: "#111827", pants: "#0f172a", featured: false, desc: "Menguji ketahanan metodologi mahasiswa sebelum maju sidang skripsi.", defaultTask: "Simulasi Uji Ketahanan Metodologi", outputSample: "5 Prediksi Pertanyaan Penguji & Poin Jawaban" },
-      { id: 18, name: "Bang Portofolio", dir: 2, role: "Kurator Jejak Kompetensi", skin: "#e0ac69", headType: "hair", topColor: "#eab308", headColor: "#1e293b", pants: "#1e293b", featured: false, desc: "Merangkum proyek kuliah menjadi portofolio keahlian yang terverifikasi.", defaultTask: "Kompilasi Rekam Jejak Riset Mahasiswa", outputSample: "CV Akademik & Portofolio Terverifikasi" },
-
-      // Direktorat 4: Psikologi, Nafs & Well-Being (Zone 3: South-West Pavilion)
-      { id: 19, name: "Mang Nafsi", dir: 3, role: "Penjaga Beban Kognitif & Jiwa", skin: "#e0ac69", headType: "peci", topColor: "#9bc4e2", almamater: true, headColor: "#18181b", pants: "#1e293b", featured: true, desc: "Mendeteksi kelelahan digital dan memandu pemulihan energi mental mahasiswa.", defaultTask: "Pemantauan Telemetri Kelelahan Ketikan", outputSample: "Rekomendasi Jeda Kognitif & Pemulihan Nafs +25%" },
-      { id: 20, name: "Cak Jeda", dir: 3, role: "Instruktur Napas Somatis 4-7-8", skin: "#f1c27d", headType: "hair", topColor: "#f43f5e", headColor: "#3f2e21", pants: "#334155", featured: false, desc: "Memandu jeda pernapasan terstruktur di tepi kolam Sakinah saat stres.", defaultTask: "Sesi Relaksasi Ritme Pernapasan 4-7-8", outputSample: "Penurunan Ketegangan Simpatis & Tuma'ninah" },
-      { id: 21, name: "Teh Sejahtera", dir: 3, role: "Asisten Check-in Emosi Harian", skin: "#ffdbac", headType: "hijab", topColor: "#9bc4e2", almamater: true, headColor: "#881337", pants: "#1e293b", featured: false, desc: "Menyediakan ruang refleksi afektif singkat sebelum memulai sesi belajar.", defaultTask: "Asesmen Ecological Momentary Mood", outputSample: "Jurnal Regulasi Emosi Harian Mahasiswa" },
-      { id: 22, name: "Pak Taut", dir: 3, role: "Penghubung Konselor Psikolog", skin: "#c68642", headType: "peci", topColor: "#be123c", headColor: "#111827", pants: "#0f172a", featured: false, desc: "Jalur rujukan privat & aman ke unit konseling psikolog kampus.", defaultTask: "Penjadwalan Sesi Konseling Privat", outputSample: "Tiket Rujukan Terenkripsi ke Psikolog Kampus" },
-      { id: 23, name: "Ibu Asuh", dir: 3, role: "Penggerak Dukungan Sebaya", skin: "#f1c27d", headType: "hijab", topColor: "#f43f5e", headColor: "#9f1239", pants: "#1e293b", featured: false, desc: "Mempertemukan mahasiswa dengan kelompok belajar sebaya yang suportif.", defaultTask: "pencocokan Kelompok Belajar Peer-Support", outputSample: "Lingkar Belajar Kolaboratif 4 Mahasiswa" },
-      { id: 24, name: "Mas Muhasabah", dir: 3, role: "Penjaga Niat & Tazkiyatun Nafs", skin: "#e0ac69", headType: "peci", topColor: "#9bc4e2", almamater: true, headColor: "#18181b", pants: "#1e293b", featured: false, desc: "Menyegarkan kembali niat menuntut ilmu Lillahi Ta'ala saat jenuh melanda.", defaultTask: "Refleksi Adab & Orientasi Ilmu Insani", outputSample: "Lembar Muhasabah Keberkahan Ilmu" },
-
-      // Direktorat 5: Mediasi, Adab & Maslahat (Zone 4: South-East Pavilion)
-      { id: 25, name: "Ustadz Wasith", dir: 4, role: "Mediator Adab & Komunikasi", skin: "#e0ac69", headType: "peci", topColor: "#9333ea", headColor: "#ffffff", pants: "#1e293b", featured: true, desc: "Membimbing tata krama pesan bimbingan ke dosen dan merangkum progres revisi.", defaultTask: "Kurasi Adab Pesan Bimbingan & Ringkasan", outputSample: "Ringkasan Eksekutif 3 Poin Revisi untuk Dosen" },
-      { id: 26, name: "Mas Maslahah", dir: 4, role: "Penyelaras Dampak Masyarakat", skin: "#f1c27d", headType: "hair", topColor: "#9bc4e2", almamater: true, headColor: "#1e293b", pants: "#334155", featured: false, desc: "Menghubungkan topik riset kampus dengan persoalan nyata warga sekitar.", defaultTask: "Pemetaan Hilirisasi Riset Komunitas Sumsel", outputSample: "Rekomendasi Program Pengabdian Berbasis Riset" },
-      { id: 27, name: "Bu Mitra", dir: 4, role: "Penjodoh Magang & Industri", skin: "#ffdbac", headType: "hijab", topColor: "#7e22ce", headColor: "#4c1d95", pants: "#1e293b", featured: false, desc: "Memetakan kompetensi mahasiswa ke program magang mitra yang relevan.", defaultTask: "Sinkronisasi Kompetensi & Mitra Magang", outputSample: "3 Rekomendasi Penempatan Magang Psikologi" },
-      { id: 28, name: "Pak Amanah", dir: 4, role: "Penjaga Privasi & Forensik Data", skin: "#c68642", headType: "peci", topColor: "#6b21a8", headColor: "#111827", pants: "#0f172a", featured: false, desc: "Mengaudit kepatuhan UU PDP & perlindungan riwayat data sivitas.", defaultTask: "Anonimisasi PII & Audit UU PDP No. 27/2022", outputSample: "Log Keamanan Data Zero-PII Terverifikasi" },
-      { id: 29, name: "Teh Inklusi", dir: 4, role: "Adaptor Aksesibilitas Difabel", skin: "#f1c27d", headType: "hijab", topColor: "#9bc4e2", almamater: true, headColor: "#581c87", pants: "#1e293b", featured: false, desc: "Menyesuaikan format bahan ajar agar ramah bagi mahasiswa disabilitas.", defaultTask: "Konversi Modul ke Format Ramah Pembaca Layar", outputSample: "Dokumen Aksesibel Bersertifikasi Inklusi" },
-      { id: 30, name: "Kyai Pandu", dir: 4, role: "Dewan Etik Maqashid Syari'ah", skin: "#e0ac69", headType: "peci", topColor: "#581c87", headColor: "#ffffff", pants: "#0f172a", featured: false, desc: "Pengawas tertinggi agar seluruh otomasi AI kampus memuliakan nilai insani.", defaultTask: "Audit Kepatuhan Maqashid al-Syari'ah", outputSample: "Pengesahan Etik Hifz al-'Aql & Hifz an-Nafs" }
+      // PILAR 3: Direktorat Tabayyun, Mediasi Relasional Dosen-Mahasiswa & Keseimbangan Jiwa (dir: 2, 5 Agen Konektor)
+      { id: 19, name: "Mang Nafsi", dir: 2, role: "Monitor Energi Nafs & Burnout", skin: "#e0ac69", headType: "peci", topColor: "#9bc4e2", almamater: true, headColor: "#18181b", pants: "#1e293b", featured: true, desc: "Mendeteksi kelelahan ketikan mahasiswa maupun kejenuhan kerja dosen melalui 10 Bar Hati Energi Nafs.", defaultTask: "Pemantauan Telemetri Kelelahan Kognitif & Nudge", outputSample: "Peringatan Jeda Istirahat & Pemulihan Nafs +25%" },
+      { id: 20, name: "Cak Jeda", dir: 2, role: "Pemandu Napas Somatis 4-7-8 Sakinah", skin: "#f1c27d", headType: "hair", topColor: "#f43f5e", headColor: "#3f2e21", pants: "#334155", featured: false, desc: "Memandu regulasi pernapasan somatis 4-7-8 di tepi Kolam Taman Sakinah untuk meredakan techno-stress.", defaultTask: "Sesi Relaksasi Pernapasan Somatis 4-7-8", outputSample: "Pemulihan Tuma'ninah & Penurunan Ketegangan" },
+      { id: 25, name: "Ustadz Wasith", dir: 2, role: "Konektor Adab & Komitmen Kelas Dosen", skin: "#e0ac69", headType: "peci", topColor: "#9333ea", headColor: "#ffffff", pants: "#1e293b", featured: true, desc: "Jembatan penyeimbang dosen-mahasiswa: menghaluskan pesan bimbingan mahasiswa sekaligus mengingatkan dosen agar tidak mengosongkan kelas berminggu-minggu.", defaultTask: "Audit Komitmen Kehadiran Dosen & Kurasi Adab", outputSample: "Pengingat Hak Pembelajaran Mahasiswa & Pesan Santun" },
+      { id: 28, name: "Pak Amanah", dir: 2, role: "Auditor Privasi Data UU PDP No. 27/2022", skin: "#c68642", headType: "peci", topColor: "#6b21a8", headColor: "#111827", pants: "#0f172a", featured: false, desc: "Menyensor identitas pribadi (NIM, nama, nomor HP) pada pipeline n8n sebelum diproses oleh AI eksternal.", defaultTask: "Sanitasi Otomatis Data Pribadi Sivitas (Zero-PII)", outputSample: "Sertifikasi Kepatuhan Privasi UU PDP 2022" },
+      { id: 30, name: "Kyai Pandu", dir: 2, role: "Pengawal Etika Maqashid & Ta'dib", skin: "#e0ac69", headType: "peci", topColor: "#581c87", headColor: "#ffffff", pants: "#0f172a", featured: false, desc: "Menjaga keselarasan seluruh interaksi kampus dengan nilai Hifz al-'Aql, Hifz an-Nafs, dan Hifz al-'Irdh.", defaultTask: "Pengawasan Keadilan Relasi Akademik Kampus", outputSample: "Audit Kepatuhan Etika Maqashid al-Syari'ah" }
     ];
 
-    // Calculate Desk Coordinates (2 rows of 3 Computer Workstations inside each Directorate Pavilion)
-    // AND Home Coordinates inside the 6 Staff Housing Villas
+    // Calculate Desk Coordinates (5 Workstations per Pillar Pavilion)
     AGENTS.forEach((ag, index) => {
       const dir = DIRECTORATES[ag.dir];
-      const slotInDir = index % 6; // 0..5
-      const col = (slotInDir % 3) - 1; // -1, 0, 1
-      const row = Math.floor(slotInDir / 3); // 0 (front row), 1 (back row)
+      const slotInDir = index % 5; // 0..4
+      const offsets = [
+        [-6.5, -3.2], [0, -3.2], [6.5, -3.2],
+        [-3.5, 3.4], [3.5, 3.4]
+      ];
+      const [ox, oz] = offsets[slotInDir];
 
-      ag.deskX = dir.x + col * 7.2;
-      ag.deskZ = dir.z + (row === 0 ? -3.5 : 3.8);
+      ag.deskX = dir.x + ox;
+      ag.deskZ = dir.z + oz;
 
-      // Standing/Sitting spot right behind their computer desk facing the monitor (+Z)
       ag.workX = ag.deskX;
       ag.workZ = ag.deskZ - 1.15;
 
-      // Home bed/relax spot in the North Housing Village
       const house = STAFF_HOUSES[ag.dir];
-      ag.homeX = house.x + col * 3.2;
-      ag.homeZ = house.z + (row === 0 ? -2.0 : 2.2);
+      ag.homeX = house.x + (ox * 0.45);
+      ag.homeZ = house.z + (oz * 0.5);
 
-      // Start at workstation
       ag.x = ag.workX;
       ag.z = ag.workZ;
-      ag.status = (index % 5 === 0) ? "done" : "working"; // 'working', 'done', 'resting'
-      ag.progress = ag.status === "done" ? 100 : (35 + (index * 11) % 55);
-      ag.completedTasks = 2 + (index % 5);
+      ag.status = (index % 4 === 0) ? "done" : "working";
+      ag.progress = ag.status === "done" ? 100 : (45 + (index * 13) % 50);
+      ag.completedTasks = 3 + (index % 4);
     });
 
     // =========================================================================
@@ -699,6 +678,29 @@
           osc.start(now); osc.stop(now + 0.6);
         }
       } catch (e) {}
+    }
+
+    
+    // Faculty & Student Workhour Timer & Rest Prompt (Saran Bu Nisa KIMPSI VII)
+    let workSecondsLeft = 3 * 3600 + 45 * 60 + 12;
+    setInterval(() => {
+      if (globalShiftMode === 'work' && workSecondsLeft > 0) {
+        workSecondsLeft--;
+        const h = String(Math.floor(workSecondsLeft / 3600)).padStart(2, '0');
+        const m = String(Math.floor((workSecondsLeft % 3600) / 60)).padStart(2, '0');
+        const s = String(workSecondsLeft % 60).padStart(2, '0');
+        const el = document.getElementById('facultyTimerText');
+        if (el) el.innerText = h + ":" + m + ":" + s;
+        if (workSecondsLeft === 0) {
+          showToast("Waktu dinas kampus berakhir! Dosen & Mahasiswa berhak beristirahat. Mengaktifkan Rest Mode otomatis.");
+          setGlobalShift('rest');
+        }
+      }
+    }, 1000);
+
+    function toggleFacultyTimerPrompt() {
+      playVoxelSound('levelup');
+      showToast("Kesejahteraan Dosen (Faculty Wellbeing): Dosen juga manusia yang butuh jeda sehat agar terhindar dari burnout!");
     }
 
     function showToast(msg) {
@@ -948,14 +950,16 @@
       m.receiveShadow = true;
       scene.add(m);
     }
-    createWalkway(0, 0, 32, 26);    // Central Hub Plaza
-    createWalkway(0, -35, 6, 70);   // North-South Main Boulevard to Housing Village
-    createWalkway(0, 35, 6, 70);    // South Boulevard to Main Gate
-    createWalkway(-44, 0, 6, 74);   // West Avenue connecting Dir 1 & Dir 4
-    createWalkway(44, 0, 6, 74);    // East Avenue connecting Dir 2 & Dir 5
-    createWalkway(0, -34, 94, 5);   // North Cross Avenue
-    createWalkway(0, 34, 94, 5);    // South Cross Avenue
-    createWalkway(0, -56, 115, 4.5);// Asrama Village Street
+    createWalkway(0, 0, 30, 24);    // Central Hub Plaza (Pilar 2 Core)
+    createWalkway(0, -24, 6, 48);   // North Boulevard to Asrama Village
+    createWalkway(0, 28, 6, 60);    // South Boulevard to Main Gate
+    createWalkway(0, -6, 76, 6);    // Main East-West Connector (Pilar 1 <-> Pilar 2 <-> Pilar 3)
+    createWalkway(0, -48, 70, 4.5); // Asrama Village Street
+
+    // Build Sakinah Water Pond flanking Center Pillar 3
+    const pondMesh = new THREE.Mesh(new THREE.BoxGeometry(14, 0.4, 10), waterMat);
+    pondMesh.position.set(19, 0.12, 12);
+    scene.add(pondMesh);
 
     // South Main Landmark: Gerbang UIN Raden Fatah Palembang
     const gateGroup = new THREE.Group();
@@ -1121,10 +1125,8 @@
 
     AGENTS.forEach(ag => createComputerWorkstation(ag));
 
-    // Build Sakinah Water Pond & Trees
-    const pondMesh = new THREE.Mesh(new THREE.BoxGeometry(16, 0.4, 12), waterMat);
-    pondMesh.position.set(-22, 0.12, 34);
-    scene.add(pondMesh);
+    // Voxel Trees Collection across Campus
+
 
     function createVoxelTree(tx, tz) {
       const tree = new THREE.Group();
@@ -1280,7 +1282,7 @@
       }
     }
 
-    // Spawn Controllable Player Character wearing UIN Raden Fatah Palembang Almamater Jacket
+    // Spawn Controllable Player Character right in front of Pillar 2 (Kang Nalar & Teh Bayyin)
     let playerConfig = {
       name: "Anda (Mahasiswa UIN RF)",
       skin: "#f1c27d",
@@ -1291,7 +1293,7 @@
       pants: "#0f172a"
     };
     let playerMesh = createMinecraftCharacterMesh(playerConfig);
-    playerMesh.position.set(0, 0.3, 14);
+    playerMesh.position.set(0, 0.3, 8);
     scene.add(playerMesh);
 
     // Click Target Ring Indicator on Ground
@@ -1299,7 +1301,7 @@
     ringGeo.rotateX(-Math.PI / 2);
     const ringMat = new THREE.MeshBasicMaterial({ color: 0x38bdf8, side: THREE.DoubleSide });
     const targetRing = new THREE.Mesh(ringGeo, ringMat);
-    targetRing.position.set(0, 0.35, 14);
+    targetRing.position.set(0, 0.35, 8);
     targetRing.visible = false;
     scene.add(targetRing);
 
@@ -1320,7 +1322,7 @@
     // =========================================================================
     const playerState = {
       targetX: 0,
-      targetZ: 14,
+      targetZ: 8,
       speed: 0.32,
       moving: false,
       walkCycle: 0
@@ -1589,29 +1591,40 @@
       const bodyEl = document.getElementById('wbInteractiveBody');
       const maqashidEl = document.getElementById('wbMaqashidTag');
 
-      if (agent.id === 13) { // Kang Nalar
-        speechEl.innerText = `"Bismillah. Masukkan topik esai atau skripsimu. Komputer saya akan membedahnya menjadi 4 Blok Misi Kognitif (Non-Socratic Scaffolding) tanpa menyuapi teks instan."`;
-        maqashidEl.innerText = "Hifz al-'Aql (Menjaga Akal)";
+      if (agent.id === 13) { // Kang Nalar (Core Pillar 2: Socratic Scaffolding Level 0-5)
+        speechEl.innerText = `"Bismillah. Sebagai inti Pilar Kedua (Hifz al-'Aql), komputer saya menolak membuatkan paragraf instan. Mari kita pecah skripsimu menjadi 4 Quest Cards dengan 6 Level Bantuan Socratic!"`;
+        maqashidEl.innerText = "Pilar 2 • Hifz al-'Aql (Socratic)";
         bodyEl.innerHTML = `
           <div class="space-y-2.5">
             <label class="font-semibold text-amber-300 block">Topik Tugas Akhir / Riset Mahasiswa:</label>
-            <input id="inputNalarTopic" type="text" value="Dampak Ketergantungan AI Generatif terhadap Efikasi Diri Mahasiswa" class="w-full px-3 py-2 rounded bg-slate-950 border border-slate-700 text-slate-100">
+            <input id="inputNalarTopic" type="text" value="Dampak Ketergantungan AI Generatif terhadap Fungsi Eksekutif Mahasiswa" class="w-full px-3 py-1.5 rounded bg-slate-950 border border-slate-700 text-slate-100">
+            <div class="flex items-center justify-between gap-1 text-[10px] bg-slate-900 p-1.5 rounded border border-slate-700">
+              <span class="text-slate-300 font-semibold">Pilih Level Bantuan Socratic:</span>
+              <select id="selectSocraticLevel" onchange="executeKangNalar()" class="bg-slate-950 text-amber-300 border border-amber-500/40 rounded px-2 py-0.5 font-mono">
+                <option value="0">Lv.0 - Pertanyaan Terbuka</option>
+                <option value="1">Lv.1 - Klarifikasi Bukti</option>
+                <option value="2">Lv.2 - Petunjuk Konsep</option>
+                <option value="3">Lv.3 - Struktur Argumen</option>
+                <option value="4" selected>Lv.4 - Dekomposisi 4 Quest</option>
+                <option value="5">Lv.5 - Uji Transfer Mandiri</option>
+              </select>
+            </div>
             <button onclick="executeKangNalar()" class="mc-btn w-full py-2 rounded bg-amber-600 hover:bg-amber-500 text-white font-bold flex items-center justify-center gap-1.5">
-              <i class="ph-bold ph-cube"></i> Pecah Menjadi 4 Voxel Quest Blocks
+              <i class="ph-bold ph-Sparkle"></i> Terapkan Scaffolding Socratic (Anti-Joki)
             </button>
             <div id="outputNalarBlocks" class="space-y-2 pt-1"></div>
           </div>
         `;
         executeKangNalar();
       } else if (agent.id === 14) { // Teh Bayyin
-        speechEl.innerText = `"Ingat pesan QS. Al-Ahzab ayat 58 tentang bahaya tuduhan tanpa bukti. Mari kita tabayyun dan periksa apakah sitasi di drafmu sahih atau halusinasi AI."`;
-        maqashidEl.innerText = "Tabayyun & Cyber Forensics";
+        speechEl.innerText = `"Ingat pesan QS. Al-Ahzab ayat 58 & QS. Al-Hujurat: 6. Mari kita tabayyun dan audit apakah sitasi jurnal di drafmu sahih ber-DOI atau halusinasi AI."`;
+        maqashidEl.innerText = "Pilar 2 • Tabayyun & RAG DOI";
         bodyEl.innerHTML = `
           <div class="space-y-2.5">
             <label class="font-semibold text-cyan-300 block">Uji Klaim / Referensi Sitasi Mahasiswa:</label>
-            <textarea id="inputBayyinRef" rows="2" class="w-full px-3 py-2 rounded bg-slate-950 border border-slate-700 text-slate-100">Nashori, F. (2024). Psikologi Islam dan Ketahanan Mental di Era Transformasi Digital. Jurnal Psikologi Islam, 11(2).</textarea>
+            <textarea id="inputBayyinRef" rows="2" class="w-full px-3 py-2 rounded bg-slate-950 border border-slate-700 text-slate-100">Bastani, H., et al. (2025). Generative AI without guardrails can harm learning. PNAS, 122(26). https://doi.org/10.1073/pnas.2422633122</textarea>
             <div class="grid grid-cols-2 gap-2">
-              <button onclick="executeTehBayyin('valid')" class="mc-btn py-2 rounded bg-cyan-700 hover:bg-cyan-600 text-white font-bold">Cek Sumber Primer</button>
+              <button onclick="executeTehBayyin('valid')" class="mc-btn py-2 rounded bg-cyan-700 hover:bg-cyan-600 text-white font-bold">Audit DOI Primer</button>
               <button onclick="executeTehBayyin('fake')" class="mc-btn py-2 rounded bg-rose-800 hover:bg-rose-700 text-rose-100 font-bold">Simulasi Sitasi Palsu</button>
             </div>
             <div id="outputBayyinBox" class="pt-1"></div>
@@ -1619,22 +1632,63 @@
         `;
         executeTehBayyin('valid');
       } else if (agent.id === 19 || agent.id === 20) { // Mang Nafsi / Cak Jeda
-        speechEl.innerText = `"Indikator ketikanmu menunjukkan kelelahan kognitif. Mari ambil jeda pernapasan 4-7-8 di tepi kolam Sakinah."`;
-        maqashidEl.innerText = "Hifz an-Nafs (Menjaga Jiwa)";
+        speechEl.innerText = `"Pilar Ketiga menjaga keseimbangan jiwa (Hifz an-Nafs) bagi mahasiswa maupun dosen. Mari ambil jeda pernapasan 4-7-8 di tepi Kolam Sakinah."`;
+        maqashidEl.innerText = "Pilar 3 • Hifz an-Nafs (Sakinah)";
         bodyEl.innerHTML = `
-          <div class="p-4 rounded-xl bg-slate-950 border border-rose-800/60 text-center space-y-3">
-            <div id="sakinahOrb" class="w-24 h-24 mx-auto rounded-xl bg-rose-900/50 border-4 border-rose-400 flex items-center justify-center font-vt text-2xl text-white transition-all duration-1000">
+          <div class="p-3.5 rounded-xl bg-slate-950 border border-rose-800/60 text-center space-y-2.5">
+            <div id="sakinahOrb" class="w-20 h-20 mx-auto rounded-xl bg-rose-900/50 border-4 border-rose-400 flex items-center justify-center font-vt text-2xl text-white transition-all duration-1000">
               SIAP
             </div>
-            <p id="sakinahStatusText" class="text-slate-300">Tekan tombol di bawah untuk memunculkan partikel Sakinah 3D & memulihkan Energi Nafs +25%.</p>
+            <p id="sakinahStatusText" class="text-slate-300 text-[11px]">Memulihkan Energi Nafs +25% bagi Mahasiswa yang lelah mengetik maupun Dosen yang mengalami burnout administratif.</p>
             <button onclick="startVoxelBreathing()" id="btnStartBreath" class="mc-btn w-full py-2 rounded bg-rose-600 hover:bg-rose-500 text-white font-bold">
               Mulai Jeda Somatis 4-7-8
             </button>
           </div>
         `;
+      } else if (agent.id === 25) { // Ustadz Wasith (Pilar 3: Konektor Tabayyun Dosen-Mahasiswa)
+        speechEl.innerText = `"Di Pilar Ketiga (Direktorat Tabayyun), saya menjembatani adab mahasiswa kepada dosen sekaligus mengingatkan komitmen kehadiran & tanggung jawab pengajaran dosen kepada mahasiswa."`;
+        maqashidEl.innerText = "Pilar 3 • Hifz al-'Irdh & Keadilan";
+        bodyEl.innerHTML = `
+          <div class="space-y-2.5">
+            <div class="p-2.5 rounded-lg bg-purple-950/50 border border-purple-500/50 space-y-1">
+              <div class="font-bold text-purple-300 flex items-center justify-between">
+                <span>⚖️ Monitor Komitmen Pedagogis Dosen:</span>
+                <span class="text-[10px] bg-emerald-900 text-emerald-200 px-1.5 py-0.5 rounded">Terjadwal</span>
+              </div>
+              <p class="text-[11px] text-slate-300">Mencegah kelas kosong berlarut-larut atau perubahan jadwal mendadak di waktu tidak wajar, serta mengingatkan jam istirahat dosen.</p>
+            </div>
+            <label class="font-semibold text-purple-300 block">Kurator Adab Pesan Bimbingan Mahasiswa:</label>
+            <textarea id="inputWasithMsg" rows="2" class="w-full px-3 py-1.5 rounded bg-slate-950 border border-slate-700 text-slate-100">Bu, saya mau bimbingan bab 2 tapi masih bingung bagian teori cognitive load, kapan Ibu kosong?</textarea>
+            <button onclick="executeUstadzWasith()" class="mc-btn w-full py-2 rounded bg-purple-700 hover:bg-purple-600 text-white font-bold">
+              Haluskan Adab Pesan & Buat 3 Poin Progres
+            </button>
+            <div id="outputWasithBox" class="pt-1"></div>
+          </div>
+        `;
+        executeUstadzWasith();
+      } else if (agent.id === 1 || agent.id === 7) { // Pak Silabus / Kang Warta (Pilar 1: Dosen & Media)
+        speechEl.innerText = `"Pilar Pertama mengambil alih beban kognitif ekstrinsik dosen (Cognitive Load Theory) agar dosen terbebas dari burnout administratif dan fokus membimbing mahasiswa."`;
+        maqashidEl.innerText = "Pilar 1 • Reduksi Beban Dosen";
+        bodyEl.innerHTML = `
+          <div class="space-y-2.5">
+            <div class="p-3 rounded-lg bg-slate-950 border border-emerald-700/60 space-y-1.5">
+              <div class="text-emerald-400 font-bold flex items-center justify-between">
+                <span>Luaran Konkret Dosen (${agent.name}):</span>
+                <span class="text-[10px] font-mono text-amber-300">Human-in-the-Loop</span>
+              </div>
+              <p class="text-slate-200 font-medium">${agent.outputSample}</p>
+              <p class="text-[11px] text-slate-400">${agent.desc}</p>
+            </div>
+            <button onclick="executePilarSatuDemo('${agent.name}')" class="mc-btn w-full py-2 rounded bg-emerald-700 hover:bg-emerald-600 text-white font-bold">
+              Generate Draf Otomatis untuk Dosen
+            </button>
+            <div id="outputCustomAgent" class="pt-1"></div>
+          </div>
+        `;
+        executePilarSatuDemo(agent.name);
       } else {
         speechEl.innerText = `"${agent.desc} Anda dapat memeriksa luaran tugas saya di bawah ini atau memberi instruksi baru."`;
-        maqashidEl.innerText = "Khidmah Sivitas UIN RF";
+        maqashidEl.innerText = `${dirObj.pillar}`;
         bodyEl.innerHTML = `
           <div class="space-y-3">
             <div class="p-3 rounded-lg bg-slate-950 border border-slate-800 space-y-1.5">
@@ -1645,7 +1699,7 @@
               <p class="text-slate-200 font-medium">${agent.outputSample}</p>
               <p class="text-[11px] text-slate-400">${agent.desc}</p>
             </div>
-            <textarea rows="2" placeholder="Ketik instruksi kerja tambahan untuk ${agent.name}..." class="w-full px-3 py-2 rounded bg-slate-950 border border-slate-700 text-slate-100">Optimalkan luaran untuk kebutuhan akreditasi Fakultas Psikologi UIN Raden Fatah Palembang.</textarea>
+            <textarea rows="2" placeholder="Ketik instruksi kerja tambahan untuk ${agent.name}..." class="w-full px-3 py-2 rounded bg-slate-950 border border-slate-700 text-slate-100">Optimalkan luaran untuk mendukung integrasi 3 Pilar Fungsional Fakultas Psikologi UIN Raden Fatah Palembang.</textarea>
             <button onclick="executeCustomAgentTask('${agent.name}', ${agent.id})" class="mc-btn w-full py-2 rounded bg-emerald-700 hover:bg-emerald-600 text-white font-bold">
               Kirim Instruksi ke Komputer ${agent.name}
             </button>
@@ -1663,25 +1717,65 @@
     function executeKangNalar() {
       playVoxelSound('levelup');
       updateHudBars(-4, 15);
+      const lvlSelect = document.getElementById('selectSocraticLevel');
+      const lvl = lvlSelect ? lvlSelect.value : "4";
       const box = document.getElementById('outputNalarBlocks');
+      if (!box) return;
+
+      const socraticPrompts = {
+        "0": "<b>Level 0 (Pertanyaan Pemantik Terbuka):</b> Apa fenomena nyata di lingkungan kampusmu yang membuat topik ini mendesak untuk diteliti sendiri?",
+        "1": "<b>Level 1 (Klarifikasi Bukti Empiris):</b> Klaim awalmu menarik, tetapi data survei atau jurnal primer tahun berapa yang membuktikan variabel tersebut?",
+        "2": "<b>Level 2 (Petunjuk Konsep):</b> Perhatikan perbedaan antara <i>cognitive offloading</i> dan kemalasan biasa. Bagaimana teori Risko & Gilbert (2016) menjelaskannya?",
+        "3": "<b>Level 3 (Contoh Kerangka Parsial):</b> Susun premis mayormu dulu: [Fakta Lapangan] + [Risiko Psikologis] → [Kesenjangan Riset].",
+        "4": "<b>Level 4 (Dekomposisi 4 Quest Cards):</b> Tugas dipecah menjadi 4 misi berurutan di bawah ini agar kamu tetap menulis secara mandiri.",
+        "5": "<b>Level 5 (Uji Transfer Mandiri Tanpa AI):</b> Setelah memahami konsep ini, tuliskan 1 paragraf sintesis dengan bahasamu sendiri saat akses bantuan AI dikunci!"
+      };
+
       box.innerHTML = `
-        <div class="p-2.5 rounded bg-slate-950 border-l-4 border-amber-400 space-y-1.5">
+        <div class="p-2.5 rounded bg-amber-950/40 border border-amber-500/50 text-[11px] text-amber-200">
+          ${socraticPrompts[lvl]}
+        </div>
+        <div class="p-2.5 rounded bg-slate-950 border-l-4 border-amber-400 space-y-1">
           <div class="font-bold text-amber-300 flex items-center justify-between">
-            <span>BLOK MISI 1: Premis & Data Empiris</span>
+            <span>QUEST 1: Premis & Data Empiris</span>
             <span class="text-[10px] bg-amber-950 px-1.5 py-0.5 rounded">+15 XP</span>
           </div>
-          <p class="text-slate-300 text-[11px]">Petakan statistik lonjakan penggunaan AI instan mahasiswa & dampaknya pada kemandirian kognitif.</p>
+          <p class="text-slate-300 text-[11px]">Petakan kontras adopsi AI mahasiswa (98,1%) vs fondasi penalaran dasar PISA (18%).</p>
         </div>
-        <div class="p-2.5 rounded bg-slate-950 border-l-4 border-emerald-400 space-y-1.5">
-          <div class="font-bold text-emerald-300">BLOK MISI 2: Analisis Teori Psikologi</div>
-          <p class="text-slate-300 text-[11px]">Bedah dengan teori Cognitive Offloading & Self-Regulated Learning (Zimmerman).</p>
+        <div class="p-2.5 rounded bg-slate-950 border-l-4 border-emerald-400 space-y-1">
+          <div class="font-bold text-emerald-300">QUEST 2: Dekonstruksi Teori Psikologi</div>
+          <p class="text-slate-300 text-[11px]">Analisis mekanisme <i>Cognitive Offloading</i>, memori kerja, dan <i>Self-Regulated Learning</i>.</p>
         </div>
-        <div class="p-2.5 rounded bg-slate-950 border-l-4 border-cyan-400 space-y-1.5">
-          <div class="font-bold text-cyan-300">BLOK MISI 3: Integrasi Maqashid & QS. Al-Ahzab: 58</div>
-          <p class="text-slate-300 text-[11px]">Hubungkan kewajiban menjaga akal (Hifz al-'Aql) dan larangan fabrikasi bukti ilmiah.</p>
+        <div class="p-2.5 rounded bg-slate-950 border-l-4 border-cyan-400 space-y-1">
+          <div class="font-bold text-cyan-300">QUEST 3 & 4: Sintesis Maqashid & Verifikasi DOI</div>
+          <p class="text-slate-300 text-[11px]">Integrasikan penjagaan akal (<i>Hifz al-'Aql</i>) serta pastikan nol sitasi halusinasi di meja Teh Bayyin.</p>
         </div>
-        <div class="text-[10px] text-slate-400 italic pt-1">
-          *Kang Nalar sengaja mengunci fitur pembuatan paragraf otomatis agar keaslian esaimu terjaga (< 40% AI Checker KIMPSI).
+      `;
+    }
+
+    function executeUstadzWasith() {
+      playVoxelSound('click');
+      updateHudBars(0, 15);
+      const box = document.getElementById('outputWasithBox');
+      if (!box) return;
+      box.innerHTML = `
+        <div class="p-3 rounded-lg bg-slate-950 border border-purple-500/60 space-y-1.5 text-[11px]">
+          <div class="font-bold text-purple-300">✔ Draf Pesan Santun & Terstruktur (Ta'dib):</div>
+          <p class="text-slate-200 italic">"Assalamu'alaikum wr. wb. Ibu, mohon maaf mengganggu waktunya. Saya Fatih (NIM 23041460126), izin melaporkan 3 poin progres Bab 2 terkait Cognitive Load Theory yang telah saya susun mandiri, serta memohon arahan jadwal bimbingan pada jam kerja Ibu. Terima kasih banyak, Ibu."</p>
+          <div class="text-[10px] text-emerald-400 pt-1">✓ Mengingatkan hak bimbingan mahasiswa & menghormati jam istirahat dosen.</div>
+        </div>
+      `;
+    }
+
+    function executePilarSatuDemo(agentName) {
+      playVoxelSound('levelup');
+      updateHudBars(0, 15);
+      const box = document.getElementById('outputCustomAgent');
+      if (!box) return;
+      box.innerHTML = `
+        <div class="p-3 rounded-lg bg-emerald-950/60 border border-emerald-500/60 space-y-1 text-[11px]">
+          <div class="font-bold text-emerald-300">✔ Beban Administratif Dosen Terpangkas:</div>
+          <p class="text-slate-200"><b>${agentName}</b> telah menyiapkan draf matriks RPS OBE, rubrik analitik, dan papan cerita media ajar dalam 8 detik. Dosen memegang kendali penuh (<i>human-in-the-loop</i>) dan terhindar dari <i>burnout</i>.</p>
         </div>
       `;
     }
@@ -1754,7 +1848,7 @@
     function executePakSilabus() {
       playVoxelSound('click');
       updateHudBars(0, 15);
-      document.getElementById('outputSilabusBox').innerHTML = `
+      const silabusEl = document.getElementById('outputSilabusBox') || document.getElementById('outputCustomAgent'); if (silabusEl) silabusEl.innerHTML = `
         <div class="p-3 rounded bg-slate-950 border border-emerald-700/60 space-y-1.5 text-[11px]">
           <div class="font-bold text-emerald-300">Matriks RPS OBE Terbentuk:</div>
           <div class="p-1.5 bg-slate-900 rounded"><b>Pekan 1–4:</b> Epistemologi Psikologi Islam & Bias Kognitif Siber</div>
@@ -1768,7 +1862,7 @@
     function executeKangWarta() {
       playVoxelSound('click');
       updateHudBars(0, 15);
-      document.getElementById('outputWartaBox').innerHTML = `
+      const wartaEl = document.getElementById('outputWartaBox') || document.getElementById('outputCustomAgent'); if (wartaEl) wartaEl.innerHTML = `
         <div class="p-3 rounded-lg bg-gradient-to-br from-emerald-950 to-slate-900 border border-sky-500/50 text-center space-y-1.5">
           <span class="text-[9px] px-2 py-0.5 bg-sky-500/20 text-sky-300 rounded-full">SUBDOMAIN KAMPUS AKTIF</span>
           <div class="font-vt text-xl text-white">SIMPOSIUM NASIONAL PSIKOLOGI ISLAM 2026</div>
@@ -1820,7 +1914,11 @@
     function renderRosterGrid(dirFilter) {
       const grid = document.getElementById('rosterGridContainer');
       grid.innerHTML = '';
-      const list = dirFilter === 'all' ? AGENTS : AGENTS.filter(a => a.dir === dirFilter);
+      let list = AGENTS;
+      if (dirFilter === 'pilar1') list = AGENTS.filter(a => a.dir === 0);
+      else if (dirFilter === 'pilar2') list = AGENTS.filter(a => a.dir === 1);
+      else if (dirFilter === 'pilar3') list = AGENTS.filter(a => a.dir === 2);
+      else if (dirFilter !== 'all') list = AGENTS.filter(a => a.dir === dirFilter);
 
       list.forEach((ag) => {
         const card = document.createElement('div');
@@ -1933,20 +2031,41 @@
         : "ph-bold ph-speaker-slash text-base text-rose-400";
     }
 
+    function toggleSkyTime() {
+      playVoxelSound('click');
+      isNightMode = !isNightMode;
+      const iconEl = document.getElementById('skyIcon');
+      const textEl = document.getElementById('skyText');
+      if (isNightMode) {
+        scene.background.setHex(0x090d16);
+        scene.fog.color.setHex(0x090d16);
+        ambientLight.intensity = 0.38;
+        sunLight.intensity = 0.25;
+        if (iconEl) iconEl.className = "ph-bold ph-moon-stars text-purple-300";
+        if (textEl) textEl.innerText = "Malam (Pengingat Istirahat)";
+        showToast("Mode Malam Kampus: Pengingat Etis agar Dosen & Mahasiswa Beristirahat!");
+      } else {
+        scene.background.setHex(0x7dd3fc);
+        scene.fog.color.setHex(0x7dd3fc);
+        ambientLight.intensity = 0.74;
+        sunLight.intensity = 0.88;
+        if (iconEl) iconEl.className = "ph-bold ph-sun text-amber-300";
+        if (textEl) textEl.innerText = "Pagi Cerah";
+        showToast("Mode Pagi Cerah: Jam Produktif Kampus UIN Raden Fatah Palembang");
+      }
+    }
+
     // =========================================================================
     // 9. MAIN ANIMATION LOOP (LIMB SWINGING, HEAD TRACKING & 3D PROJECTION)
     // =========================================================================
-    // 9. MAIN ANIMATION LOOP (TYPING AT COMPUTERS, WALKING HOME & PITCH/YAW CAM)
-    // =========================================================================
     const clock = new THREE.Clock();
-    const tempVec = new THREE.Vector3();
-    let lastLabelRefresh = 0;
 
     function animateVoxelWorld() {
       requestAnimationFrame(animateVoxelWorld);
-      const elapsedTime = clock.getElapsedTime();
+      const dt = clock.getDelta();
+      const elapsed = clock.getElapsedTime();
 
-      // 1. Handle Keyboard WASD / Arrow Movement
+      // 1. Handle Keyboard WASD / Arrow Movement for Player
       let moveX = 0;
       let moveZ = 0;
       if (keyMap['w'] || keyMap['arrowup']) moveZ -= 1;
@@ -1956,21 +2075,27 @@
 
       if (moveX !== 0 || moveZ !== 0) {
         const len = Math.hypot(moveX, moveZ);
-        const forwardX = (moveX / len) * Math.cos(cameraYaw) + (moveZ / len) * Math.sin(cameraYaw);
-        const forwardZ = -(moveX / len) * Math.sin(cameraYaw) + (moveZ / len) * Math.cos(cameraYaw);
+        const forwardX = Math.sin(cameraYaw);
+        const forwardZ = Math.cos(cameraYaw);
+        const rightX = Math.cos(cameraYaw);
+        const rightZ = -Math.sin(cameraYaw);
 
-        playerMesh.position.x = Math.max(-86, Math.min(86, playerMesh.position.x + forwardX * playerState.speed));
-        playerMesh.position.z = Math.max(-86, Math.min(86, playerMesh.position.z + forwardZ * playerState.speed));
+        const worldDx = (moveZ * forwardX + moveX * rightX) / len;
+        const worldDz = (moveZ * forwardZ + moveX * rightZ) / len;
+
+        playerMesh.position.x = Math.max(-86, Math.min(86, playerMesh.position.x + worldDx * playerState.speed));
+        playerMesh.position.z = Math.max(-86, Math.min(86, playerMesh.position.z + worldDz * playerState.speed));
         playerState.targetX = playerMesh.position.x;
         playerState.targetZ = playerMesh.position.z;
-        playerMesh.rotation.y = Math.atan2(forwardX, forwardZ);
+        playerMesh.rotation.y = Math.atan2(worldDx, worldDz);
         playerState.moving = true;
         targetRing.visible = false;
       } else {
+        // Move towards clicked ground/agent target
         const dx = playerState.targetX - playerMesh.position.x;
         const dz = playerState.targetZ - playerMesh.position.z;
         const dist = Math.hypot(dx, dz);
-        if (dist > 0.38) {
+        if (dist > 0.35) {
           playerMesh.position.x += (dx / dist) * playerState.speed;
           playerMesh.position.z += (dz / dist) * playerState.speed;
           playerMesh.rotation.y = Math.atan2(dx, dz);
@@ -1981,150 +2106,128 @@
         }
       }
 
-      // 2. Animate Player Limbs
+      // Animate Player Limbs
       const pRig = playerMesh.userData;
       if (playerState.moving) {
-        playerState.walkCycle += 0.25;
-        const swing = Math.sin(playerState.walkCycle) * 0.68;
-        pRig.leftArm.rotation.x = swing;
-        pRig.rightArm.rotation.x = -swing;
-        pRig.leftLeg.rotation.x = -swing;
-        pRig.rightLeg.rotation.x = swing;
+        playerState.walkCycle += dt * 11;
+        pRig.leftLeg.rotation.x = Math.sin(playerState.walkCycle) * 0.65;
+        pRig.rightLeg.rotation.x = -Math.sin(playerState.walkCycle) * 0.65;
+        pRig.leftArm.rotation.x = -Math.sin(playerState.walkCycle) * 0.55;
+        pRig.rightArm.rotation.x = Math.sin(playerState.walkCycle) * 0.55;
       } else {
-        pRig.leftArm.rotation.x = Math.sin(elapsedTime * 2) * 0.06;
-        pRig.rightArm.rotation.x = -Math.sin(elapsedTime * 2) * 0.06;
         pRig.leftLeg.rotation.x = 0;
         pRig.rightLeg.rotation.x = 0;
+        pRig.leftArm.rotation.x = Math.sin(elapsed * 2) * 0.05;
+        pRig.rightArm.rotation.x = -Math.sin(elapsed * 2) * 0.05;
       }
 
-      // 3. Detect Active Zone for HUD
-      let currentZoneTitle = "Plaza Tengah UIN Raden Fatah";
-      if (playerMesh.position.z < -50) {
-        currentZoneTitle = "Kompleks Perumahan & Asrama Staf AI";
-      } else if (playerMesh.position.z > 50) {
-        currentZoneTitle = "Gerbang Utama UIN Raden Fatah Palembang";
-      } else {
-        for (const d of DIRECTORATES) {
-          if (Math.hypot(playerMesh.position.x - d.x, playerMesh.position.z - d.z) < 16) {
-            currentZoneTitle = d.short;
-            break;
+      // Update Zone Indicator on Top HUD
+      const px = playerMesh.position.x;
+      const pz = playerMesh.position.z;
+      const zoneEl = document.getElementById('hudZoneLabel');
+      if (zoneEl) {
+        if (pz < -32) zoneEl.innerText = "Wisma Asrama AI (Mode Istirahat Dosen & Mahasiswa)";
+        else if (px < -18) zoneEl.innerText = "Pilar 1 (Sayap Kiri): Reduksi Beban Dosen & Otomasi Media";
+        else if (px > 18) zoneEl.innerText = "Pilar 2 (Sayap Kanan): Balai Nalar Socratic & Skripsi Mahasiswa";
+        else zoneEl.innerText = "Pilar 3 (TENGAH): Konektor Tabayyun, Mediasi Relasi & Nafs";
+      }
+
+      // 2. Animate All 15 Essential Voxel AI Staff
+      npcMeshes.forEach((npc) => {
+        const u = npc.userData;
+        const ag = u.agentData;
+
+        // Determine target position based on shift state
+        const destX = ag.status === 'resting' ? ag.homeX : ag.workX;
+        const destZ = ag.status === 'resting' ? ag.homeZ : ag.workZ;
+        const dx = destX - npc.position.x;
+        const dz = destZ - npc.position.z;
+        const dist = Math.hypot(dx, dz);
+
+        if (dist > 0.28) {
+          // Walking between Directorate Office and Housing Village
+          npc.position.x += (dx / dist) * 0.22;
+          npc.position.z += (dz / dist) * 0.22;
+          npc.rotation.y = Math.atan2(dx, dz);
+          u.leftLeg.rotation.x = Math.sin(elapsed * 10 + u.phase) * 0.55;
+          u.rightLeg.rotation.x = -Math.sin(elapsed * 10 + u.phase) * 0.55;
+          u.leftArm.rotation.x = -Math.sin(elapsed * 10 + u.phase) * 0.45;
+          u.rightArm.rotation.x = Math.sin(elapsed * 10 + u.phase) * 0.45;
+        } else {
+          npc.position.x = destX;
+          npc.position.z = destZ;
+          u.leftLeg.rotation.x = 0;
+          u.rightLeg.rotation.x = 0;
+
+          if (ag.status === 'working') {
+            // Face computer monitor (+Z) and type actively
+            npc.rotation.y = 0;
+            u.leftArm.rotation.x = -0.65 + Math.sin(elapsed * 12 + u.phase) * 0.18;
+            u.rightArm.rotation.x = -0.65 - Math.sin(elapsed * 12 + u.phase) * 0.18;
+
+            // Increment task progress slowly
+            ag.progress = Math.min(100, ag.progress + dt * 1.8);
+            if (ag.progress >= 100) {
+              ag.status = "done";
+              ag.completedTasks++;
+              if (monitorScreenMaterials[ag.id]) monitorScreenMaterials[ag.id].color.setHex(0x10b981);
+              updateWorkforceCounters();
+              if (selectedAgentId === ag.id) refreshWorkbenchLiveStatus();
+            }
+          } else if (ag.status === 'done') {
+            // Face outward welcomingly
+            npc.rotation.y = Math.sin(elapsed * 0.8 + u.phase) * 0.25;
+            u.leftArm.rotation.x = Math.sin(elapsed * 2 + u.phase) * 0.06;
+            u.rightArm.rotation.x = -Math.sin(elapsed * 2 + u.phase) * 0.06;
+          } else {
+            // Resting calmly at Wisma Asrama
+            npc.rotation.y = Math.PI;
+            u.leftArm.rotation.x = 0;
+            u.rightArm.rotation.x = 0;
           }
         }
-      }
-      document.getElementById('hudZoneLabel').innerText = currentZoneTitle;
 
-      // 4. Animate Sakinah Healing Particles
+        // Update 2D Floating HTML Label over each NPC in 3D space
+        if (u.labelEl) {
+          refreshAgentLabelHTML(ag, u.labelEl);
+          const headPos = new THREE.Vector3(npc.position.x, npc.position.y + 4.3, npc.position.z);
+          headPos.project(camera);
+          const camDistToNpc = camera.position.distanceTo(npc.position);
+          if (headPos.z < 1 && camDistToNpc < 95) {
+            const screenX = (headPos.x * 0.5 + 0.5) * window.innerWidth;
+            const screenY = (-(headPos.y * 0.5) + 0.5) * window.innerHeight;
+            u.labelEl.style.left = `${screenX}px`;
+            u.labelEl.style.top = `${screenY}px`;
+            u.labelEl.style.display = (ag.featured || camDistToNpc < 52) ? 'block' : 'none';
+          } else {
+            u.labelEl.style.display = 'none';
+          }
+        }
+      });
+
+      // 3. Animate Sakinah Healing Particles when active
       if (particleGroup.visible) {
         particleGroup.position.copy(playerMesh.position);
         particleGroup.children.forEach((p, idx) => {
-          const angle = elapsedTime * 2.5 + idx * 0.6;
+          const angle = elapsed * 2.5 + idx * 0.6;
           p.position.set(
             Math.cos(angle) * 1.8,
-            1.2 + Math.sin(elapsedTime * 3 + idx) * 1.1,
+            1.0 + ((elapsed * 1.5 + idx * 0.25) % 3.2),
             Math.sin(angle) * 1.8
           );
         });
       }
 
-      // 5. Full 3D Spherical Camera (Pitch Atas-Bawah + Yaw + Zoom)
-      cameraTarget.lerp(new THREE.Vector3(playerMesh.position.x, 2.2, playerMesh.position.z), 0.12);
-      const horizRadius = cameraDist * Math.cos(cameraPitch);
-      const camX = cameraTarget.x + Math.sin(cameraYaw) * horizRadius;
-      const camZ = cameraTarget.z + Math.cos(cameraYaw) * horizRadius;
-      const camY = Math.max(1.8, cameraTarget.y + cameraDist * Math.sin(cameraPitch));
-
-      camera.position.lerp(new THREE.Vector3(camX, camY, camZ), 0.14);
+      // 4. Smooth Camera Follow around Player Avatar
+      cameraTarget.lerp(new THREE.Vector3(playerMesh.position.x, 2.0, playerMesh.position.z), 0.12);
+      const horizDist = cameraDist * Math.cos(cameraPitch);
+      const vertDist = cameraDist * Math.sin(cameraPitch);
+      camera.position.set(
+        cameraTarget.x + horizDist * Math.sin(cameraYaw),
+        Math.max(2.2, cameraTarget.y + vertDist),
+        cameraTarget.z + horizDist * Math.cos(cameraYaw)
+      );
       camera.lookAt(cameraTarget);
-
-      // 6. Animate all 30 AI Employees (Walk between Computer Desk and Housing Villa, or Type at Keyboard)
-      const shouldRefreshDOM = (elapsedTime - lastLabelRefresh) > 0.45;
-      if (shouldRefreshDOM) lastLabelRefresh = elapsedTime;
-
-      npcMeshes.forEach((npc) => {
-        const u = npc.userData;
-        const ag = u.agentData;
-
-        // Determine destination: Home Bed if resting, Computer Desk if working/done
-        const destX = ag.status === 'resting' ? ag.homeX : ag.workX;
-        const destZ = ag.status === 'resting' ? ag.homeZ : ag.workZ;
-        const dx = destX - npc.position.x;
-        const dz = destZ - npc.position.z;
-        const distToDest = Math.hypot(dx, dz);
-
-        if (distToDest > 0.35) {
-          // Physically walk along campus paths toward destination
-          const npcSpeed = 0.20;
-          npc.position.x += (dx / distToDest) * npcSpeed;
-          npc.position.z += (dz / distToDest) * npcSpeed;
-          npc.rotation.y = Math.atan2(dx, dz);
-
-          const wSwing = Math.sin(elapsedTime * 10 + u.phase) * 0.65;
-          u.leftArm.rotation.x = wSwing;
-          u.rightArm.rotation.x = -wSwing;
-          u.leftLeg.rotation.x = -wSwing;
-          u.rightLeg.rotation.x = wSwing;
-        } else {
-          // Arrived at Desk or Home!
-          u.leftLeg.rotation.x = 0;
-          u.rightLeg.rotation.x = 0;
-
-          if (ag.status === 'working') {
-            // Face the computer monitor (+Z) and animate rapid keyboard typing
-            npc.rotation.y = 0;
-            u.leftArm.rotation.x = -0.75 + Math.sin(elapsedTime * 18 + u.phase) * 0.18;
-            u.rightArm.rotation.x = -0.75 + Math.cos(elapsedTime * 18 + u.phase) * 0.18;
-
-            // Increment task progress automatically
-            ag.progress += 0.045;
-            if (ag.progress >= 100) {
-              ag.progress = 100;
-              ag.status = "done";
-              ag.completedTasks++;
-              if (monitorScreenMaterials[ag.id]) monitorScreenMaterials[ag.id].color.setHex(0x10b981);
-              if (ag.id === selectedAgentId) refreshWorkbenchLiveStatus();
-              updateWorkforceCounters();
-            }
-          } else if (ag.status === 'done') {
-            // Face player when close or face monitor proudly
-            const distToPlayer = npc.position.distanceTo(playerMesh.position);
-            if (distToPlayer < 9) {
-              npc.rotation.y = Math.atan2(playerMesh.position.x - npc.position.x, playerMesh.position.z - npc.position.z);
-            } else {
-              npc.rotation.y = 0;
-            }
-            u.leftArm.rotation.x = Math.sin(elapsedTime * 2 + u.phase) * 0.08;
-            u.rightArm.rotation.x = -Math.sin(elapsedTime * 2 + u.phase) * 0.08;
-          } else {
-            // Resting at Home Villa
-            npc.rotation.y = Math.PI;
-            u.leftArm.rotation.x = Math.sin(elapsedTime * 1.2 + u.phase) * 0.04;
-            u.rightArm.rotation.x = -Math.sin(elapsedTime * 1.2 + u.phase) * 0.04;
-          }
-        }
-
-        if (shouldRefreshDOM) {
-          refreshAgentLabelHTML(ag, u.labelEl);
-          if (ag.id === selectedAgentId && ag.status === 'working') {
-            refreshWorkbenchLiveStatus();
-          }
-        }
-
-        // Project 2D HTML Status Label above 3D Character
-        const distToPlayer = npc.position.distanceTo(playerMesh.position);
-        tempVec.copy(npc.position);
-        tempVec.y += 4.35;
-        tempVec.project(camera);
-
-        if (tempVec.z < 1 && (ag.featured || distToPlayer < 28 || cameraDist > 45)) {
-          const sx = (tempVec.x * 0.5 + 0.5) * window.innerWidth;
-          const sy = (-(tempVec.y * 0.5) + 0.5) * window.innerHeight;
-          u.labelEl.style.left = `${sx}px`;
-          u.labelEl.style.top = `${sy}px`;
-          u.labelEl.style.display = 'block';
-        } else {
-          u.labelEl.style.display = 'none';
-        }
-      });
 
       renderer.render(scene, camera);
     }
@@ -2135,13 +2238,12 @@
       renderer.setSize(window.innerWidth, window.innerHeight);
     });
 
-    window.onload = () => {
+    window.onload = function () {
       updateHudBars(0, 0);
       adjustCamera(0, 0, 0);
-      AGENTS.forEach(ag => {
-        const npc = npcMeshes.find(m => m.userData.agentData.id === ag.id);
-        if (npc) refreshAgentLabelHTML(ag, npc.userData.labelEl);
-      });
+      // Langsung buka panel Ustadz Wasith (Pilar 3: Konektor Tabayyun & Relasi Dosen-Mahasiswa di Tengah)
+      const centerAgent = AGENTS.find(a => a.id === 25) || AGENTS.find(a => a.id === 13);
+      if (centerAgent) openAgentWorkbench(centerAgent);
       animateVoxelWorld();
     };
   </script>
