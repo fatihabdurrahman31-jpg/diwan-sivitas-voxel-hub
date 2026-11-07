@@ -1930,7 +1930,7 @@
     // =========================================================================
     // 11. MULTI-MODAL DOCUMENT & PDF INGESTION PIPELINE (SIVITAS WORKFLOW)
     // =========================================================================
-    let currentUploadedDoc = null;
+    var currentUploadedDoc = null;
 
     function renderDocUploadZone(placeholderText = "Unggah Draf Berkas PDF / Dokumen", defaultSample = "makalah") {
       const sampleNames = {
@@ -2005,8 +2005,8 @@
 
     // 10. LIVE N8N BACKEND DISPATCHER & OUTPUT FORMATTER
     // =========================================================================
-    let n8nWebhookUrl = "http://localhost:5678/webhook/diwan-sivitas-router";
-    let userDeepseekKey = localStorage.getItem('diwan_deepseek_key') || "";
+    var n8nWebhookUrl = "http://localhost:5678/webhook/diwan-sivitas-router";
+    var userDeepseekKey = (typeof localStorage !== "undefined" ? localStorage.getItem("diwan_deepseek_key") : "") || "";
 
     function saveDeepseekKey() {
       const el = document.getElementById('inputDeepseekApiKey');
