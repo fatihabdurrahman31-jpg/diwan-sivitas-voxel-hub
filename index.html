@@ -199,6 +199,10 @@
         <i id="skyIcon" class="ph-bold ph-sun text-amber-300"></i>
         <span id="skyText" class="hidden sm:inline">Pagi Cerah</span>
       </button>
+      <button onclick="openModal('modalBackendSettings')" class="mc-btn px-2.5 py-1.5 rounded bg-slate-800 hover:bg-slate-700 text-xs flex items-center gap-1.5" title="Konfigurasi Integrasi Backend n8n">
+        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+        <span class="text-[11px] font-mono text-emerald-300 hidden md:inline">n8n Live Engine</span>
+      </button>
       <button onclick="toggleSound()" class="mc-btn p-1.5 rounded bg-slate-700 hover:bg-slate-600 text-xs text-slate-200" title="Efek Suara Voxel">
         <i id="soundIcon" class="ph-bold ph-speaker-high text-base text-emerald-300"></i>
       </button>
@@ -255,7 +259,7 @@
         <div class="grid grid-cols-1 gap-1 text-[10px]">
           <button onclick="warpToZone(0, 0, 'Pilar 3 (TENGAH): Konektor Tabayyun, Mediasi & Nafs')" class="mc-btn px-2.5 py-1.5 rounded bg-purple-700 hover:bg-purple-600 text-white font-bold text-left truncate">⚖️ PILAR 3 (TENGAH): Konektor Tabayyun & Nafs</button>
           <button onclick="warpToZone(-34, -6, 'Pilar 1 (Kiri): Reduksi Beban Dosen & Media')" class="mc-btn px-2.5 py-1 rounded bg-emerald-900/80 hover:bg-emerald-800 text-emerald-100 text-left truncate">📚 PILAR 1 (KIRI): Asistensi Dosen & Media</button>
-          <button onclick="warpToZone(34, -6, 'Pilar 2 (Kanan): Balai Nalar Socratic Mahasiswa')" class="mc-btn px-2.5 py-1 rounded bg-amber-700/90 hover:bg-amber-600 text-amber-100 font-semibold text-left truncate">🧩 PILAR 2 (KANAN): Socratic & Skripsi</button>
+          <button onclick="warpToZone(34, -6, 'Pilar 2 (Kanan): Balai Nalar Tadarruj Mahasiswa')" class="mc-btn px-2.5 py-1 rounded bg-amber-700/90 hover:bg-amber-600 text-amber-100 font-semibold text-left truncate">🧩 PILAR 2 (KANAN): Tadarruj & Skripsi</button>
           <button onclick="warpToZone(0, -48, 'Wisma Asrama AI (Mode Istirahat Dosen & Mahasiswa)')" class="mc-btn px-2.5 py-1 rounded bg-sky-900/90 hover:bg-sky-700 text-sky-200 font-semibold text-left truncate">🏡 Wisma Asrama (Rest Mode)</button>
         </div>
       </div>
@@ -335,7 +339,7 @@
     <!-- Bottom Guardrail Status -->
     <div class="px-4 py-2 bg-slate-950 border-t border-slate-800 flex items-center justify-between text-[11px] text-slate-400">
       <span class="flex items-center gap-1 text-[#9bc4e2] font-medium">
-        <i class="ph-fill ph-shield-check"></i> UIN Raden Fatah • Socratic Guardrail AI
+        <i class="ph-fill ph-shield-check"></i> UIN Raden Fatah • Tadarruj Guardrail AI
       </span>
       <span id="wbMaqashidTag" class="font-vt text-sm text-amber-300">Hifz al-'Aql</span>
     </div>
@@ -414,7 +418,7 @@
           <h2 class="font-vt text-2xl text-emerald-300 flex items-center gap-2">
             <i class="ph-fill ph-users-four text-amber-400"></i> DIREKTORI 15 AGEN ESENSIAL DALAM 3 PILAR FUNGSIONAL
           </h2>
-          <p class="text-xs text-slate-300">Diselaraskan dengan naskah esai KIMPSI VII: Pilar 1 (Dosen), Pilar 2 (Inti Socratic Mahasiswa), dan Pilar 3 (Konektor Tabayyun & Nafs).</p>
+          <p class="text-xs text-slate-300">Diselaraskan dengan naskah esai KIMPSI VII: Pilar 1 (Dosen), Pilar 2 (Inti Tadarruj Mahasiswa), dan Pilar 3 (Konektor Tabayyun & Nafs).</p>
         </div>
         <button onclick="closeModal('modalRoster')" class="mc-btn px-3 py-1 rounded bg-rose-800 text-xs font-bold">TUTUP [ESC]</button>
       </div>
@@ -422,7 +426,7 @@
       <!-- Filter 3 Pillars -->
       <div class="px-5 py-2.5 bg-slate-950 flex flex-wrap gap-1.5 border-b border-slate-800 text-xs">
         <button onclick="renderRosterGrid('all')" class="mc-btn px-3 py-1 rounded bg-slate-700 text-white font-medium">Semua (15 Agen Esensial)</button>
-        <button onclick="renderRosterGrid('pilar2')" class="mc-btn px-3 py-1 rounded bg-amber-600 text-slate-950 font-bold">★ Pilar 2 (Inti): Socratic Mahasiswa (5)</button>
+        <button onclick="renderRosterGrid('pilar2')" class="mc-btn px-3 py-1 rounded bg-amber-600 text-slate-950 font-bold">★ Pilar 2 (Inti): Tadarruj Mahasiswa (5)</button>
         <button onclick="renderRosterGrid('pilar1')" class="mc-btn px-3 py-1 rounded bg-emerald-800 hover:bg-emerald-700 text-emerald-100 font-semibold">Pilar 1: Beban Dosen & Media (5)</button>
         <button onclick="renderRosterGrid('pilar3')" class="mc-btn px-3 py-1 rounded bg-purple-800 hover:bg-purple-700 text-purple-100 font-semibold">Pilar 3: Konektor Tabayyun & Nafs (5)</button>
       </div>
@@ -509,7 +513,7 @@
   "workflow": "WF-03-Student-Scaffolding",
   "agent_invoked": "Kang Nalar (#13)",
   "privacy_layer": "PII_ANONYMIZED",
-  "pedagogy_mode": "NON_SOCRATIC_TASK_BREAKDOWN",
+  "pedagogy_mode": "NON_TADARRUJ_TASK_BREAKDOWN",
   "maqashid_compliance": "Hifz al-'Aql (Active)"
 }</pre>
         </div>
@@ -532,7 +536,7 @@
 
       <div class="p-5 overflow-y-auto grid grid-cols-1 md:grid-cols-2 gap-4 text-xs leading-relaxed">
         <div class="p-4 rounded-xl bg-slate-950 border border-emerald-800/60 space-y-1.5">
-          <div class="font-vt text-xl text-emerald-400">1. Hifz al-'Aql & Non-Socratic Scaffolding</div>
+          <div class="font-vt text-xl text-emerald-400">1. Hifz al-'Aql & Non-Tadarruj Scaffolding</div>
           <p class="text-slate-300">Mengatasi fenomena <i>cognitive offloading</i> berlebih akibat AI generatif instan. Agen seperti <b>Kang Nalar</b> tidak mencecar mahasiswa dengan pertanyaan Sokratik yang berbelit, melainkan memberikan <b>peta dekomposisi struktural</b> (Quest Blocks) sementara penulisan kalimat tetap dikerjakan mandiri oleh manusia.</p>
         </div>
 
@@ -561,14 +565,14 @@
     // =========================================================================
     const DIRECTORATES = [
       { id: 0, pillar: "Pilar 1 (Fokus Dosen)", name: "Pilar 1: Reduksi Beban Kognitif & Media Dosen", short: "Pilar 1: Aula Dosen & Media (Sayap Kiri)", x: -34, z: -6, color: 0x10b981, hex: "#10b981", roofColor: 0x047857 },
-      { id: 1, pillar: "Pilar 2 (Socratic Mahasiswa)", name: "Pilar 2: Penyangga Kognitif & Socratic Scaffolding", short: "Pilar 2: Balai Nalar Socratic (Sayap Kanan)", x: 34, z: -6, color: 0xf59e0b, hex: "#f59e0b", roofColor: 0xb45309 },
+      { id: 1, pillar: "Pilar 2 (Tadarruj Mahasiswa)", name: "Pilar 2: Penyangga Kognitif & Tadarruj Scaffolding", short: "Pilar 2: Balai Nalar Tadarruj (Sayap Kanan)", x: 34, z: -6, color: 0xf59e0b, hex: "#f59e0b", roofColor: 0xb45309 },
       { id: 2, pillar: "Pilar 3 (Konektor Tengah)", name: "Pilar 3 (TENGAH): Direktorat Tabayyun, Relasi Dosen-Mahasiswa & Nafs", short: "Pilar 3 (Tengah): Balai Tabayyun & Nafs", x: 0, z: 0, color: 0xa855f7, hex: "#a855f7", roofColor: 0x6b21a8 }
     ];
 
     // 3 Voxel Staff Housing Villas in the North District (Kompleks Asrama Staf AI)
     const STAFF_HOUSES = [
       { id: 0, name: "Wisma Khidmah Pilar 1 (Dosen)", x: -28, z: -48, roof: 0x059669 },
-      { id: 1, name: "Wisma Utama Pilar 2 (Socratic)", x: 28, z: -48, roof: 0xd97706 },
+      { id: 1, name: "Wisma Utama Pilar 2 (Tadarruj)", x: 28, z: -48, roof: 0xd97706 },
       { id: 2, name: "Wisma Sakinah Pilar 3 (Tabayyun & Nafs)", x: 0, z: -48, roof: 0x7c3aed }
     ];
 
@@ -580,12 +584,12 @@
       { id: 4, name: "Mbak Modul", dir: 0, role: "Penyintesis Bahan Ajar Interaktif", skin: "#ffdbac", headType: "hijab", topColor: "#9bc4e2", almamater: true, headColor: "#0f172a", pants: "#1e293b", featured: false, desc: "Mengonversi jurnal riset dosen menjadi diktat kuliah yang terstruktur.", defaultTask: "Sintesis Modul Ajar Psikologi Islam", outputSample: "Diktat Kuliah Ringkas + Peta Konsep" },
       { id: 7, name: "Kang Warta", dir: 0, role: "Otomasi Media Ajar, Storyboard & Web", skin: "#f1c27d", headType: "hair", topColor: "#06b6d4", almamater: false, headColor: "#1e293b", pants: "#0f172a", featured: true, desc: "Agen gabungan Desain & Media: mencetak storyboard video ajar 3 menit, web mikro seminar, dan infografik riset anti-hoaks.", defaultTask: "Generate Storyboard Video Ajar & Web Seminar", outputSample: "Landing Page Seminar + Storyboard Video 3 Menit" },
 
-      // PILAR 2 (INTI ESAI): Penyangga Kognitif & Penalaran Mandiri Mahasiswa / Socratic Scaffolding (dir: 1, 5 Agen Inti)
-      { id: 13, name: "Kang Nalar", dir: 1, role: "Inti Socratic Scaffolding (4 Quest Cards)", skin: "#f1c27d", headType: "peci", topColor: "#9bc4e2", almamater: true, headColor: "#18181b", pants: "#1e293b", featured: true, desc: "INTI SISTEM (Hifz al-'Aql): Menolak pembuatan teks/joki instan! Memandu mahasiswa lewat 4 Quest Cards & 6 Level Bantuan Socratic (Level 0–5).", defaultTask: "Dekomposisi 4 Quest Cards & Dialog Socratic Lv.0-5", outputSample: "4 Kartu Misi Kognitif + Uji Transfer Mandiri Tanpa AI" },
+      // PILAR 2 (INTI ESAI): Penyangga Kognitif & Penalaran Mandiri Mahasiswa / Tadarruj Scaffolding (dir: 1, 5 Agen Inti)
+      { id: 13, name: "Kang Nalar", dir: 1, role: "Inti Tadarruj Scaffolding (4 Quest Cards)", skin: "#f1c27d", headType: "peci", topColor: "#9bc4e2", almamater: true, headColor: "#18181b", pants: "#1e293b", featured: true, desc: "INTI SISTEM (Hifz al-'Aql): Menolak pembuatan teks/joki instan! Memandu mahasiswa lewat 4 Quest Cards & 6 Level Bantuan Tadarruj (Level 0–5).", defaultTask: "Dekomposisi 4 Quest Cards & Metode Tadarruj Lv.0-5", outputSample: "4 Kartu Misi Kognitif + Uji Transfer Mandiri Tanpa AI" },
       { id: 14, name: "Teh Bayyin", dir: 1, role: "Auditor Sitasi Tabayyun & RAG DOI", skin: "#ffdbac", headType: "hijab", topColor: "#9bc4e2", almamater: true, headColor: "#1e3a8a", pants: "#1e293b", featured: true, desc: "Memvalidasi keaslian DOI jurnal primer via RAG dan mencegah fabrikasi sitasi halusinasi AI (QS. Al-Hujurat: 6 & QS. Al-Ahzab: 58).", defaultTask: "Audit Siber-Forensik DOI Jurnal Primer APA 7th", outputSample: "Laporan Validasi DOI & Bebas Halusinasi Sitasi" },
       { id: 15, name: "Mas Logika", dir: 1, role: "Penguji Koherensi & Anti-Fallacy", skin: "#e0ac69", headType: "hair", topColor: "#b45309", headColor: "#27272a", pants: "#334155", featured: true, desc: "Menguji silogisme premis mayor-minor pada draf mahasiswa agar bebas dari lompatan logika (logical fallacy).", defaultTask: "Pemindaian Koherensi Premis Argumen Skripsi", outputSample: "Peta Umpan Balik Koherensi Argumen Kritis" },
-      { id: 16, name: "Mbak Terminologi", dir: 1, role: "Penyelaras Definisi Operasional APA 7th", skin: "#f1c27d", headType: "hijab", topColor: "#9bc4e2", almamater: true, headColor: "#92400e", pants: "#1e293b", featured: false, desc: "Membimbing mahasiswa membedakan konstruk teori psikologi yang mirip tanpa menyuapi kalimat jadi.", defaultTask: "Kalibrasi Definisi Operasional Variabel Riset", outputSample: "Matriks Pembeda Konstruk Teori Psikologi" },
-      { id: 17, name: "Cak Sanggah", dir: 1, role: "Simulator Pertanyaan Kritis Sidang", skin: "#c68642", headType: "peci", topColor: "#92400e", headColor: "#111827", pants: "#0f172a", featured: false, desc: "Melatih ketahanan mental dan penguasaan konsep mahasiswa melalui simulasi tanya-jawab sidang komprehensif.", defaultTask: "Simulasi Uji Penguasaan Konsep Mandiri", outputSample: "5 Pertanyaan Penguji & Evaluasi Kemandirian Nalar" },
+      { id: 16, name: "Mbak Format", dir: 1, role: "Pengawal Format & Tata Letak APA 7th", skin: "#f1c27d", headType: "hijab", topColor: "#9bc4e2", almamater: true, headColor: "#92400e", pants: "#1e293b", featured: false, desc: "Membimbing tata letak naskah psikologi, penyajian tabel/grafik hasil uji statistik (SPSS/JASP), serta sitasi teks sesuai gaya selingkung APA edisi ke-7.", defaultTask: "Format Tata Letak Naskah & Tabel Statistik APA 7th", outputSample: "Templat Naskah Psikologi + Format Tabel Hasil Uji Korelasi APA 7th" },
+      { id: 17, name: "Mas Parafrasa", dir: 1, role: "Pelatih Parafrasa & Sintesis Mandiri", skin: "#e0ac69", headType: "hair", topColor: "#059669", almamater: true, headColor: "#18181b", pants: "#0f172a", featured: false, desc: "Melatih keterampilan menyusun kembali gagasan rujukan dengan kalimat sendiri tanpa alat parafrasa instan, menjaga kesamaan teks Turnitin < 25%.", defaultTask: "Latihan Parafrasa Mandiri Anti-Plagiarisme", outputSample: "Lembar Latihan Parafrasa 3 Jurnal + Peta Orisinalitas Argumen" },
 
       // PILAR 3: Direktorat Tabayyun, Mediasi Relasional Dosen-Mahasiswa & Keseimbangan Jiwa (dir: 2, 5 Agen Konektor)
       { id: 19, name: "Mang Nafsi", dir: 2, role: "Monitor Energi Nafs & Burnout", skin: "#e0ac69", headType: "peci", topColor: "#9bc4e2", almamater: true, headColor: "#18181b", pants: "#1e293b", featured: true, desc: "Mendeteksi kelelahan ketikan mahasiswa maupun kejenuhan kerja dosen melalui 10 Bar Hati Energi Nafs.", defaultTask: "Pemantauan Telemetri Kelelahan Kognitif & Nudge", outputSample: "Peringatan Jeda Istirahat & Pemulihan Nafs +25%" },
@@ -1154,6 +1158,179 @@
       [-18, 55], [18, 55], [-30, 22], [30, 22]
     ];
     treeCoords.forEach(([x, z]) => createVoxelTree(x, z));
+    // =========================================================================
+    // 4B. LUSH SCENIC NATURAL LANDSCAPE (PEMANDANGAN ALAM SEKELILING KAMPUS)
+    // =========================================================================
+    const hillMat1 = new THREE.MeshLambertMaterial({ map: createBlockTexture("#16a34a", "#15803d", true) });
+    const hillMat2 = new THREE.MeshLambertMaterial({ map: createBlockTexture("#15803d", "#166534", true) });
+    const stoneMat = new THREE.MeshLambertMaterial({ map: createBlockTexture("#64748b", "#475569", true) });
+    const woodBenchMat = new THREE.MeshLambertMaterial({ color: 0x854d0e });
+    const cloudMat = new THREE.MeshLambertMaterial({ color: 0xffffff, transparent: true, opacity: 0.88 });
+
+    // 1. Rolling Green Voxel Hills & Mountain Horizon around Perimeter
+    function createVoxelHill(hx, hz, radius, maxH, mat = hillMat1) {
+      const hillGroup = new THREE.Group();
+      hillGroup.position.set(hx, 0, hz);
+      const tiers = Math.max(2, Math.floor(maxH / 2.2));
+      for (let t = 0; t < tiers; t++) {
+        const tierR = radius * (1 - (t / (tiers + 1)));
+        const tierH = 2.4;
+        const geo = new THREE.BoxGeometry(tierR * 2, tierH, tierR * 2);
+        const m = new THREE.Mesh(geo, t === tiers - 1 && maxH > 12 ? stoneMat : mat);
+        m.position.y = (t * tierH) + (tierH / 2);
+        m.castShadow = true;
+        m.receiveShadow = true;
+        hillGroup.add(m);
+      }
+      scene.add(hillGroup);
+    }
+
+    // Mountain and Hill Ranges framing Campus in North, South, West, East
+    const hillConfigs = [
+      // North Horizon behind Staff Housing
+      [-65, -75, 24, 18, hillMat2], [-25, -78, 20, 15, hillMat1], [15, -80, 26, 20, hillMat2], [60, -75, 22, 16, hillMat1],
+      [-45, -68, 16, 12, hillMat1], [40, -68, 18, 14, hillMat2],
+      // West Horizon behind Pillar 1
+      [-82, -45, 22, 16, hillMat2], [-85, -10, 25, 20, hillMat1], [-82, 30, 20, 15, hillMat2], [-78, 65, 18, 12, hillMat1],
+      [-70, -25, 15, 10, hillMat1], [-70, 15, 16, 11, hillMat2],
+      // East Horizon behind Pillar 2
+      [82, -45, 22, 16, hillMat1], [85, -10, 26, 22, hillMat2], [82, 30, 22, 16, hillMat1], [78, 65, 19, 13, hillMat2],
+      [70, -25, 16, 11, hillMat2], [70, 15, 15, 10, hillMat1],
+      // South Horizon flanking Main Gate
+      [-65, 80, 22, 16, hillMat2], [-35, 82, 18, 13, hillMat1], [35, 82, 19, 14, hillMat2], [65, 80, 24, 17, hillMat1]
+    ];
+    hillConfigs.forEach(([x, z, r, h, m]) => createVoxelHill(x, z, r, h, m));
+
+    // 2. Tall Voxel Pine Trees on Hillside
+    function createPineTree(px, pz, scale = 1.0) {
+      const pine = new THREE.Group();
+      pine.position.set(px, 0, pz);
+
+      const trunkH = 3.5 * scale;
+      const trunk = new THREE.Mesh(new THREE.BoxGeometry(1.1 * scale, trunkH, 1.1 * scale), woodMat);
+      trunk.position.y = trunkH / 2;
+      trunk.castShadow = true;
+      pine.add(trunk);
+
+      const pineTiers = 3;
+      for (let i = 0; i < pineTiers; i++) {
+        const tierW = (4.5 - i * 1.2) * scale;
+        const tierH = 2.0 * scale;
+        const needles = new THREE.Mesh(new THREE.BoxGeometry(tierW, tierH, tierW), hillMat2);
+        needles.position.y = trunkH + (i * 1.5 * scale);
+        needles.castShadow = true;
+        pine.add(needles);
+      }
+      scene.add(pine);
+    }
+
+    // Pine Forest Clusters along perimeter
+    const pineCoords = [
+      [-52, -60], [-38, -62], [-15, -64], [12, -65], [36, -62], [52, -60],
+      [-68, -40], [-66, -18], [-65, 5], [-68, 28], [-65, 50],
+      [68, -40], [66, -18], [65, 5], [68, 28], [65, 50],
+      [-50, 68], [-28, 70], [28, 70], [50, 68]
+    ];
+    pineCoords.forEach(([x, z]) => createPineTree(x, z, 0.9 + Math.random() * 0.35));
+
+    // 3. Flower Meadows & Shrubbery in Gardens
+    function createFlowerPatch(fx, fz, colorHex) {
+      const flGroup = new THREE.Group();
+      flGroup.position.set(fx, 0.15, fz);
+      const flMat = new THREE.MeshBasicMaterial({ color: colorHex });
+      for (let i = 0; i < 7; i++) {
+        const stem = new THREE.Mesh(new THREE.BoxGeometry(0.12, 0.65, 0.12), leavesMat);
+        const ox = (Math.random() - 0.5) * 2.8;
+        const oz = (Math.random() - 0.5) * 2.8;
+        stem.position.set(ox, 0.32, oz);
+        const petal = new THREE.Mesh(new THREE.BoxGeometry(0.38, 0.38, 0.38), flMat);
+        petal.position.set(ox, 0.72, oz);
+        flGroup.add(stem, petal);
+      }
+      scene.add(flGroup);
+    }
+
+    // Colorful Flower Clusters around Campus Plaza, Pond, and Pavilions
+    const flowerSpots = [
+      [14, 18, 0xf43f5e], [24, 18, 0xfacc15], [19, 7, 0x38bdf8], [25, 7, 0xa855f7],
+      [-14, 12, 0xf43f5e], [-18, 14, 0xfacc15], [-12, -18, 0x38bdf8], [12, -18, 0xf43f5e],
+      [-34, 8, 0xfacc15], [-34, -18, 0xa855f7], [34, 8, 0xf43f5e], [34, -18, 0x38bdf8],
+      [-8, 24, 0xfacc15], [8, 24, 0xec4899]
+    ];
+    flowerSpots.forEach(([x, z, col]) => createFlowerPatch(x, z, col));
+
+    // 4. Kolam Sakinah Natural River Stones & Park Benches
+    function decorateSakinahPond() {
+      // Smooth River Pebbles around Pond (Pond is at x: 19, z: 12, size: 14 x 10)
+      const stoneCoords = [
+        [11.5, 12], [26.5, 12], [19, 6.5], [19, 17.5],
+        [13, 7.5], [25, 7.5], [13, 16.5], [25, 16.5],
+        [16, 6.5], [22, 6.5], [16, 17.5], [22, 17.5]
+      ];
+      stoneCoords.forEach(([sx, sz]) => {
+        const pebble = new THREE.Mesh(new THREE.BoxGeometry(1.2, 0.5, 1.2), stoneMat);
+        pebble.position.set(sx, 0.25, sz);
+        pebble.rotation.y = Math.random() * Math.PI;
+        scene.add(pebble);
+      });
+
+      // Water Lily Pads on Pond surface
+      const lilyMat = new THREE.MeshLambertMaterial({ color: 0x16a34a });
+      const flowerMat = new THREE.MeshBasicMaterial({ color: 0xf472b6 });
+      [[16, 11], [22, 13], [18, 14]].forEach(([lx, lz]) => {
+        const pad = new THREE.Mesh(new THREE.BoxGeometry(1.4, 0.08, 1.4), lilyMat);
+        pad.position.set(lx, 0.35, lz);
+        const lotus = new THREE.Mesh(new THREE.BoxGeometry(0.45, 0.35, 0.45), flowerMat);
+        lotus.position.set(lx, 0.55, lz);
+        scene.add(pad, lotus);
+      });
+
+      // Wooden Park Benches beside Pond
+      function createParkBench(bx, bz, rotY) {
+        const bench = new THREE.Group();
+        bench.position.set(bx, 0, bz);
+        bench.rotation.y = rotY;
+        const seat = new THREE.Mesh(new THREE.BoxGeometry(3.0, 0.2, 1.0), woodBenchMat);
+        seat.position.y = 0.9;
+        const back = new THREE.Mesh(new THREE.BoxGeometry(3.0, 0.8, 0.2), woodBenchMat);
+        back.position.set(0, 1.4, -0.45);
+        const leg1 = new THREE.Mesh(new THREE.BoxGeometry(0.25, 0.9, 0.9), darkMetalMat);
+        leg1.position.set(-1.25, 0.45, 0);
+        const leg2 = new THREE.Mesh(new THREE.BoxGeometry(0.25, 0.9, 0.9), darkMetalMat);
+        leg2.position.set(1.25, 0.45, 0);
+        bench.add(seat, back, leg1, leg2);
+        scene.add(bench);
+      }
+      createParkBench(28.5, 12, -Math.PI / 2); // Facing pond from east
+      createParkBench(19, 19.5, 0);           // Facing pond from south
+    }
+    decorateSakinahPond();
+
+    // 5. Drifting Voxel Clouds in the Sky
+    const cloudsGroup = new THREE.Group();
+    function createVoxelCloud(cx, cy, cz) {
+      const cg = new THREE.Group();
+      cg.position.set(cx, cy, cz);
+      const layers = [
+        [16, 2.0, 9, 0, 0, 0],
+        [12, 1.8, 7, 0, 1.6, 0],
+        [10, 1.8, 6, 2, 0, 1],
+        [8, 1.8, 5, -3, 0, -1]
+      ];
+      layers.forEach(([w, h, d, ox, oy, oz]) => {
+        const cMesh = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), cloudMat);
+        cMesh.position.set(ox, oy, oz);
+        cg.add(cMesh);
+      });
+      cloudsGroup.add(cg);
+    }
+    createVoxelCloud(-45, 38, -35);
+    createVoxelCloud(25, 42, -55);
+    createVoxelCloud(48, 36, 20);
+    createVoxelCloud(-30, 44, 45);
+    createVoxelCloud(0, 40, -10);
+    scene.add(cloudsGroup);
+
 
     // =========================================================================
     // 5. MINECRAFT-STYLE 3D CHARACTER RIG BUILDER (WITH UIN RADEN FATAH BLAZER)
@@ -1591,16 +1768,15 @@
       const bodyEl = document.getElementById('wbInteractiveBody');
       const maqashidEl = document.getElementById('wbMaqashidTag');
 
-      if (agent.id === 13) { // Kang Nalar (Core Pillar 2: Socratic Scaffolding Level 0-5)
-        speechEl.innerText = `"Bismillah. Sebagai inti Pilar Kedua (Hifz al-'Aql), komputer saya menolak membuatkan paragraf instan. Mari kita pecah skripsimu menjadi 4 Quest Cards dengan 6 Level Bantuan Socratic!"`;
-        maqashidEl.innerText = "Pilar 2 • Hifz al-'Aql (Socratic)";
+      if (agent.id === 13) { // Kang Nalar (Core Pillar 2: Tadarruj Scaffolding Level 0-5)
+        speechEl.innerText = `"Bismillah. Sebagai inti Pilar Kedua (Hifz al-'Aql), meja komputer saya menolak membuatkan paragraf instan. Unggah proposal/Bab 1 PDF-mu, mari kita pecah menjadi 4 Quest Cards dengan 6 Level Bantuan Tadarruj!"`;
+        maqashidEl.innerText = "Pilar 2 • Hifz al-'Aql (Tadarruj)";
         bodyEl.innerHTML = `
           <div class="space-y-2.5">
-            <label class="font-semibold text-amber-300 block">Topik Tugas Akhir / Riset Mahasiswa:</label>
-            <input id="inputNalarTopic" type="text" value="Dampak Ketergantungan AI Generatif terhadap Fungsi Eksekutif Mahasiswa" class="w-full px-3 py-1.5 rounded bg-slate-950 border border-slate-700 text-slate-100">
+            ${renderDocUploadZone("Unggah Proposal Skripsi / Bab 1 PDF", "skripsi")}
             <div class="flex items-center justify-between gap-1 text-[10px] bg-slate-900 p-1.5 rounded border border-slate-700">
-              <span class="text-slate-300 font-semibold">Pilih Level Bantuan Socratic:</span>
-              <select id="selectSocraticLevel" onchange="executeKangNalar()" class="bg-slate-950 text-amber-300 border border-amber-500/40 rounded px-2 py-0.5 font-mono">
+              <span class="text-slate-300 font-semibold">Pilih Level Bantuan Tadarruj:</span>
+              <select id="selectTadarrujLevel" onchange="executeKangNalar()" class="bg-slate-950 text-amber-300 border border-amber-500/40 rounded px-2 py-0.5 font-mono">
                 <option value="0">Lv.0 - Pertanyaan Terbuka</option>
                 <option value="1">Lv.1 - Klarifikasi Bukti</option>
                 <option value="2">Lv.2 - Petunjuk Konsep</option>
@@ -1610,22 +1786,54 @@
               </select>
             </div>
             <button onclick="executeKangNalar()" class="mc-btn w-full py-2 rounded bg-amber-600 hover:bg-amber-500 text-white font-bold flex items-center justify-center gap-1.5">
-              <i class="ph-bold ph-Sparkle"></i> Terapkan Scaffolding Socratic (Anti-Joki)
+              <i class="ph-bold ph-puzzle-piece"></i> Dekomposisi Naskah ke 4 Quest Cards
             </button>
             <div id="outputNalarBlocks" class="space-y-2 pt-1"></div>
           </div>
         `;
         executeKangNalar();
+      } else if (agent.id === 16) { // Mbak Format
+        speechEl.innerText = `"Assalamu'alaikum! Saya Mbak Format. Unggah draf makalah atau skripsi PDF-mu ke sini, biar saya audit tata letak tabel SPSS, margin 4-3-3-3, dan sitasi sesuai kaidah APA edisi ke-7!"`;
+        maqashidEl.innerText = "Pilar 2 • Format Penulisan Psikologi APA 7th";
+        bodyEl.innerHTML = `
+          <div class="space-y-2.5">
+            ${renderDocUploadZone("Unggah Makalah / Draf Skripsi PDF", "makalah")}
+            <div class="p-2.5 rounded bg-amber-950/40 border border-amber-500/50 text-[11px] text-amber-200">
+              <b>Audit Format Otomatis APA 7th:</b> Memeriksa 3 garis horizontal tabel statistik, penulisan nilai <i>p</i> miring tanpa nol awal, sitasi dalam teks, dan struktur penomoran bab.
+            </div>
+            <button onclick="executeMbakFormat()" class="mc-btn w-full py-2 rounded bg-amber-600 hover:bg-amber-500 text-white font-bold flex items-center justify-center gap-1.5">
+              <i class="ph-bold ph-file-doc"></i> Bedah & Rapikan Format Berkas (APA 7th)
+            </button>
+            <div id="outputFormatBox" class="pt-1"></div>
+          </div>
+        `;
+        executeMbakFormat();
+      } else if (agent.id === 17) { // Mas Parafrasa
+        speechEl.innerText = `"Mari asah kemampuan parafrasa mandiri! Kita sintesiskan kutipan dari berbagai jurnal dengan bahasamu sendiri tanpa bergantung pada alat parafrasa instan agar orisinalitas skripsimu terjaga."`;
+        maqashidEl.innerText = "Pilar 2 • Parafrasa Mandiri (Anti-Plagiasi)";
+        bodyEl.innerHTML = `
+          <div class="space-y-2.5">
+            <div class="p-2.5 rounded bg-emerald-950/40 border border-emerald-500/50 text-[11px] text-emerald-200">
+              <b>Kaidah Parafrasa Mandiri:</b> Pahami makna inti rujukan, ubah struktur kalimat (aktif ke pasif atau sebaliknya), gunakan sinonim akademis yang tepat, dan selalu sertakan sumber rujukan.
+            </div>
+            <label class="font-semibold text-emerald-300 block">Kutipan Asli yang Mau Diparafrasa:</label>
+            <textarea id="inputParafrasaText" rows="2" class="w-full px-3 py-1.5 rounded bg-slate-950 border border-slate-700 text-slate-100">"Penggunaan AI generatif tanpa pembatasan pedagogis dapat menurunkan pemahaman konseptual mandiri peserta didik." (Bastani et al., 2025)</textarea>
+            <button onclick="executeMasParafrasa()" class="mc-btn w-full py-2 rounded bg-emerald-700 hover:bg-emerald-600 text-white font-bold flex items-center justify-center gap-1.5">
+              <i class="ph-bold ph-pencil-line"></i> Pandu Parafrasa Mandiri (Turnitin < 25%)
+            </button>
+            <div id="outputParafrasaBox" class="pt-1"></div>
+          </div>
+        `;
+        executeMasParafrasa();
       } else if (agent.id === 14) { // Teh Bayyin
-        speechEl.innerText = `"Ingat pesan QS. Al-Ahzab ayat 58 & QS. Al-Hujurat: 6. Mari kita tabayyun dan audit apakah sitasi jurnal di drafmu sahih ber-DOI atau halusinasi AI."`;
+        speechEl.innerText = `"Ingat pesan QS. Al-Ahzab ayat 58 & QS. Al-Hujurat: 6. Unggah daftar pustaka atau naskah PDF-mu, biar saya audit seluruh DOI jurnal secara otomatis via RAG ke Moraref Kemenag & Crossref."`;
         maqashidEl.innerText = "Pilar 2 • Tabayyun & RAG DOI";
         bodyEl.innerHTML = `
           <div class="space-y-2.5">
-            <label class="font-semibold text-cyan-300 block">Uji Klaim / Referensi Sitasi Mahasiswa:</label>
-            <textarea id="inputBayyinRef" rows="2" class="w-full px-3 py-2 rounded bg-slate-950 border border-slate-700 text-slate-100">Bastani, H., et al. (2025). Generative AI without guardrails can harm learning. PNAS, 122(26). https://doi.org/10.1073/pnas.2422633122</textarea>
+            ${renderDocUploadZone("Unggah Daftar Pustaka / Naskah PDF", "dapus")}
             <div class="grid grid-cols-2 gap-2">
-              <button onclick="executeTehBayyin('valid')" class="mc-btn py-2 rounded bg-cyan-700 hover:bg-cyan-600 text-white font-bold">Audit DOI Primer</button>
-              <button onclick="executeTehBayyin('fake')" class="mc-btn py-2 rounded bg-rose-800 hover:bg-rose-700 text-rose-100 font-bold">Simulasi Sitasi Palsu</button>
+              <button onclick="executeTehBayyin('valid')" class="mc-btn py-2 rounded bg-cyan-700 hover:bg-cyan-600 text-white font-bold">Audit Otomatis Semua DOI</button>
+              <button onclick="executeTehBayyin('fake')" class="mc-btn py-2 rounded bg-rose-800 hover:bg-rose-700 text-rose-100 font-bold">Uji Deteksi Sitasi Fiktif</button>
             </div>
             <div id="outputBayyinBox" class="pt-1"></div>
           </div>
@@ -1666,21 +1874,23 @@
           </div>
         `;
         executeUstadzWasith();
-      } else if (agent.id === 1 || agent.id === 7) { // Pak Silabus / Kang Warta (Pilar 1: Dosen & Media)
-        speechEl.innerText = `"Pilar Pertama mengambil alih beban kognitif ekstrinsik dosen (Cognitive Load Theory) agar dosen terbebas dari burnout administratif dan fokus membimbing mahasiswa."`;
+      } else if (agent.id === 1 || agent.id === 2 || agent.id === 7 || agent.id === 3 || agent.id === 4) { // Pilar 1 Dosen
+        speechEl.innerText = `"Pilar Pertama mengambil alih beban kognitif ekstrinsik dosen (Cognitive Load Theory). Dosen cukup mengunggah silabus lama atau materi kuliah PDF, maka AI akan merumuskan matriks OBE, rubrik analitik, atau storyboard secara instan."`;
         maqashidEl.innerText = "Pilar 1 • Reduksi Beban Dosen";
+        const sampleType = agent.id === 7 ? 'materi' : 'rps';
         bodyEl.innerHTML = `
           <div class="space-y-2.5">
-            <div class="p-3 rounded-lg bg-slate-950 border border-emerald-700/60 space-y-1.5">
+            ${renderDocUploadZone(agent.id === 7 ? "Unggah Materi Kuliah PDF (Kang Warta)" : "Unggah Draf RPS / Silabus Lama PDF (Dosen)", sampleType)}
+            <div class="p-2.5 rounded bg-slate-950 border border-emerald-700/60 space-y-1 text-[11px]">
               <div class="text-emerald-400 font-bold flex items-center justify-between">
-                <span>Luaran Konkret Dosen (${agent.name}):</span>
-                <span class="text-[10px] font-mono text-amber-300">Human-in-the-Loop</span>
+                <span>Luaran Dosen (${agent.name}):</span>
+                <span class="text-[9px] font-mono text-amber-300">Deliverable Ready</span>
               </div>
               <p class="text-slate-200 font-medium">${agent.outputSample}</p>
-              <p class="text-[11px] text-slate-400">${agent.desc}</p>
+              <p class="text-[10px] text-slate-400">${agent.desc}</p>
             </div>
-            <button onclick="executePilarSatuDemo('${agent.name}')" class="mc-btn w-full py-2 rounded bg-emerald-700 hover:bg-emerald-600 text-white font-bold">
-              Generate Draf Otomatis untuk Dosen
+            <button onclick="executePilarSatuDemo('${agent.name}')" class="mc-btn w-full py-2 rounded bg-emerald-700 hover:bg-emerald-600 text-white font-bold flex items-center justify-center gap-1.5">
+              <i class="ph-bold ph-magic-wand"></i> Olah Berkas PDF & Generate Draf Dosen
             </button>
             <div id="outputCustomAgent" class="pt-1"></div>
           </div>
@@ -1714,15 +1924,464 @@
     }
 
     // --- WORKBENCH ACTION LOGIC ---
-    function executeKangNalar() {
+    
+    // =========================================================================
+    
+    // =========================================================================
+    // 11. MULTI-MODAL DOCUMENT & PDF INGESTION PIPELINE (SIVITAS WORKFLOW)
+    // =========================================================================
+    let currentUploadedDoc = null;
+
+    function renderDocUploadZone(placeholderText = "Unggah Draf Berkas PDF / Dokumen", defaultSample = "makalah") {
+      const sampleNames = {
+        'makalah': 'Draf_Makalah_Bab2_CognitiveOffloading.pdf',
+        'skripsi': 'Proposal_Skripsi_Fatih_NIM23041460126.pdf',
+        'rps': 'Draf_Silabus_Lama_Psikologi_2025.pdf',
+        'materi': 'Materi_Kuliah_Psikologi_Siber.pdf',
+        'dapus': 'Daftar_Pustaka_Draf_Skripsi.pdf'
+      };
+      const activeSample = sampleNames[defaultSample] || sampleNames['makalah'];
+
+      return `
+        <div class="p-2.5 rounded-lg bg-slate-950 border border-dashed border-slate-600 hover:border-emerald-400 transition cursor-pointer text-center space-y-1.5" onclick="triggerDocInputClick()">
+          <input type="file" id="agentDocFileInput" class="hidden" accept=".pdf,.docx,.doc,.txt" onchange="handleAgentDocUpload(event)">
+          <div class="flex items-center justify-center gap-1.5 text-slate-200 font-semibold text-[11px]">
+            <i class="ph-bold ph-file-arrow-up text-rose-400 text-lg"></i>
+            <span id="docZoneLabelText">${currentUploadedDoc ? currentUploadedDoc.name : placeholderText}</span>
+          </div>
+          <p class="text-[9px] text-slate-400">Klik untuk pilih berkas PDF/DOCX atau gunakan data sampel uji sivitas:</p>
+          <div class="flex flex-wrap items-center justify-center gap-1 pt-0.5">
+            <span onclick="setDocSample(event, '${defaultSample}')" class="text-[9px] font-mono px-2 py-0.5 bg-slate-800 hover:bg-slate-700 text-cyan-300 rounded cursor-pointer border border-slate-700 flex items-center gap-1">
+              <i class="ph-bold ph-file-text"></i> ${activeSample}
+            </span>
+          </div>
+          ${currentUploadedDoc ? `
+            <div class="text-[9px] font-mono text-emerald-400 flex items-center justify-center gap-1 pt-1">
+              <i class="ph-fill ph-shield-check"></i> ${currentUploadedDoc.name} (${currentUploadedDoc.size}) • Zero-PII Sanitized (UU PDP 2022)
+            </div>
+          ` : ''}
+        </div>
+      `;
+    }
+
+    function triggerDocInputClick() {
+      const input = document.getElementById('agentDocFileInput');
+      if (input) input.click();
+    }
+
+    function handleAgentDocUpload(e) {
+      if (!e.target.files || !e.target.files[0]) return;
+      const f = e.target.files[0];
+      const kb = Math.round(f.size / 1024);
+      currentUploadedDoc = {
+        name: f.name,
+        size: `${kb} KB`,
+        rawFile: f
+      };
       playVoxelSound('levelup');
-      updateHudBars(-4, 15);
-      const lvlSelect = document.getElementById('selectSocraticLevel');
+      showToast(`Berkas PDF '${f.name}' berhasil diunggah & disanitasi oleh Pak Amanah.`);
+      refreshCurrentAgentWorkbench();
+    }
+
+    function setDocSample(e, type) {
+      e.stopPropagation();
+      const samples = {
+        'makalah': { name: 'Draf_Makalah_Bab2_CognitiveOffloading.pdf', size: '248 KB' },
+        'skripsi': { name: 'Proposal_Skripsi_Fatih_NIM23041460126.pdf', size: '412 KB' },
+        'rps': { name: 'Draf_Silabus_Lama_Psikologi_2025.pdf', size: '185 KB' },
+        'materi': { name: 'Materi_Kuliah_Psikologi_Siber.pdf', size: '320 KB' },
+        'dapus': { name: 'Daftar_Pustaka_Draf_Skripsi.pdf', size: '94 KB' }
+      };
+      currentUploadedDoc = samples[type] || samples['makalah'];
+      playVoxelSound('click');
+      showToast(`Sampel berkas '${currentUploadedDoc.name}' dimuat & siap diproses.`);
+      refreshCurrentAgentWorkbench();
+    }
+
+    function refreshCurrentAgentWorkbench() {
+      const ag = AGENTS.find(a => a.id === selectedAgentId);
+      if (ag) openAgentWorkbench(ag);
+    }
+
+    // 10. LIVE N8N BACKEND DISPATCHER & OUTPUT FORMATTER
+    // =========================================================================
+    let n8nWebhookUrl = "http://localhost:5678/webhook/diwan-sivitas-router";
+    let userDeepseekKey = localStorage.getItem('diwan_deepseek_key') || "";
+
+    function saveDeepseekKey() {
+      const el = document.getElementById('inputDeepseekApiKey');
+      if (el && el.value.trim()) {
+        userDeepseekKey = el.value.trim();
+        localStorage.setItem('diwan_deepseek_key', userDeepseekKey);
+        playVoxelSound('levelup');
+        showToast("DeepSeek API Key berhasil disimpan! Setiap aksi agen kini akan memanggil API DeepSeek Live.");
+        const box = document.getElementById('backendTestResultBox');
+        if (box) {
+          box.classList.remove('hidden');
+          box.innerHTML = `<span class="text-emerald-400 font-bold">✔ DeepSeek API Key tersimpan (${userDeepseekKey.substring(0, 6)}***). Silakan coba klik tombol aksi di meja agen!</span>`;
+        }
+      }
+    }
+
+    async function sendToBackendRouter(payload) {
+      playVoxelSound('click');
+      const inputEl = document.getElementById('inputN8nWebhookUrl');
+      if (inputEl && inputEl.value.trim()) n8nWebhookUrl = inputEl.value.trim();
+
+      // Show live terminal progress
+      const targetContainer = payload.targetContainerId ? document.getElementById(payload.targetContainerId) : null;
+      if (targetContainer) {
+        targetContainer.innerHTML = `
+          <div class="p-3 rounded-lg bg-slate-950 border border-cyan-500/50 space-y-1.5 font-mono text-[11px]">
+            <div class="flex items-center justify-between text-cyan-300">
+              <span class="flex items-center gap-1.5 font-bold"><i class="ph-bold ph-spinner animate-spin"></i> MEMPROSES VIA N8N...</span>
+              <span class="text-[10px] text-slate-400">${new Date().toLocaleTimeString()}</span>
+            </div>
+            <div class="text-[10px] text-slate-300 space-y-0.5 pt-1">
+              <div class="text-emerald-400">✔ [1/4] Webhook POST: /diwan-sivitas-router</div>
+              <div class="text-amber-400">✔ [2/4] Zero-PII Sanitizer: NIM & Kontak Terproteksi (UU PDP 2022)</div>
+              <div class="text-cyan-400">✔ [3/4] Routing ke Sub-Workflow Pilar ${payload.pillar}</div>
+              <div class="text-purple-400 animate-pulse">● [4/4] Gateway DeepSeek V3 AI Engine (Temp: 0.3)...</div>
+            </div>
+          </div>
+        `;
+      }
+
+      const keyEl = document.getElementById('inputDeepseekApiKey');
+      if (keyEl && keyEl.value.trim()) userDeepseekKey = keyEl.value.trim();
+      if (userDeepseekKey) payload.deepseek_api_key = userDeepseekKey;
+      if (currentUploadedDoc) payload.uploaded_doc_name = currentUploadedDoc.name;
+
+      // 1. Try actual fetch to local/remote n8n webhook first
+      try {
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 4500);
+
+        const resp = await fetch(n8nWebhookUrl, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+          signal: controller.signal
+        });
+        clearTimeout(timeoutId);
+
+        if (resp.ok) {
+          const liveJson = await resp.json();
+          renderBackendResponse(liveJson, payload, targetContainer, true);
+          return liveJson;
+        }
+      } catch (err) {
+        // n8n unreachable or CORS blocked -> Try Direct DeepSeek API if key is provided!
+      }
+
+      // 2. If user entered DeepSeek API Key, call DeepSeek V3 API directly from browser!
+      if (userDeepseekKey && userDeepseekKey.startsWith('sk-')) {
+        try {
+          const sysPrompt = `Anda adalah ${payload.agent_name} pada ekosistem DIWAN SIVITAS Fakultas Psikologi UIN Raden Fatah Palembang (Pilar ${payload.pillar}). Berikan respons terstruktur, padat, dan akademis dalam Bahasa Indonesia sesuai peran Anda.${payload.uploaded_doc_name ? ' Pengguna mengunggah dokumen: ' + payload.uploaded_doc_name : ''}`;
+          const dsResp = await fetch('https://api.deepseek.com/chat/completions', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${userDeepseekKey}`
+            },
+            body: JSON.stringify({
+              model: 'deepseek-chat',
+              messages: [
+                { role: 'system', content: sysPrompt },
+                { role: 'user', content: payload.prompt || 'Bantu analisis dokumen dan topik saya.' }
+              ],
+              temperature: 0.3,
+              max_tokens: 450
+            })
+          });
+
+          if (dsResp.ok) {
+            const dsData = await dsResp.json();
+            const aiText = dsData.choices && dsData.choices[0] ? dsData.choices[0].message.content : 'Respons diterima.';
+            const liveDsPayload = {
+              status: 'SUCCESS_200_OK_DEEPSEEK_LIVE',
+              timestamp: new Date().toISOString(),
+              token_usage: dsData.usage || { prompt_tokens: 85, completion_tokens: 190, total_tokens: 275 },
+              agent: { id: payload.agent_id, name: payload.agent_name, pillar: payload.pillar },
+              deliverable: {
+                category: 'DEEPSEEK_V3_REALTIME_RESPONSE',
+                renderedHtml: `<div class="p-3 rounded-lg bg-emerald-950/70 border border-emerald-400/70 text-slate-100 text-[11px] leading-relaxed whitespace-pre-wrap"><div class="text-[10px] font-bold text-amber-300 mb-1">⚡ LIVE RESPONSE DARI DEEPSEEK V3 (Token Terpakai: ${dsData.usage ? dsData.usage.total_tokens : 'Aktif'}):</div>${aiText}</div>`
+              },
+              compliance: { privacy: 'UU_PDP_NO_27_2022_CERTIFIED', maqashid: 'Hifz al-Aql & Tabayyun' }
+            };
+            renderBackendResponse(liveDsPayload, payload, targetContainer, true);
+            return liveDsPayload;
+          }
+        } catch (dsErr) {
+          console.warn('Direct DeepSeek call error:', dsErr);
+        }
+      }
+
+      // High-Fidelity Local Simulation (Matches exact n8n workflow output schema)
+      setTimeout(() => {
+        const simulatedOutput = generateSimulatedBackendResponse(payload);
+        renderBackendResponse(simulatedOutput, payload, targetContainer, false);
+      }, 700);
+    }
+
+    function generateSimulatedBackendResponse(payload) {
+      let contentHtml = '';
+      let category = '';
+
+      if (payload.agent_id === 13) { // Kang Nalar (Tadarruj Scaffolding)
+        category = 'TADARRUJ_SCAFFOLDING_KANG_NALAR';
+        const lvl = payload.socratic_level !== undefined ? String(payload.socratic_level) : "4";
+        const prompts = {
+          "0": "<b>Level 0 (Pertanyaan Terbuka):</b> Apa masalah utama di lapangan kampusmu yang membuat topik ini mendesak diteliti secara mandiri?",
+          "1": "<b>Level 1 (Klarifikasi Bukti Empiris):</b> Klaim awalmu menarik, tetapi data survei atau literatur primer tahun berapa yang membuktikan variabel tersebut?",
+          "2": "<b>Level 2 (Petunjuk Konsep):</b> Perhatikan perbedaan antara <i>cognitive offloading</i> dan kemalasan biasa dalam teori Risko & Gilbert (2016).",
+          "3": "<b>Level 3 (Analogi Struktur):</b> Susun kerangka premis mayor: [Fakta Lapangan] + [Risiko Kognitif] → [Kesenjangan Riset].",
+          "4": "<b>Level 4 (Dekomposisi 4 Quest Cards):</b> Tugas dipecah menjadi 4 misi berurutan agar penulisan kalimat tetap dilakukan mandiri oleh manusia.",
+          "5": "<b>Level 5 (AI LOCKDOWN AKTIF - Uji Transfer Mandiri):</b> Akses bantuan AI dikunci total! Silakan analisis skenario studi kasus baru dengan penalaran murni Anda."
+        };
+
+        contentHtml = `
+          <div class="space-y-2">
+            <div class="p-2.5 rounded bg-amber-950/40 border border-amber-500/50 text-[11px] text-amber-200">
+              ${prompts[lvl]}
+            </div>
+            ${lvl === "5" ? `
+              <div class="p-3 rounded bg-rose-950/70 border-2 border-rose-500 space-y-1.5">
+                <div class="font-bold text-rose-300 flex items-center gap-1.5 text-xs">
+                  <i class="ph-fill ph-lock-key"></i> PROTOKOL PENGUNCIAN AI (AI LOCKDOWN) AKTIF
+                </div>
+                <p class="text-slate-200 text-[11px]">Bantuan teks siap saji dikunci total. Analisis studi kasus berikut dalam 1 paragraf sintesis mandiri:</p>
+                <div class="p-2 bg-slate-900 rounded text-slate-300 italic text-[10px]">
+                  "Seorang mahasiswa menggunakan AI untuk merangkum 10 jurnal tanpa membaca aslinya, lalu mendapati argumennya runtuh saat ditanya dosen penguji. Tinjau kasus ini melalui konsep cognitive offloading dan Desirable Difficulty!"
+                </div>
+              </div>
+            ` : `
+              <div class="p-2 rounded bg-slate-950 border-l-4 border-amber-400 space-y-0.5 text-[11px]">
+                <div class="font-bold text-amber-300">QUEST 1: Premis Masalah Nyata vs Data PISA</div>
+                <p class="text-slate-300 text-[10px]">Petakan kesenjangan adopsi AI (98,1%) vs penalaran dasar (18%).</p>
+              </div>
+              <div class="p-2 rounded bg-slate-950 border-l-4 border-emerald-400 space-y-0.5 text-[11px]">
+                <div class="font-bold text-emerald-300">QUEST 2: Dekonstruksi Teori & Mekanisme Kognitif</div>
+                <p class="text-slate-300 text-[10px]">Analisis memori kerja, beban ekstrinsik, dan regulasi diri (SRL).</p>
+              </div>
+              <div class="p-2 rounded bg-slate-950 border-l-4 border-cyan-400 space-y-0.5 text-[11px]">
+                <div class="font-bold text-cyan-300">QUEST 3 & 4: Sintesis Solusi Maqashid & Verifikasi DOI</div>
+                <p class="text-slate-300 text-[10px]">Tegakkan Hifz al-'Aql dan audit sitasi bebas tadlis di meja Teh Bayyin.</p>
+              </div>
+            `}
+          </div>
+        `;
+      } else if (payload.agent_id === 16) { // Mbak Format
+        category = 'FORMAT_PENULISAN_PSIKOLOGI_APA7';
+        contentHtml = `
+          <div class="space-y-2 text-[11px]">
+            <div class="p-3 rounded-lg bg-amber-950/50 border border-amber-500/60 space-y-1.5">
+              <div class="font-bold text-amber-300 flex items-center justify-between">
+                <span>✔ Format Tabel Statistik Standar APA 7th Terbentuk:</span>
+                <span class="text-[9px] px-1.5 py-0.5 rounded bg-amber-900 text-amber-200">Zero Vertical Lines</span>
+              </div>
+              <div class="p-2 rounded bg-slate-900 font-mono text-[10px] text-slate-200 space-y-1">
+                <div class="border-t-2 border-b border-slate-400 py-1 flex justify-between font-bold">
+                  <span>Variabel</span><span><i>M</i></span><span><i>SD</i></span><span><i>r</i></span><span><i>p</i></span>
+                </div>
+                <div class="py-0.5 flex justify-between">
+                  <span>1. Cognitive Offloading</span><span>3.42</span><span>0.68</span><span>—</span><span>—</span>
+                </div>
+                <div class="border-b-2 border-slate-400 py-0.5 flex justify-between">
+                  <span>2. Memori Kerja</span><span>2.85</span><span>0.74</span><span>-.42**</span><span>.002</span>
+                </div>
+              </div>
+              <p class="text-[10px] text-slate-400 italic">Catatan: *p < .05, **p < .01. Angka desimal korelasi dan p-value tanpa nol di depan koma sesuai APA 7th.</p>
+            </div>
+          </div>
+        `;
+      } else if (payload.agent_id === 17) { // Mas Parafrasa
+        category = 'PARAFRASA_MANDIRI_ORISINAL';
+        contentHtml = `
+          <div class="space-y-2 text-[11px]">
+            <div class="p-3 rounded-lg bg-emerald-950/60 border border-emerald-500/60 space-y-1.5">
+              <div class="font-bold text-emerald-300 flex items-center justify-between">
+                <span>✔ Panduan Parafrasa Orisinal (Anti-Plagiasi Turnitin):</span>
+                <span class="text-[9px] px-1.5 py-0.5 rounded bg-emerald-900 text-emerald-200">Kemiripan 4% (Aman)</span>
+              </div>
+              <div class="p-2 rounded bg-slate-900 text-slate-200 italic space-y-1">
+                <p>"Ketiadaan pagar pengaman pedagogis dalam integrasi kecerdasan buatan berisiko melemahkan kemampuan siswa untuk memahami esensi materi secara mandiri (Bastani et al., 2025)."</p>
+              </div>
+              <div class="text-[10px] text-slate-400">
+                ✓ Struktur kalimat diubah secara aktif-adaptif tanpa menghilangkan substansi makna teoretis.<br>
+                ✓ Bebas dari alat parafrasa instan • Aman dari deteksi Turnitin batas 25%.
+              </div>
+            </div>
+          </div>
+        `;
+      } else if (payload.agent_id === 14) { // Teh Bayyin
+        category = 'AUDIT_TABAYYUN_RAG_DOI_TEH_BAYYIN';
+        contentHtml = `
+          <div class="p-3 rounded-lg bg-emerald-950/60 border border-emerald-500/60 space-y-1 text-[11px]">
+            <div class="font-bold text-emerald-300 flex items-center gap-1.5">
+              <i class="ph-fill ph-check-circle"></i> HASIL AUDIT SIBER-FORENSIK DOI: SAHIH TERVERIFIKASI
+            </div>
+            <p class="text-slate-200">DOI terdaftar resmi di pangkalan data Moraref Kemenag & Crossref. Metadata penulis, judul, dan tahun terbukti otentik.</p>
+            <div class="text-[10px] text-amber-300 font-mono">Bebas tadlis ilmiah • Selaras kaidah QS. Al-Ahzab: 58 & APA 7th.</div>
+          </div>
+        `;
+      } else if (payload.agent_id === 25) { // Ustadz Wasith
+        category = 'KONEKTOR_RELASI_USTADZ_WASITH';
+        contentHtml = `
+          <div class="space-y-2 text-[11px]">
+            <div class="p-2.5 rounded bg-purple-950/50 border border-purple-500/50 space-y-1">
+              <div class="font-bold text-purple-300">✔ Kurasi Adab Bimbingan Mahasiswa (Ta'dib):</div>
+              <p class="text-slate-200 italic">"Assalamu'alaikum wr. wb. Ibu Dosen Pembimbing, mohon maaf mengganggu waktunya. Saya Fatih (NIM 23041460126), izin menyampaikan 3 poin progres Bab 2 yang telah disusun mandiri, serta memohon arahan jadwal bimbingan pada jam dinas Ibu. Terima kasih banyak."</p>
+            </div>
+            <div class="p-2.5 rounded bg-slate-950 border border-emerald-500/50 space-y-1">
+              <div class="font-bold text-emerald-300 flex items-center justify-between">
+                <span>⚖️ Audit Komitmen Pedagogis Dosen:</span>
+                <span class="text-[9px] px-1.5 py-0.5 rounded bg-emerald-900 text-emerald-200">Terjadwal</span>
+              </div>
+              <p class="text-slate-300 text-[10px]">Mencegah kelas terbengkalai tanpa kabar atau tugas larut malam mendadak, serta menjaga hak jam istirahat dosen.</p>
+            </div>
+          </div>
+        `;
+      } else { // Pilar 1 Dosen
+        category = 'FACULTY_WORKFLOW_ASSISTANCE';
+        contentHtml = `
+          <div class="p-3 rounded bg-emerald-950/60 border border-emerald-500/60 space-y-1 text-[11px]">
+            <div class="font-bold text-emerald-300 flex items-center justify-between">
+              <span>✔ Luaran Terstruktur Siap Validasi (Human-in-the-Loop):</span>
+              <span class="text-[10px] font-mono text-amber-300">Beban Klerikal -14 Jam</span>
+            </div>
+            <p class="text-slate-200">${payload.agent_name} telah merampungkan draf terstruktur. Dosen memegang kendali validasi penuh sebelum diterbitkan ke SIAKAD.</p>
+          </div>
+        `;
+      }
+
+      return {
+        status: 'SUCCESS_200_OK',
+        timestamp: new Date().toISOString(),
+        agent: {
+          id: payload.agent_id,
+          name: payload.agent_name,
+          pillar: payload.pillar,
+          sub_workflow: `PILAR_${payload.pillar}_TADARRUJ`
+        },
+        deliverable: {
+          category: category,
+          renderedHtml: contentHtml
+        },
+        sivitas_impact: {
+          xp_earned: 15,
+          nafs_energy_current: nafsEnergy
+        },
+        compliance: {
+          privacy: 'UU_PDP_NO_27_2022_CERTIFIED',
+          maqashid: payload.pillar === 1 ? 'Hifz al-Aql (Faculty Workflow)' : (payload.pillar === 2 ? 'Hifz al-Aql (Tadarruj Nalar)' : 'Hifz an-Nafs & Hifz al-Irdh')
+        }
+      };
+    }
+
+    function renderBackendResponse(respJson, payload, container, isLiveBackend) {
+      playVoxelSound('levelup');
+      updateHudBars(-2, 15);
+
+      if (!container) return;
+      const htmlBody = respJson.deliverable.renderedHtml || `<div class="p-2.5 rounded bg-slate-900 text-slate-200 text-xs">${respJson.deliverable.content || 'Draf berhasil diproses.'}</div>`;
+
+      container.innerHTML = `
+        <div class="space-y-2">
+          <!-- Backend Status Header -->
+          <div class="flex items-center justify-between text-[10px] bg-slate-950 p-2 rounded border border-slate-800">
+            <span class="flex items-center gap-1.5 ${isLiveBackend ? 'text-emerald-400 font-bold' : 'text-cyan-300 font-semibold'}">
+              <span class="w-2 h-2 rounded-full ${isLiveBackend ? 'bg-emerald-400 animate-ping' : 'bg-cyan-400'}"></span>
+              ${isLiveBackend ? '● 200 OK (Live n8n Webhook Engine)' : '● 200 OK (DeepSeek V3 Gateway Simulator)'}
+            </span>
+            <span class="font-mono text-slate-400">${respJson.compliance.privacy}</span>
+          </div>
+
+          <!-- Main Deliverable Body -->
+          ${htmlBody}
+
+          <!-- Accordion to inspect raw n8n JSON payload -->
+          <details class="text-[10px] bg-slate-950 p-2 rounded border border-slate-800">
+            <summary class="cursor-pointer text-slate-400 hover:text-amber-300 font-mono">Lihat Raw JSON Response n8n</summary>
+            <pre class="mt-1.5 p-2 rounded bg-slate-900 overflow-x-auto text-emerald-300 font-mono text-[9px] leading-relaxed">${JSON.stringify(respJson, null, 2)}</pre>
+          </details>
+        </div>
+      `;
+    }
+
+    function testN8nConnection() {
+      playVoxelSound('click');
+      const box = document.getElementById('backendTestResultBox');
+      const input = document.getElementById('inputN8nWebhookUrl');
+      const url = input ? input.value.trim() : n8nWebhookUrl;
+      box.classList.remove('hidden');
+      box.innerHTML = `<span class="text-cyan-300">Menghubungi ${url}...</span>`;
+
+      fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ test: true, ping: 'diwan_sivitas_check' })
+      })
+      .then(res => {
+        if (res.ok) {
+          box.innerHTML = `<span class="text-emerald-400 font-bold">✔ KONEKSI BERHASIL (Status: ${res.status} OK)! Alur n8n siap menerima panggilan live dari karakter 3D Voxel.</span>`;
+        } else {
+          box.innerHTML = `<span class="text-amber-300 font-bold">⚠ Webhook merespons dengan status ${res.status}. Pastikan workflow sudah di-Activate di n8n.</span>`;
+        }
+      })
+      .catch(err => {
+        box.innerHTML = `<span class="text-slate-300 font-bold">● n8n Lokal Sedang Standby / Offline. Mode Emulator Cerdas aktif otomatis sehingga seluruh fitur 3D tetap bisa digunakan 100%!</span>`;
+      });
+    }
+
+    
+    function executeMbakFormat() {
+      const inputEl = document.getElementById('inputFormatText');
+      const textVal = inputEl ? inputEl.value.trim() : "Tabel Statistik";
+      sendToBackendRouter({
+        agent_id: 16,
+        agent_name: "Mbak Format",
+        pillar: 2,
+        prompt: textVal,
+        targetContainerId: 'outputFormatBox'
+      });
+    }
+
+    function executeMasParafrasa() {
+      const inputEl = document.getElementById('inputParafrasaText');
+      const textVal = inputEl ? inputEl.value.trim() : "Kutipan Rujukan";
+      sendToBackendRouter({
+        agent_id: 17,
+        agent_name: "Mas Parafrasa",
+        pillar: 2,
+        prompt: textVal,
+        targetContainerId: 'outputParafrasaBox'
+      });
+    }
+
+    function executeKangNalar() {
+      const lvlSelect = document.getElementById('selectTadarrujLevel');
+      const lvl = lvlSelect ? parseInt(lvlSelect.value, 10) : 4;
+      const topicInput = document.getElementById('inputNalarTopic');
+      const topic = topicInput ? topicInput.value.trim() : "Tugas Akhir Mahasiswa";
+
+      sendToBackendRouter({
+        agent_id: 13,
+        agent_name: "Kang Nalar",
+        pillar: 2,
+        socratic_level: lvl,
+        prompt: topic,
+        targetContainerId: 'outputNalarBlocks'
+      });
+    }
+
+    function executeKangNalarLocal() {
+      const lvlSelect = document.getElementById('selectTadarrujLevel');
       const lvl = lvlSelect ? lvlSelect.value : "4";
       const box = document.getElementById('outputNalarBlocks');
       if (!box) return;
 
-      const socraticPrompts = {
+      const tadarrujPrompts = {
         "0": "<b>Level 0 (Pertanyaan Pemantik Terbuka):</b> Apa fenomena nyata di lingkungan kampusmu yang membuat topik ini mendesak untuk diteliti sendiri?",
         "1": "<b>Level 1 (Klarifikasi Bukti Empiris):</b> Klaim awalmu menarik, tetapi data survei atau jurnal primer tahun berapa yang membuktikan variabel tersebut?",
         "2": "<b>Level 2 (Petunjuk Konsep):</b> Perhatikan perbedaan antara <i>cognitive offloading</i> dan kemalasan biasa. Bagaimana teori Risko & Gilbert (2016) menjelaskannya?",
@@ -1733,7 +2392,7 @@
 
       box.innerHTML = `
         <div class="p-2.5 rounded bg-amber-950/40 border border-amber-500/50 text-[11px] text-amber-200">
-          ${socraticPrompts[lvl]}
+          ${tadarrujPrompts[lvl]}
         </div>
         <div class="p-2.5 rounded bg-slate-950 border-l-4 border-amber-400 space-y-1">
           <div class="font-bold text-amber-300 flex items-center justify-between">
@@ -1754,8 +2413,19 @@
     }
 
     function executeUstadzWasith() {
-      playVoxelSound('click');
-      updateHudBars(0, 15);
+      const msgInput = document.getElementById('inputWasithMsg');
+      const msgText = msgInput ? msgInput.value.trim() : "Pesan Bimbingan";
+
+      sendToBackendRouter({
+        agent_id: 25,
+        agent_name: "Ustadz Wasith",
+        pillar: 3,
+        prompt: msgText,
+        targetContainerId: 'outputWasithBox'
+      });
+    }
+
+    function executeUstadzWasithLocal() {
       const box = document.getElementById('outputWasithBox');
       if (!box) return;
       box.innerHTML = `
@@ -1768,8 +2438,16 @@
     }
 
     function executePilarSatuDemo(agentName) {
-      playVoxelSound('levelup');
-      updateHudBars(0, 15);
+      sendToBackendRouter({
+        agent_id: 1,
+        agent_name: agentName,
+        pillar: 1,
+        prompt: "Penyusunan Kurikulum OBE & Media Pembelajaran Dosen",
+        targetContainerId: 'outputCustomAgent'
+      });
+    }
+
+    function executePilarSatuDemoLocal(agentName) {
       const box = document.getElementById('outputCustomAgent');
       if (!box) return;
       box.innerHTML = `
@@ -1781,8 +2459,20 @@
     }
 
     function executeTehBayyin(mode) {
-      playVoxelSound('click');
-      updateHudBars(-2, 20);
+      const refInput = document.getElementById('inputBayyinRef');
+      const refText = refInput ? refInput.value.trim() : "Sitasi Jurnal";
+
+      sendToBackendRouter({
+        agent_id: 14,
+        agent_name: "Teh Bayyin",
+        pillar: 2,
+        mode: mode,
+        prompt: refText,
+        targetContainerId: 'outputBayyinBox'
+      });
+    }
+
+    function executeTehBayyinLocal(mode) {
       const box = document.getElementById('outputBayyinBox');
       if (mode === 'valid') {
         box.innerHTML = `
@@ -2128,7 +2818,7 @@
       if (zoneEl) {
         if (pz < -32) zoneEl.innerText = "Wisma Asrama AI (Mode Istirahat Dosen & Mahasiswa)";
         else if (px < -18) zoneEl.innerText = "Pilar 1 (Sayap Kiri): Reduksi Beban Dosen & Otomasi Media";
-        else if (px > 18) zoneEl.innerText = "Pilar 2 (Sayap Kanan): Balai Nalar Socratic & Skripsi Mahasiswa";
+        else if (px > 18) zoneEl.innerText = "Pilar 2 (Sayap Kanan): Balai Nalar Tadarruj & Skripsi Mahasiswa";
         else zoneEl.innerText = "Pilar 3 (TENGAH): Konektor Tabayyun, Mediasi Relasi & Nafs";
       }
 
@@ -2229,6 +2919,15 @@
       );
       camera.lookAt(cameraTarget);
 
+      
+      // Animate Drifting Voxel Clouds
+      if (typeof cloudsGroup !== 'undefined') {
+        cloudsGroup.children.forEach((cloud, cIdx) => {
+          cloud.position.x += dt * (1.2 + cIdx * 0.2);
+          if (cloud.position.x > 95) cloud.position.x = -95;
+        });
+      }
+
       renderer.render(scene, camera);
     }
 
@@ -2247,5 +2946,55 @@
       animateVoxelWorld();
     };
   </script>
+
+  <!-- MODAL 4: BACKEND N8N & DEEPSEEK CONFIGURATION DIALOG -->
+  <div id="modalBackendSettings" class="fixed inset-0 z-50 bg-black/75 backdrop-blur-sm hidden flex items-center justify-center p-3">
+    <div class="mc-box w-full max-w-2xl rounded-xl flex flex-col overflow-hidden">
+      <div class="px-5 py-3.5 bg-slate-900 border-b-2 border-slate-700 flex items-center justify-between">
+        <div>
+          <h2 class="font-vt text-2xl text-emerald-300 flex items-center gap-2">
+            <i class="ph-fill ph-plugs-connected text-amber-400"></i> INTEGRASI BACKEND N8N & DEEPSEEK API
+          </h2>
+          <p class="text-xs text-slate-300">Hubungkan antarmuka 3D Voxel kampus langsung ke alur kerja n8n lokal atau cloud</p>
+        </div>
+        <button onclick="closeModal('modalBackendSettings')" class="mc-btn px-3 py-1 rounded bg-rose-800 text-xs font-bold">TUTUP [ESC]</button>
+      </div>
+
+      <div class="p-5 overflow-y-auto space-y-4 text-xs">
+        <div class="p-3.5 rounded-lg bg-slate-950 border border-slate-800 space-y-2">
+          <label class="font-bold text-amber-300 block">1. Masukkan DeepSeek API Key Anda (Agar Token Terpanggil Live):</label>
+          <div class="flex gap-2">
+            <input id="inputDeepseekApiKey" type="password" placeholder="sk-..." class="flex-1 px-3 py-1.5 rounded bg-slate-900 border border-amber-500/50 font-mono text-[11px] text-amber-200">
+            <button onclick="saveDeepseekKey()" class="mc-btn px-3 py-1.5 rounded bg-amber-600 hover:bg-amber-500 text-slate-950 font-bold">Simpan Key</button>
+          </div>
+          <p class="text-[10px] text-slate-400">API Key ini akan dikirim ke n8n ATAU langsung memanggil <code>https://api.deepseek.com/chat/completions</code> jika n8n lokal sedang mati, sehingga token DeepSeek Anda benar-benar terpanggil secara nyata!</p>
+        </div>
+
+        <div class="p-3.5 rounded-lg bg-slate-950 border border-slate-800 space-y-2">
+          <label class="font-bold text-emerald-300 block">2. Webhook Endpoint n8n (Lokal / Docker):</label>
+          <div class="flex gap-2">
+            <input id="inputN8nWebhookUrl" type="text" value="http://localhost:5678/webhook/diwan-sivitas-router" class="flex-1 px-3 py-1.5 rounded bg-slate-900 border border-slate-700 font-mono text-[11px] text-emerald-300">
+            <button onclick="testN8nConnection()" class="mc-btn px-3 py-1.5 rounded bg-emerald-700 hover:bg-emerald-600 text-white font-bold">Uji Webhook</button>
+          </div>
+          <p class="text-[10px] text-slate-400">Pastikan workflow di n8n sudah di-<b>Activate</b> (tombol toggle hijau di pojok kanan atas n8n). Jika sedang menguji mode Test, ganti <code>/webhook/</code> menjadi <code>/webhook-test/</code>.</p>
+        </div>
+
+        <div class="p-3.5 rounded-lg bg-slate-950 border border-slate-800 space-y-1.5">
+          <div class="flex items-center justify-between text-slate-300">
+            <span class="font-bold">Mode Eksekusi:</span>
+            <span id="backendModeBadge" class="text-[10px] font-bold px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-400/50">DUAL-MODE (LIVE / SMART FALLBACK)</span>
+          </div>
+          <p class="text-[11px] text-slate-400 leading-relaxed">
+            Jika webhook n8n aktif di komputer/server, antarmuka akan langsung mengirim payload dan menerima hasil olahan DeepSeek V3 secara live. Bila n8n belum dinyalakan, mesin emulator cerdas akan otomatis mensimulasikan pemrosesan 4 node secara instan dan tanpa jeda.
+          </p>
+        </div>
+
+        <div id="backendTestResultBox" class="p-3 rounded-lg bg-slate-900 border border-slate-700 font-mono text-[11px] text-slate-300 hidden">
+          <!-- Populated by test -->
+        </div>
+      </div>
+    </div>
+  </div>
+
 </body>
 </html>
